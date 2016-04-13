@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     public float Speed;
-    public int SizeOfTiles;
+    public float SizeOfTiles;
     public LayerMask CollisionLayer;
 
     [HideInInspector]
@@ -14,70 +14,81 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator playerAnimator;
 
+    private float halfSizeOfTiles;
+
+    private RaycastHit2D RaycastHitDown, RaycastHitLeft, RaycastHitUp, RaycastHitRight;
+
     void Start()
     {
         playerAnimator = GetComponentInChildren<Animator>();
+        if (FindObjectOfType<Tiled2Unity.TiledMap>() != null)
+        {
+            SizeOfTiles = FindObjectOfType<Tiled2Unity.TiledMap>().TileWidth * FindObjectOfType<Tiled2Unity.TiledMap>().ExportScale;
+            halfSizeOfTiles = SizeOfTiles / 2;
+        }
+
+        if (GameObject.FindGameObjectsWithTag("Spawn").Length == 1 && GameObject.FindGameObjectWithTag("Spawn") != null)
+        {
+            if (GameObject.FindGameObjectsWithTag("Player").Length == 1 && GameObject.FindGameObjectWithTag("Player") != null)
+            {
+                GameObject.FindGameObjectWithTag("Player").transform.position = GameObject.FindGameObjectWithTag("Spawn").transform.position + new Vector3(halfSizeOfTiles, halfSizeOfTiles, 0f);
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        RaycastHitDown = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.down, SizeOfTiles, CollisionLayer);
+        RaycastHitLeft = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.left, SizeOfTiles, CollisionLayer);
+        RaycastHitUp = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.up, SizeOfTiles, CollisionLayer);
+        RaycastHitRight = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right, SizeOfTiles, CollisionLayer);
+
         if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             // Set Animation to Idle.
             playerAnimator.SetBool("Moving", false);
 
         }
-        if (Input.GetAxis("Vertical") > 0)
-        {
-        }
-        else if (Input.GetAxis("Vertical") < 0)
-        {
-        }
-        if (Input.GetAxis("Horizontal") < 0)
-        {
-        }
-        else if (Input.GetAxis("Horizontal") > 0)
-        {
-        }
+
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             if (Input.GetAxis("Vertical") > 0 && canMove == true)
             {
-                if (!Physics2D.Linecast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x + 0.5f, transform.position.y - 0.0f), CollisionLayer))
+                if (!RaycastHitUp)
                 {
                     canMove = false;
-                    StartCoroutine(MoveInGrid((int)transform.position.x, (int)transform.position.y + SizeOfTiles));
+                    StartCoroutine(MoveInGrid(transform.position.x, transform.position.y + SizeOfTiles));
                 }
             }
             else if (Input.GetAxis("Vertical") < 0 && canMove == true)
             {
-                if (!Physics2D.Linecast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x + 0.5f, transform.position.y - 1.0f), CollisionLayer))
+                if (!RaycastHitDown)
                 {
                     canMove = false;
-                    StartCoroutine(MoveInGrid((int)transform.position.x, (int)transform.position.y - SizeOfTiles));
+                    StartCoroutine(MoveInGrid(transform.position.x, transform.position.y - SizeOfTiles));
                 }
             }
             if (Input.GetAxis("Horizontal") > 0 && canMove == true)
             {
-                if (!Physics2D.Linecast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x + 1.0f, transform.position.y - 0.5f), CollisionLayer))
+                if (!RaycastHitRight)
                 {
                     canMove = false;
-                    StartCoroutine(MoveInGrid((int)transform.position.x + SizeOfTiles, (int)transform.position.y));
+                    StartCoroutine(MoveInGrid(transform.position.x + SizeOfTiles, transform.position.y));
                 }
             }
             if (Input.GetAxis("Horizontal") < 0 && canMove == true)
             {
-                if (!Physics2D.Linecast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.5f), new Vector2(transform.position.x - 0.0f, transform.position.y - 0.5f), CollisionLayer))
+                if (!RaycastHitLeft)
                 {
                     canMove = false;
-                    StartCoroutine(MoveInGrid((int)transform.position.x - SizeOfTiles, (int)transform.position.y));
+                    StartCoroutine(MoveInGrid(transform.position.x - SizeOfTiles, transform.position.y));
                 }
             }
         }
     }
 
-    IEnumerator MoveInGrid(int x, int y)
+    IEnumerator MoveInGrid(float x, float y)
     {
         while (transform.position.x != x || transform.position.y != y)
         {
@@ -159,9 +170,9 @@ public class PlayerMovement : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(new Vector3(transform.position.x + 0.5f, transform.position.y - 0.5f, -2), new Vector3(transform.position.x + 0.5f, transform.position.y - 1.0f, -2));
-        Gizmos.DrawLine(new Vector3(transform.position.x + 0.5f, transform.position.y - 0.5f, -2), new Vector3(transform.position.x + 0.5f, transform.position.y - 0.0f, -2));
-        Gizmos.DrawLine(new Vector3(transform.position.x + 0.5f, transform.position.y - 0.5f, -2), new Vector3(transform.position.x - 0.0f, transform.position.y - 0.5f, -2));
-        Gizmos.DrawLine(new Vector3(transform.position.x + 0.5f, transform.position.y - 0.5f, -2), new Vector3(transform.position.x + 1.0f, transform.position.y - 0.5f, -2));
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, -2), new Vector3(transform.position.x, transform.position.y - SizeOfTiles, -2));
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, -2), new Vector3(transform.position.x, transform.position.y + SizeOfTiles, -2));
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, -2), new Vector3(transform.position.x - SizeOfTiles, transform.position.y, -2));
+        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y, -2), new Vector3(transform.position.x + SizeOfTiles, transform.position.y, -2));
     }
 }
