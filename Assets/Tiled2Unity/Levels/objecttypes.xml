@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Spawn" color="#55ff00">
+  <property name="unity:ignore" type="string" default="visual"/>
+  <property name="unity:layer" type="string" default="Ignore Raycast"/>
+  <property name="unity:tag" type="string" default="Spawn"/>
+ </objecttype>
+ <objecttype name="Torch" color="#ffaa00">
+  <property name="unity:ignore" type="string" default="collision"/>
+  <property name="unity:layer" type="string" default="Walls"/>
+  <property name="unity:sortingLayerName" type="string" default="Torch"/>
+  <property name="unity:tag" type="string" default="Torch"/>
+ </objecttype>
+ <objecttype name="EnemySpawnSpot" color="#0055ff">
+  <property name="ff:enemy" type="string" default="0"/>
+  <property name="ff:movement" type="string" default="up"/>
+  <property name="unity:ignore" type="string" default="collision"/>
+  <property name="unity:layer" type="string" default="Ignore Raycast"/>
+  <property name="unity:tag" type="string" default="EnemySpawnSpot"/>
+ </objecttype>
+ <objecttype name="EnemyResetSpot" color="#ff0000">
+  <property name="unity:layer" type="string" default="EnemyResetSpot"/>
+  <property name="unity:tag" type="string" default="EnemyResetSpot"/>
+ </objecttype>
+</objecttypes>

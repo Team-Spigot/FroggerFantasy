@@ -45,6 +45,16 @@ public class EnemyMovementProcessor : ICustomTiledImporter
     // A last chance opporunity to modify it through script
     public void CustomizePrefab(GameObject prefab)
     {
-
+        foreach (Transform child in prefab.transform.FindChild("Torches"))
+        {
+            //Debug.Log("Child found.");
+            if (child.gameObject.tag == "Torch")
+            {
+                //Debug.Log("Child Matches");
+                GameObject tempLight = (GameObject)Object.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Torch.prefab", typeof(GameObject)));
+                tempLight.transform.SetParent(child.transform);
+                tempLight.transform.localPosition = new Vector3(16, 18, -125);
+            }
+        }
     }
 }
