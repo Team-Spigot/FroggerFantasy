@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace TeamSpigot
 {
@@ -7,18 +8,18 @@ namespace TeamSpigot
     {
         public StatStruct stats;
 
-        public GameObject mem3;
-
         public bool attackCalled = false;
         public bool dead = false;
         public GameObject battleManager;
+        public bool dropped = false;
 
         // Use this for initialization
         void Start()
         {
-            mem3.tag = PlayerPrefs.GetString("member3");
+            gameObject.tag = PlayerPrefs.GetString("member3");
+            dropped = Convert.ToBoolean(PlayerPrefs.GetString("mem3Dropped"));
 
-            if (mem3.tag == "WARRIOR")
+            if (gameObject.tag == "WARRIOR")
             {
                 stats.str = PlayerPrefs.GetFloat("warStr");
                 stats.vit = PlayerPrefs.GetFloat("warVit");
@@ -34,7 +35,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
             }
-            if (mem3.tag == "NINJA")
+            if (gameObject.tag == "NINJA")
             {
                 stats.str = PlayerPrefs.GetFloat("ninjStr");
                 stats.vit = PlayerPrefs.GetFloat("ninjVit");
@@ -50,7 +51,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
             }
-            if (mem3.tag == "MONK")
+            if (gameObject.tag == "MONK")
             {
                 stats.str = PlayerPrefs.GetFloat("monkStr");
                 stats.vit = PlayerPrefs.GetFloat("monkVit");
@@ -66,7 +67,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
             }
-            if (mem3.tag == "SENTINEL")
+            if (gameObject.tag == "SENTINEL")
             {
                 stats.str = PlayerPrefs.GetFloat("sentStr");
                 stats.vit = PlayerPrefs.GetFloat("sentVit");
@@ -87,7 +88,7 @@ namespace TeamSpigot
         // Update is called once per frame
         void Update()
         {
-            //Debug.Log(mem3.tag);
+            //Debug.Log(gameObject.tag);
 
             if (battleManager.GetComponent<BattleManager>().playerAttacked == true)
             {
@@ -99,7 +100,7 @@ namespace TeamSpigot
                 {
                     stats.HP -= battleManager.GetComponent<BattleManager>().enemyStats.str * 5;
                     battleManager.GetComponent<BattleManager>().runEnemyAttack = false;
-                    Debug.Log("mem3\nhp: " + stats.HP + "\n\n");
+                    Debug.Log("gameObject\nhp: " + stats.HP + "\n\n");
                     Debug.Log("\n");
                     Debug.Log("\n");
                 }
@@ -107,7 +108,7 @@ namespace TeamSpigot
                 {
                     stats.HP -= battleManager.GetComponent<BattleManager>().enemyStats.str;
                     battleManager.GetComponent<BattleManager>().runEnemyAttack = false;
-                    Debug.Log("mem3\nhp: " + stats.HP + "\n\n");
+                    Debug.Log("gameObject\nhp: " + stats.HP + "\n\n");
                     Debug.Log("\n");
                     Debug.Log("\n");
                 }

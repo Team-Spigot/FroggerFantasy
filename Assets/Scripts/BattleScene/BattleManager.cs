@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -47,6 +48,13 @@ namespace TeamSpigot
         #endregion
 
         float time;
+
+        // GUI Variables
+        public Text Member1Text;
+        public Text Member2Text;
+        public Text Member3Text;
+        public Text Member4Text;
+        public Text StatsText;
 
         void Start()
         {
@@ -205,8 +213,6 @@ namespace TeamSpigot
             #endregion
         }
 
-		string tempString;
-
         void Battle()
         {
             #region player attacked
@@ -218,7 +224,6 @@ namespace TeamSpigot
                 if (hitRoll >= 0.3)
                 {
 					runAttack = true;
-					tempString = "";
 
                     if (sortOrder < agilities.Length)
                     {
@@ -238,7 +243,6 @@ namespace TeamSpigot
                 }
                 if (hitRoll < 0.3)
                 {
-					tempString = "Miss D:";
 
                     if (sortOrder < agilities.Length)
                     {
@@ -296,7 +300,6 @@ namespace TeamSpigot
                 if (hitRoll < 0.3)
                 {
                     enemyAttacked = false;
-					tempString = "Miss :D";
 
 
                     if (sortOrder < agilities.Length)
@@ -326,16 +329,30 @@ namespace TeamSpigot
 
 		void OnGUI()
 		{
-			GUI.Window(0, new Rect(new Vector2(0, 0), new Vector2(480, 240)), DebugWindow, "DebugWindow");
-		}
-
-		void DebugWindow(int windowID)
-		{
-			GUI.TextField(new Rect(new Vector2(0, 24), new Vector2(480, 24)), "Player: " + currentPlayer.tag + " - " + currentPlayer);
-			GUI.TextField(new Rect(new Vector2(0, 48), new Vector2(480, 24)), "HITROLL: " + hitRoll);
-			GUI.TextField(new Rect(new Vector2(0, 72), new Vector2(480, 24)), "CRITROLL: " + critRoll);
-			GUI.TextField(new Rect(new Vector2(0, 96), new Vector2(480, 24)), "Enemy: " + enemy);
-			GUI.TextField(new Rect(new Vector2(0, 120), new Vector2(480, 24)), "CurrentTurnStatus: " + tempString);
-		}
+            string Member1TextString = Member1.tag + "\n" + Member1.GetComponent<Member1>().stats.HP + "/" + Member1.GetComponent<Member1>().stats.MaxHP + " HP\n";
+            if (Member1.GetComponent<Member1>().dead)
+            {
+                Member1TextString += "Dead";
+            }
+            Member1Text.text = Member1TextString;
+            string Member2TextString = Member2.tag + "\n" + Member2.GetComponent<Member2>().stats.HP + "/" + Member2.GetComponent<Member2>().stats.MaxHP + " HP\n";
+            if (Member2.GetComponent<Member2>().dead)
+            {
+                Member2TextString += "Dead";
+            }
+            Member2Text.text = Member2TextString;
+            string Member3TextString = Member3.tag + "\n" + Member3.GetComponent<Member3>().stats.HP + "/" + Member3.GetComponent<Member3>().stats.MaxHP + " HP\n";
+            if (Member3.GetComponent<Member3>().dead)
+            {
+                Member3TextString += "Dead";
+            }
+            Member3Text.text = Member3TextString;
+            string Member4TextString = Member4.tag + "\n" + Member4.GetComponent<Member4>().stats.HP + "/" + Member4.GetComponent<Member4>().stats.MaxHP + " HP\n";
+            if (Member4.GetComponent<Member4>().dead)
+            {
+                Member4TextString += "Dead";
+            }
+            Member4Text.text = Member4TextString;
+        }
     }
 }

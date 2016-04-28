@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 4/25/2016 9:59:56 AM-->
+<!--Last exported: 4/27/2016 9:33:52 AM-->
 <Tiled2Unity version="1.0.5.1">
   <AssignMaterial mesh="mesh_0001" material="DungeonTileSet" />
   <AssignMaterial mesh="mesh_0002" material="DungeonTileSet" />
@@ -73,8 +73,8 @@
         </GameObject>
       </GameObject>
     </GameObject>
-    <GameObject name="Boundries" x="0" y="0">
-      <GameObject name="PolylineObject" x="0" y="0" rotation="0" layer="">
+    <GameObject name="Boundries" x="0" y="0" layer="Walls">
+      <GameObject name="PolylineObject" x="0" y="0" rotation="0" layer="Walls">
         <EdgeCollider2D>
           <Points>0,0 2048,0 2048,-2048 0,-2048 0,0</Points>
         </EdgeCollider2D>
@@ -88,7 +88,7 @@
       </GameObject>
       <GameObject name="RectangleObject" x="1216" y="-640" rotation="0" layer="EnemySpawnSpot" tag="EnemySpawnSpot">
         <Property name="ff:enemy" value="0" />
-        <Property name="ff:movement" value="up" />
+        <Property name="ff:movement" value="left" />
         <BoxCollider2D width="32" height="32" />
       </GameObject>
       <GameObject name="RectangleObject" x="1056" y="-576" rotation="0" layer="EnemySpawnSpot" tag="EnemySpawnSpot">
@@ -98,7 +98,7 @@
       </GameObject>
       <GameObject name="RectangleObject" x="1664" y="-1024" rotation="0" layer="EnemySpawnSpot" tag="EnemySpawnSpot">
         <Property name="ff:enemy" value="0" />
-        <Property name="ff:movement" value="up" />
+        <Property name="ff:movement" value="left" />
         <BoxCollider2D width="32" height="32" />
       </GameObject>
     </GameObject>
@@ -540,6 +540,24 @@
             <TileAnimator startTimeMs="300" durationMs="100" fullTimeMs="400" />
           </GameObject>
         </GameObject>
+      </GameObject>
+    </GameObject>
+    <GameObject name="DropOffPoints" x="0" y="0">
+      <GameObject name="RectangleObject" x="512" y="-736" rotation="0" layer="DropOffPoints">
+        <Property name="ff:dropOff" value="1" />
+        <BoxCollider2D width="32" height="32" />
+      </GameObject>
+      <GameObject name="RectangleObject" x="1536" y="-352" rotation="0" layer="DropOffPoints">
+        <Property name="ff:dropOff" value="4" />
+        <BoxCollider2D width="32" height="32" />
+      </GameObject>
+      <GameObject name="RectangleObject" x="1504" y="-544" rotation="0" layer="DropOffPoints">
+        <Property name="ff:dropOff" value="3" />
+        <BoxCollider2D width="32" height="32" />
+      </GameObject>
+      <GameObject name="RectangleObject" x="512" y="-1184" rotation="0" layer="DropOffPoints">
+        <Property name="ff:dropOff" value="2" />
+        <BoxCollider2D width="32" height="32" />
       </GameObject>
     </GameObject>
   </Prefab>

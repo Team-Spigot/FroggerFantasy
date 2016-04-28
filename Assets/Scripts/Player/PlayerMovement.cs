@@ -19,6 +19,7 @@ namespace TeamSpigot
         private float halfSizeOfTiles;
 
         private RaycastHit2D RaycastHitDown, RaycastHitLeft, RaycastHitUp, RaycastHitRight;
+        private RaycastHit2D TRaycastHitDown, TRaycastHitLeft, TRaycastHitUp, TRaycastHitRight;
 
         private Vector2 playerCenter;
 
@@ -34,6 +35,8 @@ namespace TeamSpigot
             }
         }
 
+        public LayerMask TriggerLayer;
+
         void Start()
         {
             playerAnimator = GetComponentInChildren<Animator>();
@@ -46,10 +49,7 @@ namespace TeamSpigot
 
             if (GameObject.FindGameObjectsWithTag("Spawn") != null && GameObject.FindGameObjectsWithTag("Spawn").Length == 1)
             {
-                Debug.Log("Found one object with the tag \"Spawn\"");
-                Debug.Log("The object with the tag \"Spawn\" has a position of: " + GameObject.FindGameObjectWithTag("Spawn").transform.position);
                 transform.position = GameObject.FindGameObjectWithTag("Spawn").transform.position; //+ new Vector3(SizeOfTiles, SizeOfTiles, 0f);
-                Debug.Log("Moved Object with tag \"Player\" to object with tag \"Spawn\"");
             }
         }
 
@@ -60,6 +60,11 @@ namespace TeamSpigot
             RaycastHitLeft = Physics2D.Raycast(PlayerCenter, Vector2.left, halfSizeOfTiles, CollisionLayer);
             RaycastHitUp = Physics2D.Raycast(PlayerCenter, Vector2.up, halfSizeOfTiles, CollisionLayer);
             RaycastHitRight = Physics2D.Raycast(PlayerCenter, Vector2.right, halfSizeOfTiles, CollisionLayer);
+
+            TRaycastHitDown = Physics2D.Raycast(PlayerCenter, Vector2.down, halfSizeOfTiles, TriggerLayer);
+            TRaycastHitLeft = Physics2D.Raycast(PlayerCenter, Vector2.left, halfSizeOfTiles, TriggerLayer);
+            TRaycastHitUp = Physics2D.Raycast(PlayerCenter, Vector2.up, halfSizeOfTiles, TriggerLayer);
+            TRaycastHitRight = Physics2D.Raycast(PlayerCenter, Vector2.right, halfSizeOfTiles, TriggerLayer);
 
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
@@ -133,9 +138,19 @@ namespace TeamSpigot
                 }
             }
 
-            if ((RaycastHitUp && RaycastHitUp.collider.tag == "Enemy") || (RaycastHitLeft && RaycastHitLeft.collider.tag == "Enemy") || (RaycastHitDown && RaycastHitDown.collider.tag == "Enemy") || (RaycastHitRight && RaycastHitRight.collider.tag == "Enemy"))
+            if (TCheckAllRaycasts("Enemy"))
             {
-                FindObjectOfType<BattleTransition>().BeginBattle(false);
+                FindObjectOfType<BattleTransition>().BeginBattle(true);
+            }
+
+            if (TCheckAllRaycasts("DropOffPoint"))
+            {
+                FindObjectOfType<DropOff>().AtDropOff = true;
+                FindObjectOfType<DropOff>().dropOffPoint = TRaycastHitUp.collider.gameObject.GetComponent<DropOffPoint>();
+            }
+            else
+            {
+                FindObjectOfType<DropOff>().AtDropOff = false;
             }
         }
 
@@ -219,6 +234,26 @@ namespace TeamSpigot
             Gizmos.DrawLine(new Vector3(PlayerCenter.x, PlayerCenter.y, -2), new Vector3(PlayerCenter.x, PlayerCenter.y + halfSizeOfTiles, -2));
             Gizmos.DrawLine(new Vector3(PlayerCenter.x, PlayerCenter.y, -2), new Vector3(PlayerCenter.x - halfSizeOfTiles, PlayerCenter.y, -2));
             Gizmos.DrawLine(new Vector3(PlayerCenter.x, PlayerCenter.y, -2), new Vector3(PlayerCenter.x + halfSizeOfTiles, PlayerCenter.y, -2));
+        }
+
+        private bool CheckAllRaycasts(string tag)
+        {
+            if ((RaycastHitUp && RaycastHitUp.collider.tag == tag) && (RaycastHitLeft && RaycastHitLeft.collider.tag == tag) && (RaycastHitDown && RaycastHitDown.collider.tag == tag) && (RaycastHitRight && RaycastHitRight.collider.tag == tag))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TCheckAllRaycasts(string tag)
+        {
+            if ((TRaycastHitUp && TRaycastHitUp.collider.tag == tag) && (TRaycastHitLeft && TRaycastHitLeft.collider.tag == tag) && (TRaycastHitDown && TRaycastHitDown.collider.tag == tag) && (TRaycastHitRight && TRaycastHitRight.collider.tag == tag))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using UnityEditor;
+using System.Linq;
 
 namespace TeamSpigot
 {
@@ -49,6 +50,8 @@ namespace TeamSpigot
         // Use this for initialization
         void Start()
         {
+            Sprite[] EnemySprites = new Sprite[4];
+
             startPosition = transform.position;
 
             enemyAnimator = GetComponentInChildren<Animator>();
@@ -58,6 +61,9 @@ namespace TeamSpigot
                 SizeOfTiles = FindObjectOfType<Tiled2Unity.TiledMap>().TileWidth * FindObjectOfType<Tiled2Unity.TiledMap>().ExportScale;
                 halfSizeOfTiles = SizeOfTiles / 2;
             }
+
+            EnemySprites = AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/Enemy/CarOverworldSpriteSheet.png").OfType<Sprite>().ToArray();
+            GetComponentInChildren<SpriteRenderer>().sprite = EnemySprites[Random.Range(0, 4)];
         }
 
         // Update is called once per frame

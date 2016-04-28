@@ -26,7 +26,6 @@ namespace TeamSpigot
             if (testing)
             {
                 UIAnimator.SetBool("Testing", true);
-                UIAnimator.SetTrigger("Leave");
             }
             
             UIAnimator.SetTrigger("Leave");
@@ -36,7 +35,6 @@ namespace TeamSpigot
 		{
 			UIAnimator = GetComponent<Animator>();
             UIAnimator.SetTrigger("Enter");
-            //UIAnimator.SetBool("Testing", false);
         }
 
         private void ChangeLevel()
@@ -55,6 +53,12 @@ namespace TeamSpigot
             {
                 ResetBattle();
             }
+        }
+
+        void ResetVariables()
+        {
+            UIAnimator.ResetTrigger("Leave");
+            UIAnimator.ResetTrigger("Enter");
         }
     }
 }

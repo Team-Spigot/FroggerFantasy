@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace TeamSpigot
 {
@@ -7,18 +8,18 @@ namespace TeamSpigot
     {
         public StatStruct stats;
 
-        public GameObject mem2;
-
         public bool attackCalled = false;
         public bool dead = false;
         public GameObject battleManager;
+        public bool dropped = false;
 
         // Use this for initialization
         void Start()
         {
-            mem2.tag = PlayerPrefs.GetString("member2");
+            gameObject.tag = PlayerPrefs.GetString("member2");
+            dropped = Convert.ToBoolean(PlayerPrefs.GetString("mem2Dropped"));
 
-            if (mem2.tag == "WARRIOR")
+            if (gameObject.tag == "WARRIOR")
             {
                 stats.str = PlayerPrefs.GetFloat("warStr");
                 stats.vit = PlayerPrefs.GetFloat("warVit");
@@ -34,7 +35,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
             }
-            if (mem2.tag == "NINJA")
+            if (gameObject.tag == "NINJA")
             {
                 stats.str = PlayerPrefs.GetFloat("ninjStr");
                 stats.vit = PlayerPrefs.GetFloat("ninjVit");
@@ -50,7 +51,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
             }
-            if (mem2.tag == "MONK")
+            if (gameObject.tag == "MONK")
             {
                 stats.str = PlayerPrefs.GetFloat("monkStr");
                 stats.vit = PlayerPrefs.GetFloat("monkVit");
@@ -66,7 +67,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
             }
-            if (mem2.tag == "SENTINEL")
+            if (gameObject.tag == "SENTINEL")
             {
                 stats.str = PlayerPrefs.GetFloat("sentStr");
                 stats.vit = PlayerPrefs.GetFloat("sentVit");

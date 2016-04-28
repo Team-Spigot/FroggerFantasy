@@ -1,14 +1,15 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TeamSpigot;
 using Tiled2Unity;
 using UnityEditor;
-using TeamSpigot;
+using UnityEngine;
 
 [CustomTiledImporter]
 public class EnemyMovementProcessor : ICustomTiledImporter
 {
-    // A game object within the prefab has some custom properites assigned through Tiled that are not consumed by Tiled2Unity
-    // This callback gives customized importers a chance to react to such properites.
+
+    // A game object within the prefab has some custom properties assigned through Tiled that are not consumed by Tiled2Unity
+    // This callback gives customized importers a chance to react to such properties.
     public void HandleCustomProperties(GameObject gameObject, IDictionary<string, string> customProperties)
     {
         if (customProperties.ContainsKey("ff:enemy"))
@@ -35,26 +36,15 @@ public class EnemyMovementProcessor : ICustomTiledImporter
                         return;
                 }
             }
-            tempEnemy.name = "OverworldEnemy" + customProperties["ff:enemy"];
+            
             tempEnemy.transform.SetParent(gameObject.transform);
             tempEnemy.transform.localPosition = new Vector3(0, -32, 0);
         }
     }
 
     // Called just before the prefab is saved to the asset database
-    // A last chance opporunity to modify it through script
+    // A last chance opportunity to modify it through script
     public void CustomizePrefab(GameObject prefab)
     {
-        foreach (Transform child in prefab.transform.FindChild("Torches"))
-        {
-            //Debug.Log("Child found.");
-            if (child.gameObject.tag == "Torch")
-            {
-                //Debug.Log("Child Matches");
-                GameObject tempLight = (GameObject)Object.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Torch.prefab", typeof(GameObject)));
-                tempLight.transform.SetParent(child.transform);
-                tempLight.transform.localPosition = new Vector3(16, 18, -125);
-            }
-        }
     }
 }
