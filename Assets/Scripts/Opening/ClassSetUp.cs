@@ -57,11 +57,11 @@ namespace TeamSpigot
 
             if (!standPos[0].activeSelf && !standPos[1].activeSelf && !standPos[2].activeSelf && !standPos[3].activeSelf)
             {
-				confirmButt.SetActive(true);
+                confirmButt.SetActive(true);
             }
             else
             {
-				confirmButt.SetActive(false);
+                confirmButt.SetActive(false);
             }
 
             players[0] = p1;
@@ -343,10 +343,10 @@ namespace TeamSpigot
             classButts[8].SetActive(false);
 
 
-			Debug.Log("member1: " + PlayerPrefs.GetString("member1"));
-			Debug.Log("member2: " + PlayerPrefs.GetString("member2"));
-			Debug.Log("member3: " + PlayerPrefs.GetString("member3"));
-			Debug.Log("member4: " + PlayerPrefs.GetString("member4"));
+            Debug.Log("member1: " + PlayerPrefs.GetString("member1"));
+            Debug.Log("member2: " + PlayerPrefs.GetString("member2"));
+            Debug.Log("member3: " + PlayerPrefs.GetString("member3"));
+            Debug.Log("member4: " + PlayerPrefs.GetString("member4"));
         }
     }
 }

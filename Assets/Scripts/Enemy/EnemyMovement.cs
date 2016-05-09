@@ -18,12 +18,10 @@ namespace TeamSpigot
         public int Speed;
         public float SizeOfTiles;
         public LayerMask CollisionLayer;
-        
+
         public Direction direction;
         [HideInInspector]
         public Vector3 TargetPosition;
-        [HideInInspector]
-        public Vector3 startPosition;
 
         private bool canMove = true;
 
@@ -33,17 +31,11 @@ namespace TeamSpigot
 
         private RaycastHit2D RaycastHitDown, RaycastHitLeft, RaycastHitUp, RaycastHitRight;
 
-        private Vector2 enemyCenter;
-
         public Vector2 EnemyCenter
         {
             get
             {
-                return enemyCenter;
-            }
-            set
-            {
-                enemyCenter = new Vector2(value.x + halfSizeOfTiles, value.y + halfSizeOfTiles);
+                return new Vector2(transform.position.x + halfSizeOfTiles, transform.position.y + halfSizeOfTiles);
             }
         }
 
@@ -51,8 +43,6 @@ namespace TeamSpigot
         void Start()
         {
             Sprite[] EnemySprites = new Sprite[4];
-
-            startPosition = transform.position;
 
             enemyAnimator = GetComponentInChildren<Animator>();
 
@@ -84,7 +74,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitUp && RaycastHitUp.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    transform.position = startPosition;
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.left && canMove == true)
@@ -101,7 +91,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitLeft && RaycastHitLeft.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    transform.position = startPosition;
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.down && canMove == true)
@@ -118,7 +108,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitDown && RaycastHitDown.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    transform.position = startPosition;
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.right && canMove == true)
@@ -135,14 +125,9 @@ namespace TeamSpigot
                 }
                 if (RaycastHitRight && RaycastHitRight.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    transform.position = startPosition;
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
-        }
-
-        void LateUpdate()
-        {
-            EnemyCenter = transform.position;
         }
 
         IEnumerator MoveInGrid(float x, float y)

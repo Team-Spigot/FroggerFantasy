@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e7018f1bc92e74541b9b87abf7c28c00
-timeCreated: 1461689850
+timeCreated: 1461861412
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -61,17 +61,17 @@ TextureImporter:
         y: 32
         width: 32
         height: 32
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 9, y: 32}
-        - {x: 5, y: 29}
-        - {x: 5, y: 0}
-        - {x: 23, y: 0}
-        - {x: 27, y: 2}
-        - {x: 27, y: 24}
-        - {x: 22, y: 32}
+      - - {x: -7, y: 16}
+        - {x: -11, y: 13}
+        - {x: -11, y: -16}
+        - {x: 7, y: -16}
+        - {x: 11, y: -14}
+        - {x: 11, y: 8}
+        - {x: 6, y: 16}
     - name: CarOverworldSpriteSheet_1
       rect:
         serializedVersion: 2
@@ -79,17 +79,17 @@ TextureImporter:
         y: 32
         width: 32
         height: 32
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 13, y: 27}
-        - {x: 5, y: 25}
-        - {x: 5, y: 7}
-        - {x: 6, y: 6}
-        - {x: 27, y: 6}
-        - {x: 27, y: 24}
-        - {x: 23, y: 27}
+      - - {x: -3, y: 11}
+        - {x: -11, y: 9}
+        - {x: -11, y: -9}
+        - {x: -10, y: -10}
+        - {x: 11, y: -10}
+        - {x: 11, y: 8}
+        - {x: 7, y: 11}
     - name: CarOverworldSpriteSheet_2
       rect:
         serializedVersion: 2
@@ -97,17 +97,17 @@ TextureImporter:
         y: 0
         width: 32
         height: 32
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 8, y: 30}
-        - {x: 7, y: 18}
-        - {x: 7, y: 3}
-        - {x: 11, y: 1}
-        - {x: 21, y: 1}
-        - {x: 25, y: 3}
-        - {x: 25, y: 30}
+      - - {x: -8, y: 14}
+        - {x: -9, y: 2}
+        - {x: -9, y: -13}
+        - {x: -5, y: -15}
+        - {x: 5, y: -15}
+        - {x: 9, y: -13}
+        - {x: 9, y: 14}
     - name: CarOverworldSpriteSheet_3
       rect:
         serializedVersion: 2
@@ -115,16 +115,16 @@ TextureImporter:
         y: 0
         width: 32
         height: 32
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 10, y: 30}
-        - {x: 6, y: 27}
-        - {x: 6, y: 2}
-        - {x: 26, y: 2}
-        - {x: 26, y: 25}
-        - {x: 21, y: 30}
+      - - {x: -6, y: 14}
+        - {x: -10, y: 11}
+        - {x: -10, y: -14}
+        - {x: 10, y: -14}
+        - {x: 10, y: 9}
+        - {x: 5, y: 14}
     outline: []
   spritePackingTag: 
   userData: 

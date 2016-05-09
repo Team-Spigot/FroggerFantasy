@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
-using System;
 
 namespace TeamSpigot
 {
@@ -8,18 +8,19 @@ namespace TeamSpigot
     {
         public StatStruct stats;
 
+        public GameObject mem2;
+
         public bool attackCalled = false;
-        public bool dead = false;
         public GameObject battleManager;
-        public bool dropped = false;
+
+        public bool mem2Dead;
 
         // Use this for initialization
         void Start()
         {
-            gameObject.tag = PlayerPrefs.GetString("member2");
-            dropped = Convert.ToBoolean(PlayerPrefs.GetString("mem2Dropped"));
+            mem2.tag = PlayerPrefs.GetString("member2");
 
-            if (gameObject.tag == "WARRIOR")
+            if (mem2.tag == "WARRIOR")
             {
                 stats.str = PlayerPrefs.GetFloat("warStr");
                 stats.vit = PlayerPrefs.GetFloat("warVit");
@@ -34,8 +35,10 @@ namespace TeamSpigot
                 stats.HP = PlayerPrefs.GetFloat("warHP");
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
+
+                mem2.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/ArmoredFighterBunny.png", typeof(Sprite));
             }
-            if (gameObject.tag == "NINJA")
+            if (mem2.tag == "NINJA")
             {
                 stats.str = PlayerPrefs.GetFloat("ninjStr");
                 stats.vit = PlayerPrefs.GetFloat("ninjVit");
@@ -50,8 +53,10 @@ namespace TeamSpigot
                 stats.HP = PlayerPrefs.GetFloat("ninjHP");
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
+
+                mem2.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/NinjaBunny.png", typeof(Sprite));
             }
-            if (gameObject.tag == "MONK")
+            if (mem2.tag == "MONK")
             {
                 stats.str = PlayerPrefs.GetFloat("monkStr");
                 stats.vit = PlayerPrefs.GetFloat("monkVit");
@@ -66,8 +71,10 @@ namespace TeamSpigot
                 stats.HP = PlayerPrefs.GetFloat("monkHP");
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
+
+                mem2.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/RedFighterBunny.png", typeof(Sprite));
             }
-            if (gameObject.tag == "SENTINEL")
+            if (mem2.tag == "SENTINEL")
             {
                 stats.str = PlayerPrefs.GetFloat("sentStr");
                 stats.vit = PlayerPrefs.GetFloat("sentVit");
@@ -82,7 +89,10 @@ namespace TeamSpigot
                 stats.HP = PlayerPrefs.GetFloat("sentHP");
                 stats.MaxMP = PlayerPrefs.GetFloat("sentMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("sentMP");
+
+                mem2.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/SentinelBunny.png", typeof(Sprite));
             }
+            Debug.Log("mem2." + mem2.tag + "\nagl: " + stats.agl);
         }
 
         // Update is called once per frame
@@ -90,7 +100,7 @@ namespace TeamSpigot
         {
             //Debug.Log(mem2.tag);
 
-            if (battleManager.GetComponent<BattleManager>().playerAttacked == true)
+            /*if (battleManager.GetComponent<BattleManager>().playerAttacked == true)
             {
                 attackCalled = false;
             }
@@ -108,23 +118,25 @@ namespace TeamSpigot
                     battleManager.GetComponent<BattleManager>().runEnemyAttack = false;
                     Debug.Log("mem2\nhp: " + stats.HP + "\n");
                 }
-            }
+            }*/
 
             if (stats.HP <= 0)
             {
-                dead = true;
+                mem2Dead = true;
             }
-            else
+            else if (stats.HP > 0)
             {
-                dead = false;
+                mem2Dead = false;
             }
+
+            DeadCheck();
         }
 
-        public void Attack()
+        void DeadCheck()
         {
-            if (battleManager.GetComponent<BattleManager>().playerAttacked == false)
+            if (mem2Dead)
             {
-                attackCalled = true;
+                gameObject.SetActive(false);
             }
         }
     }

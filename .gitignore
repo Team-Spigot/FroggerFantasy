@@ -28,3 +28,4 @@ sysinfo.txt
 # Custom Ignores
 *.bat
 *.bat.meta
+*.log

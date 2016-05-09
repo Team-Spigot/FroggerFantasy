@@ -9,6 +9,16 @@ namespace Tiled2Unity
 {
     public class TiledMap : MonoBehaviour
     {
+        void Awake()
+        {
+            if (FindObjectsOfType(GetType()).Length > 1)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(this);
+        }
+
         public int NumTilesWide = 0;
         public int NumTilesHigh = 0;
         public int TileWidth = 0;
