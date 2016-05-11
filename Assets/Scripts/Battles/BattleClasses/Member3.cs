@@ -35,7 +35,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("ArmoredFighterBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ArmoredFighterBunny");
                 //mem3.GetComponent<SpriteRenderer>().flipX = true;
             }
             if (mem3.tag == "NINJA")
@@ -54,7 +54,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("NinjaBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("NinjaBunny");
             }
             if (mem3.tag == "MONK")
             {
@@ -72,7 +72,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("RedFighterBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedFighterBunny");
             }
             if (mem3.tag == "SENTINEL")
             {
@@ -90,7 +90,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("sentMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("sentMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("SentinelBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("SentinelBunny");
             }
             if (mem3.tag == "GAMBLER")
             {
@@ -108,7 +108,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("gambMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("gambMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("GamblerBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GamblerBunny");
             }
             if (mem3.tag == "UNDEAD")
             {
@@ -126,7 +126,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("UDMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("UDMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("UndeadBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UndeadBunny");
             }
             if (mem3.tag == "WM")
             {
@@ -144,7 +144,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("WMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("WMMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("WhiteMageBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("WhiteMageBunny");
             }
             if (mem3.tag == "BM")
             {
@@ -162,7 +162,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("BMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("BMMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("BlackMageBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("BlackMageBunny");
             }
             if (mem3.tag == "RM")
             {
@@ -180,7 +180,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("RMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("RMMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("RedMageBunny") as Sprite;
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedMageBunny");
             }
             Debug.Log("mem3." + mem3.tag + "\nagl: " + stats.agl);
         }

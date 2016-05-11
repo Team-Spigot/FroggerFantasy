@@ -95,7 +95,8 @@ namespace TeamSpigot
 
         void Start()
         {
-            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
+            if (FindObjectOfType<PlayerMovement>() != null)
+                FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
 
             SpawnEnemy();
 
@@ -510,7 +511,7 @@ namespace TeamSpigot
 
                 if (hitRoll >= 0.3)
                 {
-                    attack = UnityEngine.Random.Range(0, 5);
+                    attack = UnityEngine.Random.Range(0, 4);
 
                     if (critRoll >= 0.9)
                     {
