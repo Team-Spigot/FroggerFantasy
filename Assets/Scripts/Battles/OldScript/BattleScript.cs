@@ -4,27 +4,27 @@ using System.Collections.Generic;
 
 public class BattleScript : MonoBehaviour
 {
-
+    
     public bool playerTurn;
 
     // Use this for initialization
-    void Start()
+    void Start ()
     {
         //List<StatScript> memberStats = new List<StatScript>();
     }
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
 
 
     }
 
-    public void TurnSelect()
+    public void TurnSelect ()
     {
         if (playerTurn)
         {
         }
-
+        
     }
 }

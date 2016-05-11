@@ -57,11 +57,11 @@ namespace TeamSpigot
 
             if (!standPos[0].activeSelf && !standPos[1].activeSelf && !standPos[2].activeSelf && !standPos[3].activeSelf)
             {
-                confirmButt.SetActive(true);
+				confirmButt.SetActive(true);
             }
             else
             {
-                confirmButt.SetActive(false);
+				confirmButt.SetActive(false);
             }
 
             players[0] = p1;
@@ -304,27 +304,292 @@ namespace TeamSpigot
 
         public void Gambler()
         {
-            Instantiate(classPlayer[4], Vector3.zero, Quaternion.Euler(0, 0, 0));
+            if (classTogs[4].isOn)
+            {
+                if (standPos[0].activeSelf)
+                {
+                    p1 = (GameObject)Instantiate(classPlayer[4], standPos[0].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member1", classPlayer[4].tag);
+                    standPos[0].SetActive(false);
+                }
+                else if (standPos[1].activeSelf)
+                {
+                    p2 = (GameObject)Instantiate(classPlayer[4], standPos[1].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member2", classPlayer[4].tag);
+                    standPos[1].SetActive(false);
+                }
+                else if (standPos[2].activeSelf)
+                {
+                    p3 = (GameObject)Instantiate(classPlayer[4], standPos[2].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member3", classPlayer[4].tag);
+                    standPos[2].SetActive(false);
+                }
+                else if (standPos[3].activeSelf)
+                {
+                    p4 = (GameObject)Instantiate(classPlayer[4], standPos[3].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member4", classPlayer[4].tag);
+                    standPos[3].SetActive(false);
+                }
+            }
+            if (!classTogs[4].isOn)
+            {
+                if (!standPos[0].activeSelf && p1.tag == "GAMBLER")
+                {
+                    standPos[0].SetActive(true);
+                    PlayerPrefs.SetString("member1", empty);
+                    Destroy(p1);
+                }
+                if (!standPos[1].activeSelf && p2.tag == "GAMBLER")
+                {
+                    standPos[1].SetActive(true);
+                    PlayerPrefs.SetString("member2", empty);
+                    Destroy(p2);
+                }
+                if (!standPos[2].activeSelf && p3.tag == "GAMBLER")
+                {
+                    standPos[2].SetActive(true);
+                    PlayerPrefs.SetString("member3", empty);
+                    Destroy(p3);
+                }
+                if (!standPos[3].activeSelf && p4.tag == "GAMBLER")
+                {
+                    standPos[3].SetActive(true);
+                    PlayerPrefs.SetString("member4", empty);
+                    Destroy(p4);
+                }
+            }
         }
 
         public void Undead()
         {
-            Instantiate(classPlayer[5], Vector3.zero, Quaternion.Euler(0, 0, 0));
+            if (classTogs[5].isOn)
+            {
+                if (standPos[0].activeSelf)
+                {
+                    p1 = (GameObject)Instantiate(classPlayer[5], standPos[0].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member1", classPlayer[5].tag);
+                    standPos[0].SetActive(false);
+                }
+                else if (standPos[1].activeSelf)
+                {
+                    p2 = (GameObject)Instantiate(classPlayer[5], standPos[1].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member2", classPlayer[5].tag);
+                    standPos[1].SetActive(false);
+                }
+                else if (standPos[2].activeSelf)
+                {
+                    p3 = (GameObject)Instantiate(classPlayer[5], standPos[2].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member3", classPlayer[5].tag);
+                    standPos[2].SetActive(false);
+                }
+                else if (standPos[3].activeSelf)
+                {
+                    p4 = (GameObject)Instantiate(classPlayer[5], standPos[3].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member4", classPlayer[5].tag);
+                    standPos[3].SetActive(false);
+                }
+            }
+            if (!classTogs[5].isOn)
+            {
+                if (!standPos[0].activeSelf && p1.tag == "UNDEAD")
+                {
+                    standPos[0].SetActive(true);
+                    PlayerPrefs.SetString("member1", empty);
+                    Destroy(p1);
+                }
+                if (!standPos[1].activeSelf && p2.tag == "UNDEAD")
+                {
+                    standPos[1].SetActive(true);
+                    PlayerPrefs.SetString("member2", empty);
+                    Destroy(p2);
+                }
+                if (!standPos[2].activeSelf && p3.tag == "UNDEAD")
+                {
+                    standPos[2].SetActive(true);
+                    PlayerPrefs.SetString("member3", empty);
+                    Destroy(p3);
+                }
+                if (!standPos[3].activeSelf && p4.tag == "UNDEAD")
+                {
+                    standPos[3].SetActive(true);
+                    PlayerPrefs.SetString("member4", empty);
+                    Destroy(p4);
+                }
+            }
         }
 
         public void WM()
         {
-            Instantiate(classPlayer[6], Vector3.zero, Quaternion.Euler(0, 0, 0));
+            if (classTogs[6].isOn)
+            {
+                if (standPos[0].activeSelf)
+                {
+                    p1 = (GameObject)Instantiate(classPlayer[6], standPos[0].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member1", classPlayer[6].tag);
+                    standPos[0].SetActive(false);
+                }
+                else if (standPos[1].activeSelf)
+                {
+                    p2 = (GameObject)Instantiate(classPlayer[6], standPos[1].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member2", classPlayer[6].tag);
+                    standPos[1].SetActive(false);
+                }
+                else if (standPos[2].activeSelf)
+                {
+                    p3 = (GameObject)Instantiate(classPlayer[6], standPos[2].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member3", classPlayer[6].tag);
+                    standPos[2].SetActive(false);
+                }
+                else if (standPos[3].activeSelf)
+                {
+                    p4 = (GameObject)Instantiate(classPlayer[6], standPos[3].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member4", classPlayer[6].tag);
+                    standPos[3].SetActive(false);
+                }
+            }
+            if (!classTogs[6].isOn)
+            {
+                if (!standPos[0].activeSelf && p1.tag == "WM")
+                {
+                    standPos[0].SetActive(true);
+                    PlayerPrefs.SetString("member1", empty);
+                    Destroy(p1);
+                }
+                if (!standPos[1].activeSelf && p2.tag == "WM")
+                {
+                    standPos[1].SetActive(true);
+                    PlayerPrefs.SetString("member2", empty);
+                    Destroy(p2);
+                }
+                if (!standPos[2].activeSelf && p3.tag == "WM")
+                {
+                    standPos[2].SetActive(true);
+                    PlayerPrefs.SetString("member3", empty);
+                    Destroy(p3);
+                }
+                if (!standPos[3].activeSelf && p4.tag == "WM")
+                {
+                    standPos[3].SetActive(true);
+                    PlayerPrefs.SetString("member4", empty);
+                    Destroy(p4);
+                }
+            }
         }
 
         public void BM()
         {
-            Instantiate(classPlayer[7], Vector3.zero, Quaternion.Euler(0, 0, 0));
+            if (classTogs[7].isOn)
+            {
+                if (standPos[0].activeSelf)
+                {
+                    p1 = (GameObject)Instantiate(classPlayer[7], standPos[0].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member1", classPlayer[7].tag);
+                    standPos[0].SetActive(false);
+                }
+                else if (standPos[1].activeSelf)
+                {
+                    p2 = (GameObject)Instantiate(classPlayer[7], standPos[1].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member2", classPlayer[7].tag);
+                    standPos[1].SetActive(false);
+                }
+                else if (standPos[2].activeSelf)
+                {
+                    p3 = (GameObject)Instantiate(classPlayer[7], standPos[2].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member3", classPlayer[7].tag);
+                    standPos[2].SetActive(false);
+                }
+                else if (standPos[3].activeSelf)
+                {
+                    p4 = (GameObject)Instantiate(classPlayer[7], standPos[3].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member4", classPlayer[7].tag);
+                    standPos[3].SetActive(false);
+                }
+            }
+            if (!classTogs[7].isOn)
+            {
+                if (!standPos[0].activeSelf && p1.tag == "BM")
+                {
+                    standPos[0].SetActive(true);
+                    PlayerPrefs.SetString("member1", empty);
+                    Destroy(p1);
+                }
+                if (!standPos[1].activeSelf && p2.tag == "BM")
+                {
+                    standPos[1].SetActive(true);
+                    PlayerPrefs.SetString("member2", empty);
+                    Destroy(p2);
+                }
+                if (!standPos[2].activeSelf && p3.tag == "BM")
+                {
+                    standPos[2].SetActive(true);
+                    PlayerPrefs.SetString("member3", empty);
+                    Destroy(p3);
+                }
+                if (!standPos[3].activeSelf && p4.tag == "BM")
+                {
+                    standPos[3].SetActive(true);
+                    PlayerPrefs.SetString("member4", empty);
+                    Destroy(p4);
+                }
+            }
         }
 
         public void RM()
         {
-            Instantiate(classPlayer[8], Vector3.zero, Quaternion.Euler(0, 0, 0));
+            if (classTogs[8].isOn)
+            {
+                if (standPos[0].activeSelf)
+                {
+                    p1 = (GameObject)Instantiate(classPlayer[8], standPos[0].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member1", classPlayer[8].tag);
+                    standPos[0].SetActive(false);
+                }
+                else if (standPos[1].activeSelf)
+                {
+                    p2 = (GameObject)Instantiate(classPlayer[8], standPos[1].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member2", classPlayer[8].tag);
+                    standPos[1].SetActive(false);
+                }
+                else if (standPos[2].activeSelf)
+                {
+                    p3 = (GameObject)Instantiate(classPlayer[8], standPos[2].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member3", classPlayer[8].tag);
+                    standPos[2].SetActive(false);
+                }
+                else if (standPos[3].activeSelf)
+                {
+                    p4 = (GameObject)Instantiate(classPlayer[8], standPos[3].transform.position, Quaternion.Euler(0, 0, 0));
+                    PlayerPrefs.SetString("member4", classPlayer[8].tag);
+                    standPos[3].SetActive(false);
+                }
+            }
+            if (!classTogs[8].isOn)
+            {
+                if (!standPos[0].activeSelf && p1.tag == "RM")
+                {
+                    standPos[0].SetActive(true);
+                    PlayerPrefs.SetString("member1", empty);
+                    Destroy(p1);
+                }
+                if (!standPos[1].activeSelf && p2.tag == "RM")
+                {
+                    standPos[1].SetActive(true);
+                    PlayerPrefs.SetString("member2", empty);
+                    Destroy(p2);
+                }
+                if (!standPos[2].activeSelf && p3.tag == "RM")
+                {
+                    standPos[2].SetActive(true);
+                    PlayerPrefs.SetString("member3", empty);
+                    Destroy(p3);
+                }
+                if (!standPos[3].activeSelf && p4.tag == "RM")
+                {
+                    standPos[3].SetActive(true);
+                    PlayerPrefs.SetString("member4", empty);
+                    Destroy(p4);
+                }
+            }
         }
 
         public void StatSetUp()
@@ -343,10 +608,10 @@ namespace TeamSpigot
             classButts[8].SetActive(false);
 
 
-            Debug.Log("member1: " + PlayerPrefs.GetString("member1"));
-            Debug.Log("member2: " + PlayerPrefs.GetString("member2"));
-            Debug.Log("member3: " + PlayerPrefs.GetString("member3"));
-            Debug.Log("member4: " + PlayerPrefs.GetString("member4"));
+			Debug.Log("member1: " + PlayerPrefs.GetString("member1"));
+			Debug.Log("member2: " + PlayerPrefs.GetString("member2"));
+			Debug.Log("member3: " + PlayerPrefs.GetString("member3"));
+			Debug.Log("member4: " + PlayerPrefs.GetString("member4"));
         }
     }
 }

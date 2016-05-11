@@ -40,7 +40,6 @@ namespace TeamSpigot
             {
                 if (TriggeredTansition == false)
                 {
-                    FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
                     currentDropOffPoint.BattleStarted = true;
                     TriggeredTansition = true;

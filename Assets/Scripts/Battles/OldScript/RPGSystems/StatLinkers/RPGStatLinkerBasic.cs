@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RPGStatLinkerBasic : RPGStatLinker
-{
+public class RPGStatLinkerBasic : RPGStatLinker {
 
     private float _ratio;
 

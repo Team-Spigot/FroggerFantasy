@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class RPGStatCollection
 {
     private Dictionary<RPGStatType, RPGStat> _statDict;
-
+	
 
     public RPGStatCollection()
     {
@@ -25,11 +25,11 @@ public class RPGStatCollection
 
     public RPGStat GetStat(RPGStatType statType)
     {
-        if (Contains(statType))
+        if(Contains(statType))
         {
             return _statDict[statType];
         }
-        return null;
+        return null; 
     }
 
     public T GetStat<T>(RPGStatType type) where T : RPGStat

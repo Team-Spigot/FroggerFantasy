@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="131">
  <tileset firstgid="1" name="DevelopmentTileSet" tilewidth="32" tileheight="32" tilecount="16" columns="4">
-  <image source="../../Sprites/DevelopmentSprites/DevelopmentTileSet.png" width="128" height="128"/>
+  <image source="../../Sprites/Overworld/DevelopmentTileSet.png" width="128" height="128"/>
   <tile id="0">
    <objectgroup draworder="index"/>
   </tile>
@@ -20,7 +20,7 @@
   </tile>
  </tileset>
  <tileset firstgid="17" name="DungeonTileSet" tilewidth="32" tileheight="32" tilecount="16" columns="4">
-  <image source="../../Sprites/DevelopmentSprites/DungeonTileSet.png" width="128" height="128"/>
+  <image source="../../Sprites/Overworld/DungeonTileSet.png" width="128" height="128"/>
   <tile id="0">
    <objectgroup draworder="index"/>
   </tile>

@@ -18,38 +18,20 @@ public class RPGStatModifier
 
     public Types Type
     {
-        get
-        {
-            return _type;
-        }
-        set
-        {
-            _type = value;
-        }
+        get { return _type; }
+        set { _type = value; }
     }
 
     public float Value
     {
-        get
-        {
-            return _value;
-        }
-        set
-        {
-            _value = value;
-        }
+        get { return _value; }
+        set { _value = value; }
     }
 
     public RPGStatType StatType
     {
-        get
-        {
-            return _statType;
-        }
-        set
-        {
-            _statType = value;
-        }
+        get { return _statType; }
+        set { _statType = value; }
     }
 
     public RPGStatModifier()

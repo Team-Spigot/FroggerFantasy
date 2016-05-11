@@ -12,22 +12,22 @@ namespace TeamSpigot
 
         void Start()
         {
-            stats.str = 100;
-            stats.vit = Random.Range(1, 5);
-            stats.agl = 5;
-            stats.aim = Random.Range(4, 5);
-            stats.lck = Random.Range(1, 5);
-            stats.ang = Random.Range(1, 5);
-            stats.fai = Random.Range(1, 5);
-            stats.skl = Random.Range(1, 5);
+            stats.str = Random.Range(10, 17);
+            stats.vit = Random.Range(9, 12);
+            stats.agl = Random.Range(8, 14);
+            stats.aim = Random.Range(5, 10);
+            stats.lck = Random.Range(2, 4);
+            stats.ang = Random.Range(3, 4);
+            stats.fai = Random.Range(3, 4);
+            stats.skl = Random.Range(2, 4);
 
-            stats.MaxHP = 10;
-            stats.MaxMP = stats.MP = Random.Range(1, 5);
+            stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 100 + (2 * (stats.skl * stats.vit)));
+            stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
 
             stats.exp = 0;
 
             Debug.Log("Warrior\nagl: " + stats.agl);
-            attackCalled = false;
+            Debug.Log("Warrior\nhp: " + stats.HP);
         }
 
         void Update()
@@ -42,7 +42,7 @@ namespace TeamSpigot
             PlayerPrefs.SetFloat("warSkl", stats.skl);
 
             PlayerPrefs.SetFloat("warMaxHP", stats.MaxHP);
-            PlayerPrefs.SetFloat("warHP", stats.MaxHP);
+            PlayerPrefs.SetFloat("warHP", stats.HP);
 
             PlayerPrefs.SetFloat("warMaxMP", stats.MaxMP);
             PlayerPrefs.SetFloat("warMP", stats.MP);

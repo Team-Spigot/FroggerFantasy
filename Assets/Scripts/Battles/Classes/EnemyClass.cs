@@ -11,16 +11,19 @@ namespace TeamSpigot
 
         public int enemyNumber = 1;
 
-        public void Start()
+       public void Start()
         {
-            stats.str = 5;
-            stats.vit = 0;
-            stats.agl = 90;
-            stats.aim = 200;
-            stats.lck = 0;
-            stats.ang = 0;
-            stats.fai = 0;
-            stats.skl = 0;
+            stats.str = Random.Range(5, 10);
+            stats.vit = Random.Range(8, 12);
+            stats.agl = 10;
+            stats.aim = Random.Range(5, 10);
+            stats.lck = Random.Range(2, 4);
+            stats.ang = Random.Range(3, 4);
+            stats.fai = Random.Range(3, 4);
+            stats.skl = Random.Range(2, 4);
+
+            stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 100 + (2 * (stats.skl * stats.vit)));
+            stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
 
             stats.MaxHP = stats.HP = 100;
             stats.MaxMP = stats.MP = 100;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IStatScalable
-{
+public interface IStatScalable {
+
     void ScaleStat(int level);
 }

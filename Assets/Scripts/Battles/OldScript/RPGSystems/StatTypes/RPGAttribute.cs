@@ -12,10 +12,7 @@ public class RPGAttribute : RPGStatModifiable, IStatScalable, IStatLinkable
 
     public int StatLevelValue
     {
-        get
-        {
-            return _statLevelValue;
-        }
+        get { return _statLevelValue; }
     }
 
     public int StatLinkerValue
@@ -52,7 +49,7 @@ public class RPGAttribute : RPGStatModifiable, IStatScalable, IStatLinkable
     public void UpdateLinkers()
     {
         _statLinkerValue = 0;
-        foreach (RPGStatLinker link in _statLinkers)
+        foreach(RPGStatLinker link in _statLinkers)
         {
             _statLinkerValue += link.Value;
         }

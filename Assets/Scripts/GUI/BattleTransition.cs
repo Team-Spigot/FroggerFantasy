@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-using UnityEditor.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace TeamSpigot
 {

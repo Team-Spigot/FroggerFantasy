@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
 namespace TeamSpigot
@@ -36,7 +35,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/ArmoredFighterBunny.png", typeof(Sprite));
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("ArmoredFighterBunny") as Sprite;
                 //mem3.GetComponent<SpriteRenderer>().flipX = true;
             }
             if (mem3.tag == "NINJA")
@@ -55,7 +54,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/NinjaBunny.png", typeof(Sprite));
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("NinjaBunny") as Sprite;
             }
             if (mem3.tag == "MONK")
             {
@@ -73,7 +72,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/RedFighterBunny.png", typeof(Sprite));
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("RedFighterBunny") as Sprite;
             }
             if (mem3.tag == "SENTINEL")
             {
@@ -91,7 +90,97 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("sentMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("sentMP");
 
-                mem3.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/SentinelBunny.png", typeof(Sprite));
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("SentinelBunny") as Sprite;
+            }
+            if (mem3.tag == "GAMBLER")
+            {
+                stats.str = PlayerPrefs.GetFloat("gambStr");
+                stats.vit = PlayerPrefs.GetFloat("gambVit");
+                stats.agl = PlayerPrefs.GetFloat("gambAgl");
+                stats.aim = PlayerPrefs.GetFloat("gambAim");
+                stats.lck = PlayerPrefs.GetFloat("gambLck");
+                stats.ang = PlayerPrefs.GetFloat("gambAng");
+                stats.fai = PlayerPrefs.GetFloat("gambFai");
+                stats.skl = PlayerPrefs.GetFloat("gambSkl");
+
+                stats.MaxHP = PlayerPrefs.GetFloat("gambMaxHP");
+                stats.HP = PlayerPrefs.GetFloat("gambHP");
+                stats.MaxMP = PlayerPrefs.GetFloat("gambMaxMP");
+                stats.MP = PlayerPrefs.GetFloat("gambMP");
+
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("GamblerBunny") as Sprite;
+            }
+            if (mem3.tag == "UNDEAD")
+            {
+                stats.str = PlayerPrefs.GetFloat("UDStr");
+                stats.vit = PlayerPrefs.GetFloat("UDVit");
+                stats.agl = PlayerPrefs.GetFloat("UDAgl");
+                stats.aim = PlayerPrefs.GetFloat("UDAim");
+                stats.lck = PlayerPrefs.GetFloat("UDLck");
+                stats.ang = PlayerPrefs.GetFloat("UDAng");
+                stats.fai = PlayerPrefs.GetFloat("UDFai");
+                stats.skl = PlayerPrefs.GetFloat("UDSkl");
+
+                stats.MaxHP = PlayerPrefs.GetFloat("UDMaxHP");
+                stats.HP = PlayerPrefs.GetFloat("UDHP");
+                stats.MaxMP = PlayerPrefs.GetFloat("UDMaxMP");
+                stats.MP = PlayerPrefs.GetFloat("UDMP");
+
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("UndeadBunny") as Sprite;
+            }
+            if (mem3.tag == "WM")
+            {
+                stats.str = PlayerPrefs.GetFloat("WMStr");
+                stats.vit = PlayerPrefs.GetFloat("WMVit");
+                stats.agl = PlayerPrefs.GetFloat("WMAgl");
+                stats.aim = PlayerPrefs.GetFloat("WMAim");
+                stats.lck = PlayerPrefs.GetFloat("WMLck");
+                stats.ang = PlayerPrefs.GetFloat("WMAng");
+                stats.fai = PlayerPrefs.GetFloat("wMFai");
+                stats.skl = PlayerPrefs.GetFloat("WMSkl");
+
+                stats.MaxHP = PlayerPrefs.GetFloat("WMMaxHP");
+                stats.HP = PlayerPrefs.GetFloat("WMHP");
+                stats.MaxMP = PlayerPrefs.GetFloat("WMMaxMP");
+                stats.MP = PlayerPrefs.GetFloat("WMMP");
+
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("WhiteMageBunny") as Sprite;
+            }
+            if (mem3.tag == "BM")
+            {
+                stats.str = PlayerPrefs.GetFloat("BMStr");
+                stats.vit = PlayerPrefs.GetFloat("BMVit");
+                stats.agl = PlayerPrefs.GetFloat("BMAgl");
+                stats.aim = PlayerPrefs.GetFloat("BMAim");
+                stats.lck = PlayerPrefs.GetFloat("BMLck");
+                stats.ang = PlayerPrefs.GetFloat("BMAng");
+                stats.fai = PlayerPrefs.GetFloat("BMFai");
+                stats.skl = PlayerPrefs.GetFloat("BMSkl");
+
+                stats.MaxHP = PlayerPrefs.GetFloat("BMMaxHP");
+                stats.HP = PlayerPrefs.GetFloat("BMHP");
+                stats.MaxMP = PlayerPrefs.GetFloat("BMMaxMP");
+                stats.MP = PlayerPrefs.GetFloat("BMMP");
+
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("BlackMageBunny") as Sprite;
+            }
+            if (mem3.tag == "RM")
+            {
+                stats.str = PlayerPrefs.GetFloat("RMStr");
+                stats.vit = PlayerPrefs.GetFloat("RMVit");
+                stats.agl = PlayerPrefs.GetFloat("RMAgl");
+                stats.aim = PlayerPrefs.GetFloat("RMAim");
+                stats.lck = PlayerPrefs.GetFloat("RMLck");
+                stats.ang = PlayerPrefs.GetFloat("RMAng");
+                stats.fai = PlayerPrefs.GetFloat("RMFai");
+                stats.skl = PlayerPrefs.GetFloat("RMSkl");
+
+                stats.MaxHP = PlayerPrefs.GetFloat("RMMaxHP");
+                stats.HP = PlayerPrefs.GetFloat("RMHP");
+                stats.MaxMP = PlayerPrefs.GetFloat("RMMaxMP");
+                stats.MP = PlayerPrefs.GetFloat("RMMP");
+
+                mem3.GetComponent<SpriteRenderer>().sprite = Resources.Load("RedMageBunny") as Sprite;
             }
             Debug.Log("mem3." + mem3.tag + "\nagl: " + stats.agl);
         }
@@ -99,31 +188,6 @@ namespace TeamSpigot
         // Update is called once per frame
         void Update()
         {
-            //Debug.Log(mem3.tag);
-
-            /*if (battleManager.GetComponent<BattleManager>().playerAttacked == true)
-            {
-                attackCalled = false;
-            }
-            if (battleManager.GetComponent<BattleManager>().runEnemyAttack)
-            {
-                if (battleManager.GetComponent<BattleManager>().isCrit)
-                {
-                    stats.HP -= battleManager.GetComponent<BattleManager>().enemyStats.str * 5;
-                    battleManager.GetComponent<BattleManager>().runEnemyAttack = false;
-                    Debug.Log("mem3\nhp: " + stats.HP + "\n\n");
-                    Debug.Log("\n");
-                    Debug.Log("\n");
-                }
-                else if (!battleManager.GetComponent<BattleManager>().isCrit)
-                {
-                    stats.HP -= battleManager.GetComponent<BattleManager>().enemyStats.str;
-                    battleManager.GetComponent<BattleManager>().runEnemyAttack = false;
-                    Debug.Log("mem3\nhp: " + stats.HP + "\n\n");
-                    Debug.Log("\n");
-                    Debug.Log("\n");
-                }
-            }*/
 
             if (stats.HP <= 0)
             {
@@ -134,6 +198,10 @@ namespace TeamSpigot
                 mem3Dead = false;
             }
 
+            if (stats.HP > stats.MaxHP)
+            {
+                stats.HP = stats.MaxHP;
+            }
             DeadCheck();
         }
 

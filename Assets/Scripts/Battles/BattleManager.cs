@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,8 @@ namespace TeamSpigot
         public bool runAttack;
         public bool playerAttacked;
         bool callAttack;
-        bool statSet;
+        [HideInInspector]
+        public bool statSet;
 
         public GameObject currentPlayer;
         public GameObject enemy;
@@ -26,10 +26,14 @@ namespace TeamSpigot
         GameObject Member3;
         GameObject Member4;
 
-        float mem1Agl = 0;
-        float mem2Agl = 0;
-        float mem3Agl = 0;
-        float mem4Agl = 0;
+        [HideInInspector]
+        public float mem1Agl = 0;
+        [HideInInspector]
+        public float mem2Agl = 0;
+        [HideInInspector]
+        public float mem3Agl = 0;
+        [HideInInspector]
+        public float mem4Agl = 0;
 
         float mem1HP = 0;
         float mem2HP = 0;
@@ -37,6 +41,7 @@ namespace TeamSpigot
         float mem4HP = 0;
 
         float highestAgl;
+        float highestHP;
 
         public int sortOrder = 1;
 
@@ -90,6 +95,8 @@ namespace TeamSpigot
 
         void Start()
         {
+            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
+
             SpawnEnemy();
 
             Member1 = GameObject.Find("Member1");
@@ -117,17 +124,17 @@ namespace TeamSpigot
             if (Member2 != null)
             {
                 mem2Agl = Member2.GetComponent<Member2>().stats.agl + 0.03f;
-                mem2HP = Member2.GetComponent<Member2>().stats.agl;
+                mem2HP = Member2.GetComponent<Member2>().stats.HP;
             }
             if (Member3 != null)
             {
                 mem3Agl = Member3.GetComponent<Member3>().stats.agl + 0.02f;
-                mem3HP = Member3.GetComponent<Member3>().stats.agl;
+                mem3HP = Member3.GetComponent<Member3>().stats.HP;
             }
             if (Member4 != null)
             {
                 mem4Agl = Member4.GetComponent<Member4>().stats.agl + 0.01f;
-                mem4HP = Member4.GetComponent<Member4>().stats.agl;
+                mem4HP = Member4.GetComponent<Member4>().stats.HP;
             }
 
             #endregion //objectSpeeds
@@ -149,12 +156,12 @@ namespace TeamSpigot
 
         void Update()
         {
-            EndBattle();
             Wait();
             DeadCheck();
-            TurnOrder();
             DeadChangeOrder();
+            TurnOrder();
             HandleVisuals();
+            EndBattle();
         }
 
         void SpawnEnemy()
@@ -256,10 +263,24 @@ namespace TeamSpigot
                 //Debug.Log("enemySpeeeeeed: " + enmAgls);
                 //Debug.Log("ActualEnemySpeeeeeeed: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
-                agilities.Add(mem1Agl);
-                agilities.Add(mem2Agl);
-                agilities.Add(mem3Agl);
-                agilities.Add(mem4Agl);
+                agilities.Clear();
+
+                if (!Member1.GetComponent<Member1>().mem1Dead)
+                {
+                    agilities.Add(mem1Agl);
+                }
+                if (!Member2.GetComponent<Member2>().mem2Dead)
+                {
+                    agilities.Add(mem2Agl);
+                }
+                if (!Member3.GetComponent<Member3>().mem3Dead)
+                {
+                    agilities.Add(mem3Agl);
+                }
+                if (!Member4.GetComponent<Member4>().mem4Dead)
+                {
+                    agilities.Add(mem4Agl);
+                }
                 agilities.Add(enmAgls);
 
                 playerHPs.Add(mem1HP);
@@ -287,6 +308,8 @@ namespace TeamSpigot
             #region playOrder
 
             highestAgl = agilities[agilities.Count - sortOrder];
+            //highestHP = playerHPs[playerHPs.Count - sortOrder];
+
 
             #region mem1
             if (highestAgl == mem1Agl)
@@ -386,13 +409,13 @@ namespace TeamSpigot
             if (enemyAttacked)
             {
                 EnemyAttack();
+                enemyAttacked = false;
             }
         }
 
         public void Attack()
         {
             callAttack = true;
-            ChangeOrder();
         }
 
         public void ChangeOrder()
@@ -423,22 +446,40 @@ namespace TeamSpigot
                     {
                         if (critRoll < 0.9)
                         {
+                            Debug.Log(currentPlayer.tag + "\n str: " + playerStats.str);
                             enemies[0].GetComponent<EnemyClass>().stats.HP -= playerStats.str;
 
                             runAttack = false;
                             callAttack = false;
                             critRoll = 0;
                             WaitTime = 0;
+                            if (sortOrder < agilities.Count)
+                            {
+                                sortOrder++;
+                            }
+                            else if (sortOrder >= agilities.Count)
+                            {
+                                sortOrder = 1;
+                            }
                         }
 
                         if (critRoll >= 0.9)
                         {
+                            Debug.Log(currentPlayer.tag + "\n str: " + playerStats.str);
                             enemies[0].GetComponent<EnemyClass>().stats.HP -= playerStats.str * 5;
 
                             runAttack = false;
                             callAttack = false;
                             critRoll = 0;
                             WaitTime = 0;
+                            if (sortOrder < agilities.Count)
+                            {
+                                sortOrder++;
+                            }
+                            else if (sortOrder >= agilities.Count)
+                            {
+                                sortOrder = 1;
+                            }
                         }
                     }
                 }
@@ -446,6 +487,14 @@ namespace TeamSpigot
                 {
                     callAttack = false;
                     WaitTime = 0;
+                    if (sortOrder < agilities.Count)
+                    {
+                        sortOrder++;
+                    }
+                    else if (sortOrder >= agilities.Count)
+                    {
+                        sortOrder = 1;
+                    }
                 }
             }
             #endregion
@@ -526,6 +575,14 @@ namespace TeamSpigot
                         {
                             Debug.Log("Enemy Missed!");
                         }
+                        if (sortOrder < agilities.Count)
+                        {
+                            sortOrder++;
+                        }
+                        else if (sortOrder >= agilities.Count)
+                        {
+                            sortOrder = 1;
+                        }
                     }
                     if (critRoll < 0.9)
                     {
@@ -533,7 +590,7 @@ namespace TeamSpigot
                         critRoll = 0;
                         enemyAttacked = false;
                         WaitTime = 0;
-                        
+
                         if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
                         {
                             Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
@@ -590,12 +647,28 @@ namespace TeamSpigot
                         {
                             Debug.Log("Enemy Missed!");
                         }
+                        if (sortOrder < agilities.Count)
+                        {
+                            sortOrder++;
+                        }
+                        else if (sortOrder >= agilities.Count)
+                        {
+                            sortOrder = 1;
+                        }
                     }
                 }
                 if (hitRoll < 0.3)
                 {
                     enemyAttacked = false;
                     WaitTime = 0;
+                    if (sortOrder < agilities.Count)
+                    {
+                        sortOrder++;
+                    }
+                    else if (sortOrder >= agilities.Count)
+                    {
+                        sortOrder = 1;
+                    }
                 }
             }
             #endregion
@@ -629,23 +702,23 @@ namespace TeamSpigot
 
             if (enemies[0].GetComponent<EnemyClass>().stats.HP <= 0)
             {
-                // attackButt.SetActive(false);
+                //attackButt.SetActive(false);
             }
             else if (enemies[0].GetComponent<EnemyClass>().stats.HP > 0)
             {
-                // attackButt.SetActive(true);
+                //attackButt.SetActive(true);
             }
         }
 
         void Debugs()
         {
-            // Debug.Log(currentPlayer + " - " + currentPlayer.tag + ": " + playerStats.HP);
-            // Debug.Log("playerDead: " + playerDead);
-            // Debug.Log("agilities.Length: " + agilities.Length);
-            // Debug.Log("sortOrder: " + sortOrder + "\n   CurrentPlayer: " + currentPlayer.tag);
-            // Debug.Log("highestAgl: " + highestAgl);
-            // Debug.Log(playerAttacked);
-            // Debug.Log(currentPlayer);
+            //Debug.Log(currentPlayer + " - " + currentPlayer.tag + ": " + playerStats.HP);
+            //Debug.Log("playerDead: " + playerDead);
+            //Debug.Log("agilities.Length: " + agilities.Length);
+            //Debug.Log("sortOrder: " + sortOrder + "\n   CurrentPlayer: " + currentPlayer.tag);
+            //Debug.Log("highestAgl: " + highestAgl);
+            //Debug.Log(playerAttacked);
+            //Debug.Log(currentPlayer);
             for (int i = 0; i < agilities.Count; i++)
             {
                 Debug.Log("index: " + i + " | agil: " + agilities[i]);

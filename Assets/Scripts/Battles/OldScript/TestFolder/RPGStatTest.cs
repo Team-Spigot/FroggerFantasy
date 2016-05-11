@@ -2,8 +2,7 @@
 using System.Collections;
 using System;
 
-public class RPGStatTest : MonoBehaviour
-{
+public class RPGStatTest : MonoBehaviour {
     private RPGStatCollection stats;
 
 
@@ -24,7 +23,7 @@ public class RPGStatTest : MonoBehaviour
 
         DisplayStatValues();
     }
-
+    
 
     void ForEachEnum<T>(Action<T> action)
     {
@@ -40,8 +39,7 @@ public class RPGStatTest : MonoBehaviour
 
     void DisplayStatValues()
     {
-        ForEachEnum<RPGStatType>((statType) =>
-        {
+        ForEachEnum<RPGStatType>((statType) => {
             RPGStat stat = stats.GetStat((RPGStatType)statType);
             if (stat != null)
             {

@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IStatModifiable
-{
+public interface IStatModifiable {
 
-    int StatModifierValue
-    {
-        get;
-    }
+	int StatModifierValue { get; }
 
     void AddModifier(RPGStatModifier mod);
     void ClearModifiers();

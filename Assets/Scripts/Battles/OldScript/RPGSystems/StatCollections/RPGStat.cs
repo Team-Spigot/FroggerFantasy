@@ -8,34 +8,19 @@ public class RPGStat
 
     public string StatName
     {
-        get
-        {
-            return _statName;
-        }
-        set
-        {
-            _statName = value;
-        }
+        get { return _statName; }
+        set { _statName = value; }
     }
 
     public virtual int StatValue
     {
-        get
-        {
-            return StatBaseValue;
-        }
+        get { return StatBaseValue; }
     }
 
     public virtual int StatBaseValue
     {
-        get
-        {
-            return _statBaseValue;
-        }
-        set
-        {
-            _statBaseValue = value;
-        }
+        get { return _statBaseValue; }
+        set { _statBaseValue = value; }
     }
 
     public RPGStat()
