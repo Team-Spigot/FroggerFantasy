@@ -25,9 +25,6 @@ namespace TeamSpigot
             stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 100 + (2 * (stats.skl * stats.vit)));
             stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
 
-            stats.MaxHP = stats.HP = 100;
-            stats.MaxMP = stats.MP = 100;
-
             stats.exp = 0;
             Debug.Log("Enemy\nagl: " + stats.agl);
             manager = GameObject.FindGameObjectWithTag("GameController");

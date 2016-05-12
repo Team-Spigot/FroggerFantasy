@@ -25,7 +25,9 @@ namespace TeamSpigot
             }
         }
 
-        public List<DropOffPoint> dropOffPoints = new List<DropOffPoint>(4);
+        public GameObject MainOverworldCamera;
+
+        //public List<DropOffPoint> dropOffPoints = new List<DropOffPoint>(4);
 
         // Use this for initialization
         void Start()
@@ -38,14 +40,15 @@ namespace TeamSpigot
         {
             if (isAtDropOffPoint && currentDropOffPoint.HasNotDropped())
             {
-                if (TriggeredTansition == false)
+                if (!TriggeredTansition)
                 {
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
+                    FindObjectOfType<PlayerMovement>().paused = true;
                     currentDropOffPoint.BattleStarted = true;
                     TriggeredTansition = true;
                 }
             }
-            if (isAtDropOffPoint && currentDropOffPoint.BattleStarted != true && currentDropOffPoint.HasWon != true)
+            if (isAtDropOffPoint && !currentDropOffPoint.BattleStarted && !currentDropOffPoint.HasWon)
             {
                 TriggeredTansition = false;
             }
@@ -88,22 +91,13 @@ namespace TeamSpigot
             }
         }
 
-        public void ClearData()
+        public void EndBattle(bool hasWon)
         {
-            PlayerPrefs.DeleteKey("mem1Dropped");
-            PlayerPrefs.DeleteKey("mem2Dropped");
-            PlayerPrefs.DeleteKey("mem3Dropped");
-            PlayerPrefs.DeleteKey("mem4Dropped");
-            PlayerPrefs.DeleteKey("DropPoint1");
-            PlayerPrefs.DeleteKey("DropPoint2");
-            PlayerPrefs.DeleteKey("DropPoint3");
-            PlayerPrefs.DeleteKey("DropPoint4");
-            PlayerPrefs.DeleteKey("HasWon1");
-            PlayerPrefs.DeleteKey("HasWon2");
-            PlayerPrefs.DeleteKey("HasWon3");
-            PlayerPrefs.DeleteKey("HasWon4");
-            PlayerPrefs.DeleteKey("HasWon");
-            FindObjectOfType<Fade>().FadeToLevel(1);
+            currentDropOffPoint.BattleStarted = false;
+            currentDropOffPoint.HasWon = hasWon;
+            FindObjectOfType<PlayerMovement>().ResetPlayer();
+
+            MainOverworldCamera.SetActive(true);
         }
     }
 }
