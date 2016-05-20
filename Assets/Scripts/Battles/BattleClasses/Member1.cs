@@ -17,9 +17,9 @@ namespace TeamSpigot
         // Use this for initialization
         void Start()
         {
-            mem1.tag = PlayerPrefs.GetString("member1");
+            tag = PlayerPrefs.GetString("member1");
 
-            if (mem1.tag == "WARRIOR")
+            if (tag == "WARRIOR")
             {
                 stats.str = PlayerPrefs.GetFloat("warStr");
                 stats.vit = PlayerPrefs.GetFloat("warVit");
@@ -37,7 +37,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ArmoredFighterBunny");
             }
-            if (mem1.tag == "NINJA")
+            if (tag == "NINJA")
             {
                 stats.str = PlayerPrefs.GetFloat("ninjStr");
                 stats.vit = PlayerPrefs.GetFloat("ninjVit");
@@ -55,7 +55,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("NinjaBunny");
             }
-            if (mem1.tag == "MONK")
+            if (tag == "MONK")
             {
                 stats.str = PlayerPrefs.GetFloat("monkStr");
                 stats.vit = PlayerPrefs.GetFloat("monkVit");
@@ -73,7 +73,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedFighterBunny");
             }
-            if (mem1.tag == "SENTINEL")
+            if (tag == "SENTINEL")
             {
                 stats.str = PlayerPrefs.GetFloat("sentStr");
                 stats.vit = PlayerPrefs.GetFloat("sentVit");
@@ -91,7 +91,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("SentinelBunny");
             }
-            if (mem1.tag == "GAMBLER")
+            if (tag == "GAMBLER")
             {
                 stats.str = PlayerPrefs.GetFloat("gambStr");
                 stats.vit = PlayerPrefs.GetFloat("gambVit");
@@ -109,7 +109,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GamblerBunny");
             }
-            if (mem1.tag == "UNDEAD")
+            if (tag == "UNDEAD")
             {
                 stats.str = PlayerPrefs.GetFloat("UDStr");
                 stats.vit = PlayerPrefs.GetFloat("UDVit");
@@ -127,7 +127,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UndeadBunny");
             }
-            if (mem1.tag == "WM")
+            if (tag == "WM")
             {
                 stats.str = PlayerPrefs.GetFloat("WMStr");
                 stats.vit = PlayerPrefs.GetFloat("WMVit");
@@ -145,7 +145,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("WhiteMageBunny");
             }
-            if (mem1.tag == "BM")
+            if (tag == "BM")
             {
                 stats.str = PlayerPrefs.GetFloat("BMStr");
                 stats.vit = PlayerPrefs.GetFloat("BMVit");
@@ -163,7 +163,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("BlackMageBunny");
             }
-            if (mem1.tag == "RM")
+            if (tag == "RM")
             {
                 stats.str = PlayerPrefs.GetFloat("RMStr");
                 stats.vit = PlayerPrefs.GetFloat("RMVit");
@@ -181,7 +181,7 @@ namespace TeamSpigot
 
                 mem1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedMageBunny");
             }
-            Debug.Log("mem1." + mem1.tag + "\nagl: " + stats.agl);
+            Debug.Log("mem1." + tag + "\nagl: " + stats.agl);
         }
 
         // Update is called once per frame
@@ -190,15 +190,25 @@ namespace TeamSpigot
             if (stats.HP <= 0)
             {
                 mem1Dead = true;
+                stats.HP = -1;
             }
             else if (stats.HP > 0)
             {
                 mem1Dead = false;
             }
 
+            if (stats.MP < 0)
+            {
+                stats.MP = 0;
+            }
+
             if (stats.HP > stats.MaxHP)
             {
                 stats.HP = stats.MaxHP;
+            }
+            if (stats.MP > stats.MaxMP)
+            {
+                stats.MP = stats.MaxMP;
             }
             DeadCheck();
         }
@@ -208,6 +218,85 @@ namespace TeamSpigot
             if (mem1Dead)
             {
                 //gameObject.SetActive(false);
+            }
+        }
+
+        public void SetHP()
+        {
+            if (tag == "WARRIOR")
+            {
+                PlayerPrefs.SetFloat("warHP", stats.HP);
+            }
+            if (tag == "NINJA")
+            {
+                PlayerPrefs.SetFloat("ninjHP", stats.HP);
+            }
+            if (tag == "MONK")
+            {
+                PlayerPrefs.SetFloat("monkHP", stats.HP);
+            }
+            if (tag == "SENTINEL")
+            {
+                PlayerPrefs.SetFloat("sentHP", stats.HP);
+            }
+            if (tag == "GAMBLER")
+            {
+                PlayerPrefs.SetFloat("gambHP", stats.HP);
+            }
+            if (tag == "UNDEAD")
+            {
+                PlayerPrefs.SetFloat("UDHP", stats.HP);
+            }
+            if (tag == "WM")
+            {
+                PlayerPrefs.SetFloat("WMHP", stats.HP);
+            }
+            if (tag == "BM")
+            {
+                PlayerPrefs.SetFloat("BMHP", stats.HP);
+            }
+            if (tag == "RM")
+            {
+                PlayerPrefs.SetFloat("RMHP", stats.HP);
+            }
+        }
+        public void SetMP()
+        {
+            if (tag == "WARRIOR")
+            {
+                PlayerPrefs.SetFloat("warMP", stats.MP);
+            }
+            if (tag == "NINJA")
+            {
+                PlayerPrefs.SetFloat("ninjMP", stats.MP);
+            }
+            if (tag == "MONK")
+            {
+                PlayerPrefs.SetFloat("monkMP", stats.MP);
+            }
+            if (tag == "SENTINEL")
+            {
+                PlayerPrefs.SetFloat("sentMP", stats.MP);
+            }
+            if (tag == "GAMBLER")
+            {
+                PlayerPrefs.SetFloat("gambMP", stats.MP);
+            }
+            if (tag == "UNDEAD")
+            {
+                PlayerPrefs.SetFloat("UDMP", stats.MP);
+            }
+            if (tag == "WM")
+            {
+                PlayerPrefs.SetFloat("WMMP", stats.MP);
+            }
+            if (tag == "BM")
+            {
+                PlayerPrefs.SetFloat("BMMP", stats.MP);
+            }
+            if (tag == "RM")
+            {
+                PlayerPrefs.SetFloat("RMMP", stats.MP);
             }
         }
     }

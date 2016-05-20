@@ -58,6 +58,12 @@ namespace TeamSpigot
                 FindObjectOfType<PlayerMovement>().transform.position = new Vector3(Mathf.Round(playerPosition.x / FindObjectOfType<PlayerMovement>().SizeOfTiles) * FindObjectOfType<PlayerMovement>().SizeOfTiles,
                                                 Mathf.Round(playerPosition.y / FindObjectOfType<PlayerMovement>().SizeOfTiles) * FindObjectOfType<PlayerMovement>().SizeOfTiles, 0);
                 ResetPlayerBool = false;
+
+                if (EnemyBattleManager.instance.boss)
+                {
+                    GameObject.Find("Won").GetComponent<UnityEngine.UI.Text>().text = "YOU WON!!!";
+                    PlayerPrefs.SetInt("Won", 1);
+                }
             }
 
             if (ResetEnemiesBool == true && FindObjectOfType<EnemyMovement>() != null)

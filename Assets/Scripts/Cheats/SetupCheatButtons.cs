@@ -33,8 +33,9 @@ namespace TeamSpigot
             Debug.Log(GameManager.instance.PlayerStatusStruct.ToString());
         }
 
-        void TriggerEnemyBattle()
+        public void TriggerEnemyBattle()
         {
+            EnemyBattleManager.instance.boss = true;
             EnemyBattleManager.instance.TriggerBattle(ChooseRandomObject(Enemies));
         }
 

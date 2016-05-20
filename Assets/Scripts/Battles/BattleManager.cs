@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamSpigot
 {
@@ -85,6 +84,9 @@ namespace TeamSpigot
         TextMesh mem4Healths;
         TextMesh enmHealths;
 
+        GameObject announcePanel;
+        Text announceText;
+
         TextMesh playerTurn;
         GameObject playerPointer;
         public GameObject attackButt;
@@ -108,9 +110,10 @@ namespace TeamSpigot
 
         void Start()
         {
+
             SpawnEnemy();
 
-            if (_gm.PlayerStatusStruct.InactivePlayers[0] == false)
+            if (_gm.PlayerStatusStruct.DeadPlayers[0] == false)
             {
                 Member1 = GameObject.Find("Member1");
                 Member1gone = false;
@@ -121,7 +124,7 @@ namespace TeamSpigot
                 Member1.SetActive(false);
                 Member1gone = true;
             }
-            if (_gm.PlayerStatusStruct.InactivePlayers[1] == false)
+            if (_gm.PlayerStatusStruct.DeadPlayers[1] == false)
             {
                 Member2 = GameObject.Find("Member2");
                 Member2gone = false;
@@ -132,7 +135,7 @@ namespace TeamSpigot
                 Member2.SetActive(false);
                 Member2gone = true;
             }
-            if (_gm.PlayerStatusStruct.InactivePlayers[2] == false)
+            if (_gm.PlayerStatusStruct.DeadPlayers[2] == false)
             {
                 Member3 = GameObject.Find("Member3");
                 Member3gone = false;
@@ -143,7 +146,7 @@ namespace TeamSpigot
                 Member3.SetActive(false);
                 Member3gone = true;
             }
-            if (_gm.PlayerStatusStruct.InactivePlayers[3] == false)
+            if (_gm.PlayerStatusStruct.DeadPlayers[3] == false)
             {
                 Member4 = GameObject.Find("Member4");
                 Member4gone = false;
@@ -154,6 +157,12 @@ namespace TeamSpigot
                 Member4.SetActive(false);
                 Member4gone = true;
             }
+
+            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
+            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
+            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
+            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
+            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
             //Debug.Log("enemy: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
@@ -210,11 +219,9 @@ namespace TeamSpigot
 
             #endregion //objectSpeeds
 
-            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
-            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
-            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
-            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
-            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
+            announcePanel = GameObject.Find("AnnPanel");
+            announceText = GameObject.Find("AnnText").GetComponent<Text>();
+            announcePanel.SetActive(false);
 
             if (!Member1gone)
             {
@@ -267,11 +274,11 @@ namespace TeamSpigot
 
             if (WaitTime == 70)
             {
-                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = true;
+                attackButt.GetComponent<Button>().interactable = true;
             }
             if (WaitTime < 70)
             {
-                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                attackButt.GetComponent<Button>().interactable = false;
             }
         }
 
@@ -453,6 +460,7 @@ namespace TeamSpigot
             #region enemy
             if (highestAgl == enmAgls)
             {
+                currentPlayer = Member1;
                 enemyAttacked = true;
                 enemyStats = enemies[0].GetComponent<EnemyClass>().stats;
             }
@@ -657,6 +665,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member1.GetComponent<Member1>().SetHP();
                             }
                         }
                         if (attack == 1)
@@ -673,6 +683,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member2.GetComponent<Member2>().SetHP();
                             }
                         }
                         if (attack == 2)
@@ -689,6 +701,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member3.GetComponent<Member3>().SetHP();
                             }
                         }
                         if (attack == 3)
@@ -705,6 +719,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member4.GetComponent<Member4>().SetHP();
                             }
                         }
                         
@@ -736,6 +752,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member1.GetComponent<Member1>().SetHP();
                             }
                         }
                         if (attack == 1)
@@ -752,6 +770,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member2.GetComponent<Member2>().SetHP();
                             }
                         }
                         if (attack == 2)
@@ -768,6 +788,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member3.GetComponent<Member3>().SetHP();
                             }
                         }
                         if (attack == 3)
@@ -784,6 +806,8 @@ namespace TeamSpigot
                                 {
                                     EnemyKilledCheck = false;
                                 }
+
+                                Member4.GetComponent<Member4>().SetHP();
                             }
                         }
 
@@ -901,6 +925,22 @@ namespace TeamSpigot
             {
                 Debug.Log("index: " + i + " | agil: " + agilities[i]);
             }
+
+        }
+
+        public void Announce(string announcetext)
+        {
+            announcePanel.SetActive(true);
+            announceText.text = announcetext;
+
+            StartCoroutine(WaitToCloseAnnounce());
+        }
+
+        IEnumerator WaitToCloseAnnounce()
+        {
+            yield return new WaitForSeconds(5);
+            announceText.text = "";
+            announcePanel.SetActive(false);
         }
     }
 }

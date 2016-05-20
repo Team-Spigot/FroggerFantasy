@@ -18,8 +18,8 @@ namespace TeamSpigot
             stats.fai = Random.Range(1, 1);
             stats.skl = Random.Range(3, 8);
 
-            stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 75 + (2 * (stats.skl * stats.vit)));
-            stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
+            stats.HP = stats.MaxHP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 75 + (2 * (stats.skl * stats.vit)));
+            stats.MP = stats.MaxMP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
 
             stats.exp = 0;
 

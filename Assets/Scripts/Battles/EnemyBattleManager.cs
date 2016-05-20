@@ -11,6 +11,8 @@ namespace TeamSpigot
 
         public bool IsBattleType;
 
+        public bool boss;
+
         public bool hasTouchedEnemy
         {
             get
@@ -51,6 +53,7 @@ namespace TeamSpigot
                 {
                     FindObjectOfType<PlayerMovement>().Locked = true;
                     FindObjectOfType<PlayerMovement>().Paused = true;
+                    PauseEnemies(true);
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
                     BattleStarted = true;
                     TriggeredTansition = true;

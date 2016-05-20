@@ -170,6 +170,14 @@ namespace TeamSpigot
                 {
                     _do.currentDropOffPoint = null;
                 }
+
+                if (TCheckAllRaycasts("GameController"))
+                {
+                    if (GameManager.instance.PlayerStatusStruct.DroppedOffPlayers.TrueForAll(value => value == true))
+                    {
+                        FindObjectOfType<Boss>().hit = true;
+                    }
+                }
             }
         }
 

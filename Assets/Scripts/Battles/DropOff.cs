@@ -25,6 +25,8 @@ namespace TeamSpigot
             }
         }
 
+        public List<int> dropoffpoints = new List<int>() { 0, 0, 0, 0 };
+
         //public List<DropOffPoint> dropOffPoints = new List<DropOffPoint>(4);
 
         void Awake()
@@ -41,7 +43,7 @@ namespace TeamSpigot
         // Update is called once per frame
         void Update()
         {
-            if (isAtDropOffPoint && currentDropOffPoint.HasNotDropped())
+            if (isAtDropOffPoint && dropoffpoints[currentDropOffPoint.DropPointNum - 1] == 0)
             {
                 if (!TriggeredTansition)
                 {
@@ -57,12 +59,17 @@ namespace TeamSpigot
             {
                 TriggeredTansition = false;
             }
+
+            foreach (DropOffPoint dop in FindObjectsOfType<DropOffPoint>())
+            {
+                dop.gameObject.GetComponent<Collider2D>().isTrigger = !dop.gameObject.GetComponent<Collider2D>().isTrigger;
+            }
         }
 
         // OnGUI is called for the UI
         void OnGUI()
         {
-            if (isAtDropOffPoint && currentDropOffPoint.IsAllowedToDrop())
+            if (isAtDropOffPoint && dropoffpoints[currentDropOffPoint.DropPointNum - 1] == 1)
             {
                 GUI.Window(0, new Rect(new Vector2(478, 268), new Vector2(250, 480)), DropOffWindow, "Choose To Drop Off");
             }
@@ -74,25 +81,25 @@ namespace TeamSpigot
             {
                 GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[0] = true;
                 currentDropOffPoint.MemberDroppedOff = 1;
-                currentDropOffPoint.DroppedOff = true;
+                dropoffpoints[currentDropOffPoint.DropPointNum - 1] = 2;
             }
             if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[1] && GUI.Button(new Rect(new Vector2(25, 75), new Vector2(200, 50)), PlayerPrefs.GetString("member2")))
             {
                 GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[1] = true;
                 currentDropOffPoint.MemberDroppedOff = 2;
-                currentDropOffPoint.DroppedOff = true;
+                dropoffpoints[currentDropOffPoint.DropPointNum - 1] = 2;
             }
             if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[2] && GUI.Button(new Rect(new Vector2(25, 125), new Vector2(200, 50)), PlayerPrefs.GetString("member3")))
             {
                 GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[2] = true;
                 currentDropOffPoint.MemberDroppedOff = 3;
-                currentDropOffPoint.DroppedOff = true;
+                dropoffpoints[currentDropOffPoint.DropPointNum - 1] = 2;
             }
             if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[3] && GUI.Button(new Rect(new Vector2(25, 175), new Vector2(200, 50)), PlayerPrefs.GetString("member4")))
             {
                 GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[3] = true;
                 currentDropOffPoint.MemberDroppedOff = 4;
-                currentDropOffPoint.DroppedOff = true;
+                dropoffpoints[currentDropOffPoint.DropPointNum - 1] = 2;
             }
         }
 
@@ -100,6 +107,20 @@ namespace TeamSpigot
         {
             currentDropOffPoint.BattleStarted = false;
             currentDropOffPoint.HasWon = hasWon;
+
+            if (hasWon)
+            {
+                dropoffpoints[currentDropOffPoint.DropPointNum - 1] = 1;
+            }
+
+            if (dropoffpoints.TrueForAll(value => value == 2))
+            {
+                GameManager.instance.PlayerStatusStruct.DeadPlayers[0] = false;
+                GameManager.instance.PlayerStatusStruct.DeadPlayers[1] = false;
+                GameManager.instance.PlayerStatusStruct.DeadPlayers[2] = false;
+                GameManager.instance.PlayerStatusStruct.DeadPlayers[3] = false;
+            }
+            
             GameManager.instance.ResetPlayer();
             IsBattleType = false;
         }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace TeamSpigot
 {
@@ -8,8 +9,8 @@ namespace TeamSpigot
         int timeInFrames;
         int skip;
         bool skippable = true;
-        TextMesh displayText;
-        TextMesh skipText;
+        Text displayText;
+        Text skipText;
 
         public GameObject yesButt;
         public GameObject noButt;
@@ -27,11 +28,13 @@ namespace TeamSpigot
 
         void Awake()
         {
-            displayText = GameObject.Find("Prologue").GetComponent<TextMesh>();
-            GameObject.Find("Prologue").GetComponent<TextMesh>().text = "";
+            PlayerPrefs.DeleteKey("Won");
 
-            skipText = GameObject.Find("Skip Text").GetComponent<TextMesh>();
-            GameObject.Find("Skip Text").GetComponent<TextMesh>().text = "press space to skip...";
+            displayText = GameObject.Find("Prologue").GetComponent<Text>();
+            GameObject.Find("Prologue").GetComponent<Text>().text = "";
+
+            skipText = GameObject.Find("Skip Text").GetComponent<Text>();
+            GameObject.Find("Skip Text").GetComponent<Text>().text = "press space to skip...";
         }
 
         void Update()

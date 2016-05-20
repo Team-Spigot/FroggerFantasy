@@ -190,15 +190,25 @@ namespace TeamSpigot
             if (stats.HP <= 0)
             {
                 mem2Dead = true;
+                stats.HP = 0;
             }
             else if (stats.HP > 0)
             {
                 mem2Dead = false;
             }
 
+            if (stats.MP < 0)
+            {
+                stats.MP = 0;
+            }
+
             if (stats.HP > stats.MaxHP)
             {
                 stats.HP = stats.MaxHP;
+            }
+            if (stats.MP > stats.MaxMP)
+            {
+                stats.MP = stats.MaxMP;
             }
             DeadCheck();
         }
@@ -208,6 +218,85 @@ namespace TeamSpigot
             if (mem2Dead)
             {
                 //gameObject.SetActive(false);
+            }
+        }
+
+        public void SetHP()
+        {
+            if (tag == "WARRIOR")
+            {
+                PlayerPrefs.SetFloat("warHP", stats.HP);
+            }
+            if (tag == "NINJA")
+            {
+                PlayerPrefs.SetFloat("ninjHP", stats.HP);
+            }
+            if (tag == "MONK")
+            {
+                PlayerPrefs.SetFloat("monkHP", stats.HP);
+            }
+            if (tag == "SENTINEL")
+            {
+                PlayerPrefs.SetFloat("sentHP", stats.HP);
+            }
+            if (tag == "GAMBLER")
+            {
+                PlayerPrefs.SetFloat("gambHP", stats.HP);
+            }
+            if (tag == "UNDEAD")
+            {
+                PlayerPrefs.SetFloat("UDHP", stats.HP);
+            }
+            if (tag == "WM")
+            {
+                PlayerPrefs.SetFloat("WMHP", stats.HP);
+            }
+            if (tag == "BM")
+            {
+                PlayerPrefs.SetFloat("BMHP", stats.HP);
+            }
+            if (tag == "RM")
+            {
+                PlayerPrefs.SetFloat("RMHP", stats.HP);
+            }
+        }
+        public void SetMP()
+        {
+            if (tag == "WARRIOR")
+            {
+                PlayerPrefs.SetFloat("warMP", stats.MP);
+            }
+            if (tag == "NINJA")
+            {
+                PlayerPrefs.SetFloat("ninjMP", stats.MP);
+            }
+            if (tag == "MONK")
+            {
+                PlayerPrefs.SetFloat("monkMP", stats.MP);
+            }
+            if (tag == "SENTINEL")
+            {
+                PlayerPrefs.SetFloat("sentMP", stats.MP);
+            }
+            if (tag == "GAMBLER")
+            {
+                PlayerPrefs.SetFloat("gambMP", stats.MP);
+            }
+            if (tag == "UNDEAD")
+            {
+                PlayerPrefs.SetFloat("UDMP", stats.MP);
+            }
+            if (tag == "WM")
+            {
+                PlayerPrefs.SetFloat("WMMP", stats.MP);
+            }
+            if (tag == "BM")
+            {
+                PlayerPrefs.SetFloat("BMMP", stats.MP);
+            }
+            if (tag == "RM")
+            {
+                PlayerPrefs.SetFloat("RMMP", stats.MP);
             }
         }
     }

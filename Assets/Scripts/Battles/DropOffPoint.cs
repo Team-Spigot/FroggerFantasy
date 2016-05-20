@@ -22,7 +22,7 @@ namespace TeamSpigot
             }
         }
 
-        public string DropPointNum = "1";
+        public int DropPointNum = 0;
 
         public bool HasWon;
         public bool BattleStarted;

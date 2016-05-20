@@ -40,6 +40,7 @@ namespace TeamSpigot
 
             tempEnemy.transform.SetParent(gameObject.transform);
             tempEnemy.transform.localPosition = new Vector3(0, -32, 0);
+            tempEnemy.GetComponent<EnemyMovement>().canMove = true;
             enemyCount++;
         }
 

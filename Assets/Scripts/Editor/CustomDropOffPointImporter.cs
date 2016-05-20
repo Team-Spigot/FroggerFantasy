@@ -17,7 +17,6 @@ public class CustomDropOffPointImporter : ICustomTiledImporter
             GameObject tempObject = (GameObject)Object.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefabs/DropOffPoint.prefab", typeof(GameObject)));
             tempObject.transform.SetParent(gameObject.transform);
             tempObject.transform.localPosition = Vector3.zero;
-            tempObject.GetComponent<DropOffPoint>().DropPointNum = customProperties["ff:dropOff"];
         }
     }
 

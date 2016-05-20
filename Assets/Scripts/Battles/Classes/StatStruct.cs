@@ -6,10 +6,33 @@ namespace TeamSpigot
     public struct StatStruct
     {
         #region stats
-        public float HP;
+        private float hp;
+        public float HP
+        {
+            get
+            {
+                return hp;
+            }
+            set
+            {
+                float test = value;
+                hp = Mathf.Clamp(test, 0, MaxHP);
+            }
+        }
         public float MaxHP;
         //Health points and max hp
-        public float MP;
+        private float mp;
+        public float MP
+        {
+            get
+            {
+                return mp;
+            }
+            set
+            {
+                mp = Mathf.Clamp(value, 0, MaxMP);
+            }
+        }
         public float MaxMP;
         //Magic points and max mp
         public float str;
