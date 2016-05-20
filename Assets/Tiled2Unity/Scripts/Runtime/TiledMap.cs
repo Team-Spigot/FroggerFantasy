@@ -9,6 +9,16 @@ namespace Tiled2Unity
 {
     public class TiledMap : MonoBehaviour
     {
+        void Awake()
+        {
+            //DontDestroyOnLoad(gameObject);
+
+            //if (FindObjectsOfType(GetType()).Length > 1)
+            //{
+                //Destroy(gameObject);
+            //}
+        }
+
         public int NumTilesWide = 0;
         public int NumTilesHigh = 0;
         public int TileWidth = 0;
@@ -45,5 +55,6 @@ namespace Tiled2Unity
             Gizmos.DrawLine(bottomRight, bottomLeft);
             Gizmos.DrawLine(bottomLeft, topLeft);
         }
+
     }
 }

@@ -612,8 +612,6 @@ namespace TeamSpigot
 			Debug.Log("member2: " + PlayerPrefs.GetString("member2"));
 			Debug.Log("member3: " + PlayerPrefs.GetString("member3"));
 			Debug.Log("member4: " + PlayerPrefs.GetString("member4"));
-
-            FindObjectOfType<Fade>().FadeToLevel(1);
         }
     }
 }

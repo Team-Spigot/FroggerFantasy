@@ -74,7 +74,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitUp && RaycastHitUp.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    Destroy(gameObject);
                     GetComponentInParent<EnemyManager>().enemyCount--;
                 }
             }
@@ -92,7 +92,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitLeft && RaycastHitLeft.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    Destroy(gameObject);
                     GetComponentInParent<EnemyManager>().enemyCount--;
                 }
             }
@@ -110,7 +110,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitDown && RaycastHitDown.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    Destroy(gameObject);
                     GetComponentInParent<EnemyManager>().enemyCount--;
                 }
             }
@@ -128,7 +128,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitRight && RaycastHitRight.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    Destroy(gameObject);
                     GetComponentInParent<EnemyManager>().enemyCount--;
                 }
             }

@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using System.Linq;
+using System;
 
 namespace TeamSpigot
 {
@@ -84,9 +85,6 @@ namespace TeamSpigot
         TextMesh mem4Healths;
         TextMesh enmHealths;
 
-        GameObject announcePanel;
-        Text announceText;
-
         TextMesh playerTurn;
         GameObject playerPointer;
         public GameObject attackButt;
@@ -110,7 +108,6 @@ namespace TeamSpigot
 
         void Start()
         {
-
             SpawnEnemy();
 
             if (_gm.PlayerStatusStruct.InactivePlayers[0] == false)
@@ -157,12 +154,6 @@ namespace TeamSpigot
                 Member4.SetActive(false);
                 Member4gone = true;
             }
-
-            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
-            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
-            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
-            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
-            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
             //Debug.Log("enemy: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
@@ -219,9 +210,11 @@ namespace TeamSpigot
 
             #endregion //objectSpeeds
 
-            announcePanel = GameObject.Find("AnnPanel");
-            announceText = GameObject.Find("AnnText").GetComponent<Text>();
-            announcePanel.SetActive(false);
+            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
+            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
+            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
+            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
+            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
             if (!Member1gone)
             {
@@ -274,11 +267,11 @@ namespace TeamSpigot
 
             if (WaitTime == 70)
             {
-                attackButt.GetComponent<Button>().interactable = true;
+                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = true;
             }
             if (WaitTime < 70)
             {
-                attackButt.GetComponent<Button>().interactable = false;
+                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = false;
             }
         }
 
@@ -908,22 +901,6 @@ namespace TeamSpigot
             {
                 Debug.Log("index: " + i + " | agil: " + agilities[i]);
             }
-
-        }
-
-        public void Announce(string announcetext)
-        {
-            announcePanel.SetActive(true);
-            announceText.text = announcetext;
-
-            StartCoroutine(WaitToCloseAnnounce());
-        }
-
-        IEnumerator WaitToCloseAnnounce()
-        {
-            yield return new WaitForSeconds(5);
-            announceText.text = "";
-            announcePanel.SetActive(false);
         }
     }
 }

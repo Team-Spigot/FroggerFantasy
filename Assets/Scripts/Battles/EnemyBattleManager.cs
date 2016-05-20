@@ -46,11 +46,11 @@ namespace TeamSpigot
         {
             if (hasTouchedEnemy)
             {
+                PauseEnemies(true);
                 if (!TriggeredTansition)
                 {
                     FindObjectOfType<PlayerMovement>().Locked = true;
                     FindObjectOfType<PlayerMovement>().Paused = true;
-                    PauseEnemies(true);
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
                     BattleStarted = true;
                     TriggeredTansition = true;
@@ -81,6 +81,7 @@ namespace TeamSpigot
             // =======
 
             _gm.ResetPlayer();
+            _gm.ResetEnemies();
             IsBattleType = false;
         }
 
@@ -95,6 +96,10 @@ namespace TeamSpigot
             foreach (EnemyMovement em in FindObjectsOfType<EnemyMovement>())
             {
                 em.paused = state;
+            }
+            foreach (EnemyManager em in FindObjectsOfType<EnemyManager>())
+            {
+                em._lock = state;
             }
         }
     }

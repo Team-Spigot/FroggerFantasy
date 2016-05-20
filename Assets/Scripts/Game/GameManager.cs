@@ -68,6 +68,12 @@ namespace TeamSpigot
                     em.paused = true;
                     StartCoroutine(em.Wait(5));
                 }
+                foreach (EnemyManager em in FindObjectsOfType<EnemyManager>())
+                {
+                    em._lock = false;
+                }
+
+                ResetEnemiesBool = false;
             }
 
             if (FindObjectOfType<PlayerMovement>() != null)

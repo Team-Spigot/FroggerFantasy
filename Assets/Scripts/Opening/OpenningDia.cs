@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 namespace TeamSpigot
@@ -9,8 +8,8 @@ namespace TeamSpigot
         int timeInFrames;
         int skip;
         bool skippable = true;
-        Text displayText;
-        Text skipText;
+        TextMesh displayText;
+        TextMesh skipText;
 
         public GameObject yesButt;
         public GameObject noButt;
@@ -28,11 +27,11 @@ namespace TeamSpigot
 
         void Awake()
         {
-            displayText = GameObject.Find("Prologue").GetComponent<Text>();
-            GameObject.Find("Prologue").GetComponent<Text>().text = "";
+            displayText = GameObject.Find("Prologue").GetComponent<TextMesh>();
+            GameObject.Find("Prologue").GetComponent<TextMesh>().text = "";
 
-            skipText = GameObject.Find("Skip Text").GetComponent<Text>();
-            GameObject.Find("Skip Text").GetComponent<Text>().text = "Press Space to skip...";
+            skipText = GameObject.Find("Skip Text").GetComponent<TextMesh>();
+            GameObject.Find("Skip Text").GetComponent<TextMesh>().text = "press space to skip...";
         }
 
         void Update()
@@ -113,7 +112,7 @@ namespace TeamSpigot
             }
             if (timeInFrames == 315)
             {
-                displayText.text = " ";
+                displayText.text = "[deleted]";
             }
             if (timeInFrames == 375)
             {
