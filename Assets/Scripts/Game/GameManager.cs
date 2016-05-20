@@ -5,14 +5,20 @@ namespace TeamSpigot
 {
     public class GameManager : MonoBehaviour
     {
-        void Awake()
+        // Use this for initialization
+        void Start()
         {
-            if (FindObjectsOfType(GetType()).Length > 1)
-            {
-                Destroy(gameObject);
-            }
+        }
 
-            DontDestroyOnLoad(this);
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        void OnDrawGizmos()
+        {
+
         }
     }
 }

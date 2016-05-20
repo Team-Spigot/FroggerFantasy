@@ -18,7 +18,7 @@ namespace TeamSpigot
         public int Speed;
         public float SizeOfTiles;
         public LayerMask CollisionLayer;
-
+        
         public Direction direction;
         [HideInInspector]
         public Vector3 TargetPosition;

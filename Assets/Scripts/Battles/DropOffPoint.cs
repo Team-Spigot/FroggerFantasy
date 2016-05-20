@@ -5,63 +5,74 @@ namespace TeamSpigot
     public class DropOffPoint : MonoBehaviour
     {
         public int MemberDroppedOff = 0;
-
-        public bool DroppedOff = false;
-        private bool droppedOff
+        public bool droppedOff = false;
+        public bool DroppedOff
         {
+            get
+            {
+                return droppedOff;
+            }
             set
             {
                 if (HasWon && value && MemberDroppedOff != 0)
                 {
-                    DroppedOff = true;
+                    PlayerPrefs.SetInt("DropPoint" + DropPointNum, MemberDroppedOff);
+                    droppedOff = true;
                 }
                 else
                 {
-                    DroppedOff = false;
+                    droppedOff = false;
                 }
             }
         }
-
         public string DropPointNum = "1";
-
-        public bool HasWon;
-        public bool BattleStarted;
-
-        public bool IsAtDropOffPoint
+        public bool hasWon;
+        public bool HasWon
         {
             get
             {
-                if (FindObjectOfType<DropOff>().isAtDropOffPoint && FindObjectOfType<DropOff>().currentDropOffPoint == this)
-                {
-                    return true;
-                }
-                return false;
+                return hasWon;
+            }
+            set
+            {
+                PlayerPrefs.SetString("HasWon" + DropPointNum, value.ToString());
+                hasWon = value;
             }
         }
 
         void Start()
         {
-            // Do stuff
+            if (PlayerPrefs.GetInt("DropPoint" + DropPointNum, 0) != 0)
+            {
+                DroppedOff = true;
+                MemberDroppedOff = PlayerPrefs.GetInt("DropPoint" + DropPointNum, 0);
+            }
+            if (PlayerPrefs.GetString("HasWon" + DropPointNum, "false") != "false")
+            {
+                HasWon = true;
+            }
         }
 
         void Update()
         {
-            // Do stuff
+            if (HasWon && DroppedOff && MemberDroppedOff != 0)
+            {
+            }
         }
 
         public bool HasNotDropped()
         {
-            return !HasWon && !DroppedOff && MemberDroppedOff == 0;
+            return HasWon != true && DroppedOff != true && MemberDroppedOff == 0;
         }
 
         public bool IsAllowedToDrop()
         {
-            return IsAtDropOffPoint && HasWon && !BattleStarted && !DroppedOff && MemberDroppedOff == 0;
+            return HasWon == true && DroppedOff != true && MemberDroppedOff == 0;
         }
 
-        public bool HasDropped()
+        public bool IsDropped()
         {
-            return DroppedOff && MemberDroppedOff != 0;
+            return DroppedOff == true && MemberDroppedOff != 0;
         }
     }
 }
