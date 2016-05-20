@@ -27,6 +27,8 @@ namespace TeamSpigot
 
         public DropOff DropOffClass;
 
+        public EnemyBattleManager EnemyBattleManagerClass;
+
         public Vector2 PlayerCenter
         {
             get
@@ -40,6 +42,8 @@ namespace TeamSpigot
         }
 
         public LayerMask TriggerLayer;
+
+        public bool paused;
 
         void Awake()
         {
@@ -82,7 +86,7 @@ namespace TeamSpigot
 
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
-                if (Input.GetAxis("Vertical") > 0 && canMove == true) // Move up
+                if (Input.GetAxis("Vertical") > 0 && canMove && !paused) // Move up
                 {
                     // Set Animation Moving Up
                     playerAnimator.SetInteger("Direction", 0);
@@ -99,7 +103,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Horizontal") < 0 && canMove == true) // Move Left
+                else if (Input.GetAxis("Horizontal") < 0 && canMove && !paused) // Move Left
                 {
                     // Set Animation Moving Left
                     playerAnimator.SetInteger("Direction", 1);
@@ -116,7 +120,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Vertical") < 0 && canMove == true) // Move Down
+                else if (Input.GetAxis("Vertical") < 0 && canMove && !paused) // Move Down
                 {
                     // Set Animation Moving Down
                     playerAnimator.SetInteger("Direction", 2);
@@ -133,7 +137,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Horizontal") > 0 && canMove == true) // Move Right
+                else if (Input.GetAxis("Horizontal") > 0 && canMove && !paused) // Move Right
                 {
                     // Set Animation Moving Right
                     playerAnimator.SetInteger("Direction", 3);
@@ -154,7 +158,11 @@ namespace TeamSpigot
 
             if (TCheckAllRaycasts("Enemy"))
             {
-                FindObjectOfType<BattleTransition>().BeginBattle(false);
+                EnemyBattleManagerClass.currentEnemy = TRaycastHitUp.collider.gameObject;
+            }
+            else
+            {
+                EnemyBattleManagerClass.currentEnemy = null;
             }
 
             if (TCheckAllRaycasts("DropOffPoint"))
@@ -170,17 +178,18 @@ namespace TeamSpigot
         void LateUpdate()
         {
             PlayerCenter = transform.position;
-            lastPosition = transform.position;
         }
 
         public void ResetPlayer()
         {
-            transform.position = lastPosition;
+            FindObjectOfType<PlayerMovement>().paused = false;
+            transform.position = new Vector3(Mathf.Round(transform.position.x / SizeOfTiles) * SizeOfTiles,
+                                            Mathf.Round(transform.position.y / SizeOfTiles) * SizeOfTiles, 0);
         }
 
         IEnumerator MoveInGrid(float x, float y)
         {
-            while (transform.position.x != x || transform.position.y != y)
+            while ((transform.position.x != x || transform.position.y != y) && !paused)
             {
                 //moving x forward
                 if (transform.position.x < x)

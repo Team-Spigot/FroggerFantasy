@@ -22,7 +22,7 @@ namespace TeamSpigot
         [HideInInspector]
         public Vector3 TargetPosition;
 
-        private bool canMove = true;
+        public bool canMove = true;
 
         private Animator enemyAnimator;
 
@@ -37,6 +37,8 @@ namespace TeamSpigot
                 return new Vector2(transform.position.x + halfSizeOfTiles, transform.position.y + halfSizeOfTiles);
             }
         }
+
+        public bool paused = false;
 
         // Use this for initialization
         void Start()
@@ -58,8 +60,7 @@ namespace TeamSpigot
         // Update is called once per frame
         void Update()
         {
-
-            if (direction == Direction.up && canMove == true)
+            if (direction == Direction.up && canMove && !paused)
             {
                 RaycastHitUp = Physics2D.Raycast(EnemyCenter, Vector2.up, halfSizeOfTiles, CollisionLayer);
 
@@ -76,7 +77,7 @@ namespace TeamSpigot
                     transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
-            else if (direction == Direction.left && canMove == true)
+            else if (direction == Direction.left && canMove && !paused)
             {
                 RaycastHitLeft = Physics2D.Raycast(EnemyCenter, Vector2.left, halfSizeOfTiles, CollisionLayer);
 
@@ -93,7 +94,7 @@ namespace TeamSpigot
                     transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
-            else if (direction == Direction.down && canMove == true)
+            else if (direction == Direction.down && canMove && !paused)
             {
                 RaycastHitDown = Physics2D.Raycast(EnemyCenter, Vector2.down, halfSizeOfTiles, CollisionLayer);
 
@@ -110,7 +111,7 @@ namespace TeamSpigot
                     transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
-            else if (direction == Direction.right && canMove == true)
+            else if (direction == Direction.right && canMove && !paused)
             {
                 RaycastHitRight = Physics2D.Raycast(EnemyCenter, Vector2.right, halfSizeOfTiles, CollisionLayer);
 
@@ -129,9 +130,22 @@ namespace TeamSpigot
             }
         }
 
+        public void ResetEnemyAndDelay(int seconds)
+        {
+            transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
+            paused = true;
+            StartCoroutine(Wait(seconds));
+        }
+
+        IEnumerator Wait(int seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            paused = false;
+        }
+
         IEnumerator MoveInGrid(float x, float y)
         {
-            while (transform.position.x != x || transform.position.y != y)
+            while ((transform.position.x != x || transform.position.y != y) && !paused)
             {
                 //moving x forward
                 if (transform.position.x < x)

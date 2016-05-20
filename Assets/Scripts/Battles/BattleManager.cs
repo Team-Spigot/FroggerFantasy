@@ -95,7 +95,10 @@ namespace TeamSpigot
 
         void Start()
         {
-            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
+            if (GameObject.Find("Main Overworld Camera") != null)
+            {
+                GameObject.Find("Main Overworld Camera").SetActive(false);
+            }
 
             SpawnEnemy();
 
@@ -156,12 +159,12 @@ namespace TeamSpigot
 
         void Update()
         {
+            EndBattle();
             Wait();
             DeadCheck();
             DeadChangeOrder();
             TurnOrder();
             HandleVisuals();
-            EndBattle();
         }
 
         void SpawnEnemy()
@@ -500,24 +503,8 @@ namespace TeamSpigot
             #endregion
         }
 
-        int decay;
         void EnemyAttack()
         {
-            if (WaitTime >= 70)
-            {
-                if (enemies[0].GetComponent<EnemyClass>().poisoned)
-                {
-                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 10;
-                    Debug.Log("poison");
-                }
-
-                if (enemies[0].GetComponent<EnemyClass>().decay)
-                {
-                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 5 * decay;
-                    decay++;
-                    Debug.Log("decay");
-                }
-            }
             #region enemy attacked
             if (WaitTime >= 70)
             {
@@ -534,7 +521,6 @@ namespace TeamSpigot
                         critRoll = 0;
                         enemyAttacked = false;
                         WaitTime = 0;
-
 
                         if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
                         {
@@ -592,7 +578,6 @@ namespace TeamSpigot
                         {
                             Debug.Log("Enemy Missed!");
                         }
-
                         if (sortOrder < agilities.Count)
                         {
                             sortOrder++;
@@ -694,13 +679,39 @@ namespace TeamSpigot
 
         void EndBattle()
         {
-            if (enemyStats.HP <= 0)
+            if (enemies[0].GetComponent<EnemyClass>().stats.HP <= 0)
             {
-                //FindObjectOfType<Fade>().FadeToLevel(1);
+                if (FindObjectOfType<EnemyBattleManager>() != null && FindObjectOfType<EnemyBattleManager>().hasTouchedEnemy)
+                {
+                    FindObjectOfType<EnemyBattleManager>().EndBattle(true);
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
+                else if (FindObjectOfType<DropOff>() != null && FindObjectOfType<DropOff>().isAtDropOffPoint)
+                {
+                    FindObjectOfType<DropOff>().EndBattle(true);
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
+                else
+                {
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
             }
             if (Member1.GetComponent<Member1>().mem1Dead && Member2.GetComponent<Member2>().mem2Dead && Member3.GetComponent<Member3>().mem3Dead && Member4.GetComponent<Member4>().mem4Dead)
             {
-                //FindObjectOfType<Fade>().FadeToLevel(1);
+                if (FindObjectOfType<EnemyBattleManager>() != null && FindObjectOfType<EnemyBattleManager>().hasTouchedEnemy)
+                {
+                    FindObjectOfType<EnemyBattleManager>().EndBattle(false);
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
+                else if (FindObjectOfType<DropOff>() != null && FindObjectOfType<DropOff>().isAtDropOffPoint)
+                {
+                    FindObjectOfType<DropOff>().EndBattle(false);
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
+                else
+                {
+                    FindObjectOfType<Fade>().FadeToLevel(1);
+                }
             }
         }
 
