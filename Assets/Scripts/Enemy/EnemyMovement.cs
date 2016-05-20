@@ -74,7 +74,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitUp && RaycastHitUp.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.left && canMove && !paused)
@@ -91,7 +91,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitLeft && RaycastHitLeft.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.down && canMove && !paused)
@@ -108,7 +108,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitDown && RaycastHitDown.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
             else if (direction == Direction.right && canMove && !paused)
@@ -125,7 +125,7 @@ namespace TeamSpigot
                 }
                 if (RaycastHitRight && RaycastHitRight.collider.gameObject.layer == LayerMask.NameToLayer("EnemyResetSpot"))
                 {
-                    Destroy(this);
+                    transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
                 }
             }
         }
@@ -134,10 +134,10 @@ namespace TeamSpigot
         {
             transform.localPosition = new Vector3(0, -SizeOfTiles, 0);
             paused = true;
-            StartCoroutine(Wait(5));
+            StartCoroutine(Wait(seconds));
         }
 
-        public IEnumerator Wait(int seconds)
+        IEnumerator Wait(int seconds)
         {
             yield return new WaitForSeconds(seconds);
             paused = false;

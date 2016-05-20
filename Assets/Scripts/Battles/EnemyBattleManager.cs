@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace TeamSpigot
 {
-    public class EnemyBattleManager : Singleton<EnemyBattleManager>
+    public class EnemyBattleManager : MonoBehaviour
     {
         public bool TriggeredTansition = false;
 
@@ -26,12 +26,7 @@ namespace TeamSpigot
 
         public bool HasWon = false;
 
-        private GameManager _gm;
-
-        void Awake()
-        {
-            _gm = GameManager.instance;
-        }
+        public GameObject MainOverworldCamera;
 
         // Use this for initialization
         void Start()
@@ -47,10 +42,10 @@ namespace TeamSpigot
                 if (!TriggeredTansition)
                 {
                     FindObjectOfType<PlayerMovement>().Locked = true;
-                    FindObjectOfType<PlayerMovement>().Paused = true;
-                    PauseEnemies(true);
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
                     BattleStarted = true;
+                    currentEnemy.GetComponent<EnemyMovement>().paused = true;
+                    FindObjectOfType<PlayerMovement>().paused = true;
                     TriggeredTansition = true;
                 }
             }
@@ -65,32 +60,13 @@ namespace TeamSpigot
             BattleStarted = false;
             HasWon = hasWon;
 
+            MainOverworldCamera.SetActive(true);
+
             if (HasWon)
             {
+                currentEnemy.GetComponent<EnemyMovement>().ResetEnemyAndDelay(5);
+                FindObjectOfType<PlayerMovement>().ResetPlayer();
                 HasWon = false;
-            }
-
-            // =======
-            HasWon = false;
-            
-            PauseEnemies(false);
-            currentEnemy.GetComponent<EnemyMovement>().ResetEnemyAndDelay(5);
-            // =======
-
-            _gm.ResetPlayer();
-        }
-
-        public void TriggerBattle(GameObject enemy)
-        {
-            FindObjectOfType<PlayerMovement>().Locked = true;
-            currentEnemy = enemy;
-        }
-
-        void PauseEnemies(bool state)
-        {
-            foreach (EnemyMovement em in FindObjectsOfType<EnemyMovement>())
-            {
-                em.paused = state;
             }
         }
     }

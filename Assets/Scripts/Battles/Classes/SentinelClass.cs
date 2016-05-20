@@ -13,7 +13,7 @@ namespace TeamSpigot
         void Start()
         {
             stats.str = Random.Range(9, 11);
-            stats.vit = Random.Range(15, 20);
+            stats.vit = Random.Range(20, 25);
             stats.agl = Random.Range(6, 9);
             stats.aim = Random.Range(8, 10);
             stats.lck = Random.Range(9, 11);

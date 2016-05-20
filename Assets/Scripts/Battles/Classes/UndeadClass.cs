@@ -9,14 +9,14 @@ namespace TeamSpigot
 
         void Start()
         {
-            stats.str = Random.Range(3, 7);
+            stats.str = Random.Range(3, 6);
             stats.vit = Random.Range(3, 4);
             stats.agl = Random.Range(1, 4);
-            stats.aim = Random.Range(5, 10);
+            stats.aim = Random.Range(9, 15);
             stats.lck = Random.Range(2, 4);
-            stats.ang = Random.Range(3, 4);
-            stats.fai = Random.Range(3, 4);
-            stats.skl = Random.Range(4, 7);
+            stats.ang = Random.Range(1, 2);
+            stats.fai = Random.Range(1, 1);
+            stats.skl = Random.Range(3, 8);
 
             stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 75 + (2 * (stats.skl * stats.vit)));
             stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));

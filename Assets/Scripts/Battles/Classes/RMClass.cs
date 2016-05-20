@@ -17,12 +17,12 @@ namespace TeamSpigot
             stats.agl = Random.Range(7, 10);
             stats.aim = Random.Range(5, 8);
             stats.lck = Random.Range(3, 5);
-            stats.ang = Random.Range(5, 8);
-            stats.fai = Random.Range(5, 8);
-            stats.skl = Random.Range(2, 4);
+            stats.ang = Random.Range(4, 7);
+            stats.fai = Random.Range(4, 7);
+            stats.skl = Random.Range(2, 3);
 
             stats.MaxHP = stats.HP = (int)Random.Range(50 + (2.5f * (stats.skl * stats.vit)), 100 + (2 * (stats.skl * stats.vit)));
-            stats.MaxMP = stats.MP = (int)Random.Range(5 * (stats.ang * stats.fai * stats.skl), 6.5f * (stats.ang * stats.fai * stats.skl));
+            stats.MaxMP = stats.MP = (int)Random.Range(1 * (stats.ang * stats.fai * stats.skl), 2.5f * (stats.ang * stats.fai * stats.skl));
 
             stats.exp = 0;
 

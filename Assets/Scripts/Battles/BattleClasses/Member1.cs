@@ -207,7 +207,7 @@ namespace TeamSpigot
         {
             if (mem1Dead)
             {
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }
