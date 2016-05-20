@@ -95,6 +95,7 @@ namespace TeamSpigot
 
         void Start()
         {
+            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
             if (GameObject.Find("Main Overworld Camera") != null)
             {
                 GameObject.Find("Main Overworld Camera").SetActive(false);
@@ -503,8 +504,24 @@ namespace TeamSpigot
             #endregion
         }
 
+        int decay;
         void EnemyAttack()
         {
+            if (WaitTime >= 70)
+            {
+                if (enemies[0].GetComponent<EnemyClass>().poisoned)
+                {
+                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 10;
+                    Debug.Log("poison");
+                }
+
+                if (enemies[0].GetComponent<EnemyClass>().decay)
+                {
+                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 5 * decay;
+                    decay++;
+                    Debug.Log("decay");
+                }
+            }
             #region enemy attacked
             if (WaitTime >= 70)
             {
