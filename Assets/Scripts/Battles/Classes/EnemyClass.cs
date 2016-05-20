@@ -6,7 +6,6 @@ namespace TeamSpigot
     public class EnemyClass : MonoBehaviour
     {
         public StatStruct stats;
-        GameObject manager;
         BattleManager bmStuff;
 
         public bool poisoned;
@@ -64,15 +63,14 @@ namespace TeamSpigot
 
             stats.exp = 0;
             Debug.Log("Enemy\nagl: " + stats.agl);
-            manager = GameObject.FindGameObjectWithTag("GameController");
-            manager.GetComponent<BattleManager>().enmAgls = stats.agl;
+            FindObjectOfType<BattleManager>().enmAgls = stats.agl;
         }
 
         void Update()
         {
             if (stats.HP <= 0)
             {
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
             }
         }
     }

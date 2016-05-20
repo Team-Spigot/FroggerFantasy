@@ -8,7 +8,7 @@ namespace TeamSpigot
     {
         string memberTag;
         GameObject memberNumb;
-        StatStruct memberStats;
+        //StatStruct memberStats;
         bool showAbilties;
         public GameObject[] abilityButts;
 
@@ -20,12 +20,53 @@ namespace TeamSpigot
 
         GameObject Enemy;
 
+        bool Member1gone, Member2gone, Member3gone, Member4gone = false;
+
+        private GameManager _gm;
+
+        void Awake()
+        {
+            _gm = GameManager.instance;
+        }
+
         void Start()
         {
-            Member1 = GameObject.Find("Member1");
-            Member2 = GameObject.Find("Member2");
-            Member3 = GameObject.Find("Member3");
-            Member4 = GameObject.Find("Member4");
+            if (_gm.PlayerStatusStruct.InactivePlayers[0] == false)
+            {
+                Member1 = GameObject.Find("Member1");
+                Member1gone = false;
+            }
+            else
+            {
+                Member1gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[1] == false)
+            {
+                Member2 = GameObject.Find("Member2");
+                Member2gone = false;
+            }
+            else
+            {
+                Member2gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[2] == false)
+            {
+                Member3 = GameObject.Find("Member3");
+                Member3gone = false;
+            }
+            else
+            {
+                Member3gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[3] == false)
+            {
+                Member4 = GameObject.Find("Member4");
+                Member4gone = false;
+            }
+            else
+            {
+                Member4gone = true;
+            }
         }
         
         void Update()
@@ -37,10 +78,9 @@ namespace TeamSpigot
         void ShitSet()
         {
             Enemy = GetComponent<BattleManager>().enemies[0];
-
             memberTag = GetComponent<BattleManager>().currentPlayer.tag;
             memberNumb = GetComponent<BattleManager>().currentPlayer;
-            memberStats = GetComponent<BattleManager>().playerStats;
+            //memberStats = GetComponent<BattleManager>().playerStats;
         }
 
         void TagCheck()
@@ -91,28 +131,28 @@ namespace TeamSpigot
         #region Warrior
         public void Ravage()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.str / 2.5f, (int)Member1.GetComponent<Member1>().stats.str / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.str / 2.5f, (int)Member2.GetComponent<Member2>().stats.str / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.str / 2.5f, (int)Member3.GetComponent<Member3>().stats.str / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.str / 2.5f, (int)Member4.GetComponent<Member4>().stats.str / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -125,25 +165,25 @@ namespace TeamSpigot
         }
         public void Slash()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member1.GetComponent<Member1>().stats.str * 1.5f) * (int)(Member1.GetComponent<Member1>().stats.skl / 2), ((int)Member1.GetComponent<Member1>().stats.str * 1.5f) * (int)(Member1.GetComponent<Member1>().stats.skl * 1.5f));
 
                 Member1.GetComponent<Member1>().stats.MP -= 30;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member2.GetComponent<Member2>().stats.str * 1.5f) * (int)(Member2.GetComponent<Member2>().stats.skl / 2), ((int)Member2.GetComponent<Member2>().stats.str * 1.5f) * (int)(Member2.GetComponent<Member2>().stats.skl * 1.5f));
 
                 Member2.GetComponent<Member2>().stats.MP -= 30;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member3.GetComponent<Member3>().stats.str * 1.5f) * (int)(Member3.GetComponent<Member3>().stats.skl / 2), ((int)Member3.GetComponent<Member3>().stats.str * 1.5f) * (int)(Member3.GetComponent<Member3>().stats.skl * 1.5f));
 
                 Member3.GetComponent<Member3>().stats.MP -= 30;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member4.GetComponent<Member4>().stats.str * 1.5f) * (int)(Member4.GetComponent<Member4>().stats.skl / 2), ((int)Member4.GetComponent<Member4>().stats.str * 1.5f) * (int)(Member4.GetComponent<Member4>().stats.skl * 1.5f));
 
@@ -160,28 +200,28 @@ namespace TeamSpigot
         }
         public void BurstBlade()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member1.GetComponent<Member1>().stats.str * 2f) * (int)(Member1.GetComponent<Member1>().stats.skl), ((int)Member1.GetComponent<Member1>().stats.str * 2f) * (int)(Member1.GetComponent<Member1>().stats.skl * 3.5f));
                 Member1.GetComponent<Member1>().stats.HP -= (int)Random.Range(10, 20);
 
                 Member1.GetComponent<Member1>().stats.MP -= 100;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member2.GetComponent<Member2>().stats.str * 2f) * (int)(Member2.GetComponent<Member2>().stats.skl), ((int)Member2.GetComponent<Member2>().stats.str * 2f) * (int)(Member2.GetComponent<Member2>().stats.skl * 3.5f));
                 Member2.GetComponent<Member2>().stats.HP -= (int)Random.Range(10, 20);
 
                 Member2.GetComponent<Member2>().stats.MP -= 100;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member3.GetComponent<Member3>().stats.str * 2f) * (int)(Member3.GetComponent<Member3>().stats.skl), ((int)Member3.GetComponent<Member3>().stats.str * 2f) * (int)(Member3.GetComponent<Member3>().stats.skl * 3.5f));
                 Member3.GetComponent<Member3>().stats.HP -= (int)Random.Range(10, 20);
 
                 Member3.GetComponent<Member3>().stats.MP -= 100;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member4.GetComponent<Member4>().stats.str * 2f) * (int)(Member4.GetComponent<Member4>().stats.skl), ((int)Member4.GetComponent<Member4>().stats.str * 2f) * (int)(Member4.GetComponent<Member4>().stats.skl * 3.5f));
                 Member4.GetComponent<Member4>().stats.HP -= (int)Random.Range(10, 20);
@@ -198,7 +238,7 @@ namespace TeamSpigot
 
         public void LightWeight()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 manager.GetComponent<BattleManager>().mem1Agl += Member1.GetComponent<Member1>().stats.skl;
                 Member1.GetComponent<Member1>().stats.aim += Member1.GetComponent<Member1>().stats.skl;
@@ -210,7 +250,7 @@ namespace TeamSpigot
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem1Agl);
                 Debug.Log("memberStats.aim: " + Member1.GetComponent<Member1>().stats.aim);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 manager.GetComponent<BattleManager>().mem2Agl += Member2.GetComponent<Member2>().stats.skl;
                 Member2.GetComponent<Member2>().stats.aim += Member2.GetComponent<Member2>().stats.skl;
@@ -222,7 +262,7 @@ namespace TeamSpigot
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem2Agl);
                 Debug.Log("memberStats.aim: " + Member2.GetComponent<Member2>().stats.aim);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 manager.GetComponent<BattleManager>().mem3Agl += Member3.GetComponent<Member3>().stats.skl;
                 Member3.GetComponent<Member3>().stats.aim += Member3.GetComponent<Member3>().stats.skl;
@@ -234,7 +274,7 @@ namespace TeamSpigot
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem3Agl);
                 Debug.Log("memberStats.aim: " + Member3.GetComponent<Member3>().stats.aim);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 manager.GetComponent<BattleManager>().mem4Agl += Member4.GetComponent<Member4>().stats.skl;
                 Member4.GetComponent<Member4>().stats.aim += Member4.GetComponent<Member4>().stats.skl;
@@ -260,7 +300,7 @@ namespace TeamSpigot
         public void PoisonBlade()
         {
             int roll;
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 roll = Random.Range(0, (int)Random.Range(0, Member1.GetComponent<Member1>().stats.lck));
 
@@ -276,7 +316,7 @@ namespace TeamSpigot
                 Member1.GetComponent<Member1>().stats.MP -= 15;
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 roll = Random.Range(0, (int)Random.Range(0, Member2.GetComponent<Member2>().stats.lck));
 
@@ -292,7 +332,7 @@ namespace TeamSpigot
                 Member2.GetComponent<Member2>().stats.MP -= 15;
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 roll = Random.Range(0, (int)Random.Range(0, Member3.GetComponent<Member3>().stats.lck));
 
@@ -309,7 +349,7 @@ namespace TeamSpigot
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
 
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 roll = Random.Range(0, (int)Random.Range(0, Member4.GetComponent<Member4>().stats.lck));
 
@@ -333,25 +373,25 @@ namespace TeamSpigot
 
         public void Sharpen()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
 
@@ -368,7 +408,7 @@ namespace TeamSpigot
 
         public void Meditate()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
@@ -376,7 +416,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member1.GetComponent<Member1>().stats.str);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
@@ -384,7 +424,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member2.GetComponent<Member2>().stats.str);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
@@ -392,7 +432,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member3.GetComponent<Member3>().stats.str);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
 
@@ -406,7 +446,7 @@ namespace TeamSpigot
 
         public void FocusPunch()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.str / 2.5f, (int)Member1.GetComponent<Member1>().stats.str / 1.5f);
                 manager.GetComponent<BattleManager>().mem1Agl += Member1.GetComponent<Member1>().stats.skl;
@@ -416,7 +456,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem1Agl);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.str / 2.5f, (int)Member2.GetComponent<Member2>().stats.str / 1.5f);
                 manager.GetComponent<BattleManager>().mem2Agl += Member2.GetComponent<Member2>().stats.skl;
@@ -426,7 +466,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem2Agl);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.str / 2.5f, (int)Member3.GetComponent<Member3>().stats.str / 1.5f);
                 manager.GetComponent<BattleManager>().mem3Agl += Member3.GetComponent<Member3>().stats.skl;
@@ -436,7 +476,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.agl: " + manager.GetComponent<BattleManager>().mem3Agl);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.str / 2.5f, (int)Member4.GetComponent<Member4>().stats.str / 1.5f);
                 manager.GetComponent<BattleManager>().mem4Agl += Member4.GetComponent<Member4>().stats.skl;
@@ -520,7 +560,7 @@ namespace TeamSpigot
 
         public void Smash()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member1.GetComponent<Member1>().stats.str * 1.5f) * (int)(Member1.GetComponent<Member1>().stats.skl * 1.5f), ((int)Member1.GetComponent<Member1>().stats.str * 1.5f) * (int)(Member1.GetComponent<Member1>().stats.skl * 2.5f));
                 Member1.GetComponent<Member1>().stats.str -= (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.str));
@@ -529,7 +569,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member1.GetComponent<Member1>().stats.str);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member2.GetComponent<Member2>().stats.str * 1.5f) * (int)(Member2.GetComponent<Member2>().stats.skl * 1.5f), ((int)Member2.GetComponent<Member2>().stats.str * 1.5f) * (int)(Member2.GetComponent<Member2>().stats.skl * 2.5f));
                 Member2.GetComponent<Member2>().stats.str -= (int)(Mathf.Sqrt(Member2.GetComponent<Member2>().stats.str));
@@ -538,7 +578,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member2.GetComponent<Member2>().stats.str);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member3.GetComponent<Member3>().stats.str * 1.5f) * (int)(Member3.GetComponent<Member3>().stats.skl * 1.5f), ((int)Member3.GetComponent<Member3>().stats.str * 1.5f) * (int)(Member3.GetComponent<Member3>().stats.skl * 2.5f));
                 Member3.GetComponent<Member3>().stats.str -= (int)(Mathf.Sqrt(Member3.GetComponent<Member3>().stats.str));
@@ -547,7 +587,7 @@ namespace TeamSpigot
 
                 Debug.Log("memberStats.str: " + Member3.GetComponent<Member3>().stats.str);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member4.GetComponent<Member4>().stats.str * 1.5f) * (int)(Member4.GetComponent<Member4>().stats.skl * 1.5f), ((int)Member4.GetComponent<Member4>().stats.str * 1.5f) * (int)(Member4.GetComponent<Member4>().stats.skl * 2.5f));
                 Member4.GetComponent<Member4>().stats.str -= (int)(Mathf.Sqrt(Member4.GetComponent<Member4>().stats.str));
@@ -575,22 +615,22 @@ namespace TeamSpigot
             #region rolls
             if (roll == 1 || roll == 2)
             {
-                if (memberNumb == Member1)
+                if (!Member1gone && memberNumb == Member1)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                     Member1.GetComponent<Member1>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member2)
+                if (!Member2gone && memberNumb == Member2)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                     Member2.GetComponent<Member2>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member3)
+                if (!Member3gone && memberNumb == Member3)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                     Member3.GetComponent<Member3>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member4)
+                if (!Member4gone && memberNumb == Member4)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                     Member4.GetComponent<Member4>().stats.aim += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
@@ -598,38 +638,38 @@ namespace TeamSpigot
             }
             if (roll == 3)
             {
-                if (memberNumb == Member1)
+                if (!Member1gone && memberNumb == Member1)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= ((int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise) * 5;
                 }
-                if (memberNumb == Member2)
+                if (!Member2gone && memberNumb == Member2)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= ((int)(Mathf.Sqrt(Member2.GetComponent<Member2>().stats.skl)) + raise) * 5;
                 }
-                if (memberNumb == Member3)
+                if (!Member3gone && memberNumb == Member3)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= ((int)(Mathf.Sqrt(Member3.GetComponent<Member3>().stats.skl)) + raise) * 5;
                 }
-                if (memberNumb == Member4)
+                if (!Member4gone && memberNumb == Member4)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= ((int)(Mathf.Sqrt(Member4.GetComponent<Member4>().stats.skl)) + raise) * 5;
                 }
             }
             if (roll == 4)
             {
-                if (memberNumb == Member1)
+                if (!Member1gone && memberNumb == Member1)
                 {
                     Member1.GetComponent<Member1>().stats.str += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member2)
+                if (!Member2gone && memberNumb == Member2)
                 {
                     Member2.GetComponent<Member2>().stats.str += (int)(Mathf.Sqrt(Member2.GetComponent<Member2>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member3)
+                if (!Member3gone && memberNumb == Member3)
                 {
                     Member3.GetComponent<Member3>().stats.str += (int)(Mathf.Sqrt(Member3.GetComponent<Member3>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member4)
+                if (!Member4gone && memberNumb == Member4)
                 {
                     Member4.GetComponent<Member4>().stats.str += (int)(Mathf.Sqrt(Member4.GetComponent<Member4>().stats.skl)) + raise;
                 }
@@ -640,25 +680,25 @@ namespace TeamSpigot
             }
             if (roll == 6)
             {
-                if (memberNumb == Member1)
+                if (!Member1gone && memberNumb == Member1)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member1.GetComponent<Member1>().stats.str * 2f) * (int)(Member1.GetComponent<Member1>().stats.lck), ((int)Member1.GetComponent<Member1>().stats.str * 2f) * (int)(Member1.GetComponent<Member1>().stats.lck * 3.5f));
                     Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(5 * raise, 5 * raise * Member1.GetComponent<Member1>().stats.lck);
                     Member1.GetComponent<Member1>().stats.lck += (int)(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member2)
+                if (!Member2gone && memberNumb == Member2)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member2.GetComponent<Member2>().stats.str * 2f) * (int)(Member2.GetComponent<Member2>().stats.lck), ((int)Member2.GetComponent<Member2>().stats.str * 2f) * (int)(Member2.GetComponent<Member2>().stats.lck * 3.5f));
                     Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(5 * raise, 5 * raise * Member2.GetComponent<Member2>().stats.lck);
                     Member2.GetComponent<Member2>().stats.lck += (int)(Mathf.Sqrt(Member2.GetComponent<Member2>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member3)
+                if (!Member3gone && memberNumb == Member3)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member3.GetComponent<Member3>().stats.str * 2f) * (int)(Member3.GetComponent<Member3>().stats.lck), ((int)Member3.GetComponent<Member3>().stats.str * 2f) * (int)(Member3.GetComponent<Member3>().stats.lck * 3.5f));
                     Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(5 * raise, 5 * raise * Member3.GetComponent<Member3>().stats.lck);
                     Member3.GetComponent<Member3>().stats.lck += (int)(Mathf.Sqrt(Member3.GetComponent<Member3>().stats.skl)) + raise;
                 }
-                if (memberNumb == Member4)
+                if (!Member4gone && memberNumb == Member4)
                 {
                     Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range(((int)Member4.GetComponent<Member4>().stats.str * 2f) * (int)(Member4.GetComponent<Member4>().stats.lck), ((int)Member4.GetComponent<Member4>().stats.str * 2f) * (int)(Member4.GetComponent<Member4>().stats.lck * 3.5f));
                     Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(5 * raise, 5 * raise * Member4.GetComponent<Member4>().stats.lck);
@@ -667,22 +707,22 @@ namespace TeamSpigot
             }
             #endregion
 
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
 
                 Member4.GetComponent<Member4>().stats.MP -= 15;
@@ -696,22 +736,22 @@ namespace TeamSpigot
 
         public void Raise()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 raise += (int)Random.Range(Mathf.Sqrt(Member1.GetComponent<Member1>().stats.lck) - 1, Mathf.Sqrt(Member1.GetComponent<Member1>().stats.lck) + Mathf.Sqrt(Member1.GetComponent<Member1>().stats.skl));
                 Member1.GetComponent<Member1>().stats.HP -= (int)Random.Range(5 * Mathf.Sqrt(raise), Mathf.Sqrt(raise) * Member1.GetComponent<Member1>().stats.lck);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 raise += (int)Random.Range(Mathf.Sqrt(Member2.GetComponent<Member2>().stats.lck) - 1, Mathf.Sqrt(Member2.GetComponent<Member2>().stats.lck) + Mathf.Sqrt(Member2.GetComponent<Member2>().stats.skl));
                 Member2.GetComponent<Member2>().stats.HP -= (int)Random.Range(5 * Mathf.Sqrt(raise), Mathf.Sqrt(raise) * Member2.GetComponent<Member2>().stats.lck);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 raise += (int)Random.Range(Mathf.Sqrt(Member3.GetComponent<Member3>().stats.lck) - 1, Mathf.Sqrt(Member3.GetComponent<Member3>().stats.lck) + Mathf.Sqrt(Member3.GetComponent<Member3>().stats.skl));
                 Member3.GetComponent<Member3>().stats.HP -= (int)Random.Range(5 * Mathf.Sqrt(raise), Mathf.Sqrt(raise) * Member3.GetComponent<Member3>().stats.lck);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 raise += (int)Random.Range(Mathf.Sqrt(Member4.GetComponent<Member4>().stats.lck) - 1, Mathf.Sqrt(Member4.GetComponent<Member4>().stats.lck) + Mathf.Sqrt(Member4.GetComponent<Member4>().stats.skl));
                 Member4.GetComponent<Member4>().stats.HP -= (int)Random.Range(5 * Mathf.Sqrt(raise), Mathf.Sqrt(raise) * Member4.GetComponent<Member4>().stats.lck);
@@ -725,19 +765,19 @@ namespace TeamSpigot
 
         public void Fold()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(2 * raise, raise * Member1.GetComponent<Member1>().stats.lck);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(2 * raise, raise * Member2.GetComponent<Member2>().stats.lck);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(2 * raise, raise * Member3.GetComponent<Member3>().stats.lck);
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(2 * raise, raise * Member4.GetComponent<Member4>().stats.lck);
             }
@@ -766,21 +806,21 @@ namespace TeamSpigot
 
         public void BadBreath()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().poisoned = true;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().poisoned = true;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().poisoned = true;
 
@@ -788,7 +828,7 @@ namespace TeamSpigot
                 Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
 
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().poisoned = true;
 
@@ -812,25 +852,25 @@ namespace TeamSpigot
 
         public void Preserve()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (2 * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (2 * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (2 * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (2 * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
@@ -843,25 +883,25 @@ namespace TeamSpigot
 
         public void Bite()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.str, (int)Member1.GetComponent<Member1>().stats.str * 1.5f);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.str, (int)Member2.GetComponent<Member2>().stats.str * 1.5f);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.str, (int)Member3.GetComponent<Member3>().stats.str * 1.5f);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.str, (int)Member4.GetComponent<Member4>().stats.str * 1.5f);
 
@@ -878,25 +918,25 @@ namespace TeamSpigot
 
         public void Cure()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (2 * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (2 * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (2 * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (2 * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
@@ -908,28 +948,28 @@ namespace TeamSpigot
 
         public void Absorb()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.fai * (int)Member1.GetComponent<Member1>().stats.ang, ((int)Member1.GetComponent<Member1>().stats.fai * (int)Member1.GetComponent<Member1>().stats.ang) * 1.5f);
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range((int)Member1.GetComponent<Member1>().stats.fai, ((int)Member1.GetComponent<Member1>().stats.fai) * 1.5f);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.fai * (int)Member2.GetComponent<Member2>().stats.ang, ((int)Member2.GetComponent<Member2>().stats.fai * (int)Member2.GetComponent<Member2>().stats.ang) * 1.5f);
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range((int)Member2.GetComponent<Member2>().stats.fai, ((int)Member2.GetComponent<Member2>().stats.fai) * 1.5f);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.fai * (int)Member3.GetComponent<Member3>().stats.ang, ((int)Member3.GetComponent<Member3>().stats.fai * (int)Member3.GetComponent<Member3>().stats.ang) * 1.5f);
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range((int)Member3.GetComponent<Member3>().stats.fai, ((int)Member3.GetComponent<Member3>().stats.fai) * 1.5f);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.fai * (int)Member4.GetComponent<Member4>().stats.ang, ((int)Member4.GetComponent<Member4>().stats.fai * (int)Member4.GetComponent<Member4>().stats.ang) * 1.5f);
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range((int)Member4.GetComponent<Member4>().stats.fai, ((int)Member4.GetComponent<Member4>().stats.fai) * 1.5f);
@@ -942,38 +982,47 @@ namespace TeamSpigot
 
         public void MassHeal()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
-
-                Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
-                Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
-                Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
+                if (!Member2gone)
+                    Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
-                Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
-
-                Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
-                Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
+                if (!Member1gone)
+                   Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
-                Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
-                Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
-
-                Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
+                if (!Member1gone)
+                    Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
+                if (!Member2gone) 
+                    Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (1.5f * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
-                Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
-                Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
-                Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
+                if (!Member1gone)
+                    Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (1.5f * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
+                if (!Member2gone)
+                    Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (1.5f * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (1.5f * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
 
 
                 Member4.GetComponent<Member4>().stats.MP -= 15;
@@ -985,41 +1034,53 @@ namespace TeamSpigot
 
         public void SelfSacrifice()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 //
-                Member2.GetComponent<Member2>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
-                Member3.GetComponent<Member3>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
-                Member4.GetComponent<Member4>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
+                if (!Member2gone)
+                    Member2.GetComponent<Member2>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += Member1.GetComponent<Member1>().stats.HP;
 
 
                 Member1.GetComponent<Member1>().stats.HP -= Member1.GetComponent<Member1>().stats.HP;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
-                Member1.GetComponent<Member1>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
+                if (!Member1gone)
+                    Member1.GetComponent<Member1>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
                 //
-                Member3.GetComponent<Member3>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
-                Member4.GetComponent<Member4>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += Member2.GetComponent<Member2>().stats.HP;
 
 
                 Member2.GetComponent<Member2>().stats.HP -= Member2.GetComponent<Member2>().stats.HP;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
-                Member1.GetComponent<Member1>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
-                Member2.GetComponent<Member2>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
+                if (!Member1gone)
+                    Member1.GetComponent<Member1>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
+                if (!Member2gone)
+                    Member2.GetComponent<Member2>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
                 //
-                Member4.GetComponent<Member4>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
+                if (!Member4gone)
+                    Member4.GetComponent<Member4>().stats.HP += Member3.GetComponent<Member3>().stats.HP;
 
 
                 Member3.GetComponent<Member3>().stats.HP -= Member3.GetComponent<Member3>().stats.HP;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
-                Member1.GetComponent<Member1>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
-                Member2.GetComponent<Member2>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
-                Member3.GetComponent<Member3>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
+                if (!Member1gone)
+                    Member1.GetComponent<Member1>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
+                if (!Member1gone)
+                    Member2.GetComponent<Member2>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
+                if (!Member3gone)
+                    Member3.GetComponent<Member3>().stats.HP += Member4.GetComponent<Member4>().stats.HP;
                 //
 
 
@@ -1035,25 +1096,25 @@ namespace TeamSpigot
 
         public void RedCure()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (2 * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (2 * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (2 * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (2 * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
 
@@ -1065,28 +1126,28 @@ namespace TeamSpigot
 
         public void RedAbsorb()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.fai * (int)Member1.GetComponent<Member1>().stats.ang, ((int)Member1.GetComponent<Member1>().stats.fai * (int)Member1.GetComponent<Member1>().stats.ang) * 1.5f);
                 Member1.GetComponent<Member1>().stats.HP += (int)Random.Range((int)Member1.GetComponent<Member1>().stats.fai, ((int)Member1.GetComponent<Member1>().stats.fai) * 1.5f);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.fai * (int)Member2.GetComponent<Member2>().stats.ang, ((int)Member2.GetComponent<Member2>().stats.fai * (int)Member2.GetComponent<Member2>().stats.ang) * 1.5f);
                 Member2.GetComponent<Member2>().stats.HP += (int)Random.Range((int)Member2.GetComponent<Member2>().stats.fai, ((int)Member2.GetComponent<Member2>().stats.fai) * 1.5f);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.fai * (int)Member3.GetComponent<Member3>().stats.ang, ((int)Member3.GetComponent<Member3>().stats.fai * (int)Member3.GetComponent<Member3>().stats.ang) * 1.5f);
                 Member3.GetComponent<Member3>().stats.HP += (int)Random.Range((int)Member3.GetComponent<Member3>().stats.fai, ((int)Member3.GetComponent<Member3>().stats.fai) * 1.5f);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.fai * (int)Member4.GetComponent<Member4>().stats.ang, ((int)Member4.GetComponent<Member4>().stats.fai * (int)Member4.GetComponent<Member4>().stats.ang) * 1.5f);
                 Member4.GetComponent<Member4>().stats.HP += (int)Random.Range((int)Member4.GetComponent<Member4>().stats.fai, ((int)Member4.GetComponent<Member4>().stats.fai) * 1.5f);
@@ -1100,28 +1161,28 @@ namespace TeamSpigot
 
         public void RedFireblast()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang / 2.5f, (int)Member1.GetComponent<Member1>().stats.ang / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang / 2.5f, (int)Member2.GetComponent<Member2>().stats.ang / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang / 2.5f, (int)Member3.GetComponent<Member3>().stats.ang / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang / 2.5f, (int)Member4.GetComponent<Member4>().stats.ang / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -1135,28 +1196,28 @@ namespace TeamSpigot
 
         public void RedGravity()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang / 2.5f, (int)Member1.GetComponent<Member1>().stats.ang / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang / 2.5f, (int)Member2.GetComponent<Member2>().stats.ang / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang / 2.5f, (int)Member3.GetComponent<Member3>().stats.ang / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang / 2.5f, (int)Member4.GetComponent<Member4>().stats.ang / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -1173,25 +1234,25 @@ namespace TeamSpigot
 
         public void Shock()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang, (int)Member1.GetComponent<Member1>().stats.ang * 1.5f);
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang, (int)Member2.GetComponent<Member2>().stats.ang * 1.5f);
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang, (int)Member3.GetComponent<Member3>().stats.ang * 1.5f);
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang, (int)Member4.GetComponent<Member4>().stats.ang * 1.5f);
 
@@ -1206,28 +1267,28 @@ namespace TeamSpigot
 
         public void IceBeam()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang / 2.5f, (int)Member1.GetComponent<Member1>().stats.ang / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang / 2.5f, (int)Member2.GetComponent<Member2>().stats.ang / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang / 2.5f, (int)Member3.GetComponent<Member3>().stats.ang / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang / 2.5f, (int)Member4.GetComponent<Member4>().stats.ang / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -1241,28 +1302,28 @@ namespace TeamSpigot
 
         public void Earthquake()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang / 2.5f, (int)Member1.GetComponent<Member1>().stats.ang / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang / 2.5f, (int)Member2.GetComponent<Member2>().stats.ang / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang / 2.5f, (int)Member3.GetComponent<Member3>().stats.ang / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang / 2.5f, (int)Member4.GetComponent<Member4>().stats.ang / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -1276,28 +1337,28 @@ namespace TeamSpigot
 
         public void Gravity()
         {
-            if (memberNumb == Member1)
+            if (!Member1gone && memberNumb == Member1)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang / 2.5f, (int)Member1.GetComponent<Member1>().stats.ang / 1.5f);
                 Member1.GetComponent<Member1>().stats.str += Member1.GetComponent<Member1>().stats.skl;
 
                 Member1.GetComponent<Member1>().stats.MP -= 15;
             }
-            if (memberNumb == Member2)
+            if (!Member2gone && memberNumb == Member2)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang / 2.5f, (int)Member2.GetComponent<Member2>().stats.ang / 1.5f);
                 Member2.GetComponent<Member2>().stats.str += Member2.GetComponent<Member2>().stats.skl;
 
                 Member2.GetComponent<Member2>().stats.MP -= 15;
             }
-            if (memberNumb == Member3)
+            if (!Member3gone && memberNumb == Member3)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang / 2.5f, (int)Member3.GetComponent<Member3>().stats.ang / 1.5f);
                 Member3.GetComponent<Member3>().stats.str += Member3.GetComponent<Member3>().stats.skl;
 
                 Member3.GetComponent<Member3>().stats.MP -= 15;
             }
-            if (memberNumb == Member4)
+            if (!Member4gone && memberNumb == Member4)
             {
                 Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang / 2.5f, (int)Member4.GetComponent<Member4>().stats.ang / 1.5f);
                 Member4.GetComponent<Member4>().stats.str += Member4.GetComponent<Member4>().stats.skl;
@@ -1309,7 +1370,5 @@ namespace TeamSpigot
         }
 
         #endregion
-
-
     }
 }
