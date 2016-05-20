@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamSpigot
 {
@@ -85,6 +84,9 @@ namespace TeamSpigot
         TextMesh mem4Healths;
         TextMesh enmHealths;
 
+        GameObject announcePanel;
+        Text announceText;
+
         TextMesh playerTurn;
         GameObject playerPointer;
         public GameObject attackButt;
@@ -108,6 +110,7 @@ namespace TeamSpigot
 
         void Start()
         {
+
             SpawnEnemy();
 
             if (_gm.PlayerStatusStruct.InactivePlayers[0] == false)
@@ -154,6 +157,12 @@ namespace TeamSpigot
                 Member4.SetActive(false);
                 Member4gone = true;
             }
+
+            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
+            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
+            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
+            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
+            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
             //Debug.Log("enemy: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
@@ -210,11 +219,9 @@ namespace TeamSpigot
 
             #endregion //objectSpeeds
 
-            mem1Healths = GameObject.Find("mem1P").GetComponent<TextMesh>();
-            mem2Healths = GameObject.Find("mem2P").GetComponent<TextMesh>();
-            mem3Healths = GameObject.Find("mem3P").GetComponent<TextMesh>();
-            mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
-            enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
+            announcePanel = GameObject.Find("AnnPanel");
+            announceText = GameObject.Find("AnnText").GetComponent<Text>();
+            announcePanel.SetActive(false);
 
             if (!Member1gone)
             {
@@ -253,7 +260,7 @@ namespace TeamSpigot
 
             for (int i = 0; i < enemySpawn; i++)
             {
-                GameObject tempEnemy = (GameObject)Instantiate(enemy, new Vector3(i * 2.0f - 6, 0, 0), Quaternion.identity);
+                GameObject tempEnemy = (GameObject)Instantiate(enemy, new Vector3(i * 2.0f - 4, 1, -1), Quaternion.identity);
                 enemies.Add(tempEnemy);
             }
         }
@@ -267,11 +274,11 @@ namespace TeamSpigot
 
             if (WaitTime == 70)
             {
-                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = true;
+                attackButt.GetComponent<Button>().interactable = true;
             }
             if (WaitTime < 70)
             {
-                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                attackButt.GetComponent<Button>().interactable = false;
             }
         }
 
@@ -615,7 +622,26 @@ namespace TeamSpigot
 
                 if (hitRoll >= 0.3)
                 {
-                    attack = UnityEngine.Random.Range(0, 5);
+                    if (GetComponent<BattleAbilities>().agro1)
+                    {
+                        attack = 0;
+                    }
+                    if (GetComponent<BattleAbilities>().agro2)
+                    {
+                        attack = 1;
+                    }
+                    if (GetComponent<BattleAbilities>().agro3)
+                    {
+                        attack = 2;
+                    }
+                    if (GetComponent<BattleAbilities>().agro4)
+                    {
+                        attack = 3;
+                    }
+                    if (!GetComponent<BattleAbilities>().agro1 && !GetComponent<BattleAbilities>().agro2 && !GetComponent<BattleAbilities>().agro3 && !GetComponent<BattleAbilities>().agro4)
+                    {
+                        attack = UnityEngine.Random.Range(0, 4);
+                    }
 
                     if (critRoll >= 0.9)
                     {
@@ -882,6 +908,22 @@ namespace TeamSpigot
             {
                 Debug.Log("index: " + i + " | agil: " + agilities[i]);
             }
+
+        }
+
+        public void Announce(string announcetext)
+        {
+            announcePanel.SetActive(true);
+            announceText.text = announcetext;
+
+            StartCoroutine(WaitToCloseAnnounce());
+        }
+
+        IEnumerator WaitToCloseAnnounce()
+        {
+            yield return new WaitForSeconds(5);
+            announceText.text = "";
+            announcePanel.SetActive(false);
         }
     }
 }

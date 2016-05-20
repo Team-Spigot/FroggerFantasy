@@ -51,11 +51,11 @@ namespace TeamSpigot
         void GetEnemies()
         {
             Enemies.Clear();
-
             foreach (EnemyMovement ebm in FindObjectsOfType<EnemyMovement>())
             {
                 Enemies.Add(ebm.gameObject);
             }
+            
         }
 
         T ChooseRandomObject<T>(List<T> CustomList)
