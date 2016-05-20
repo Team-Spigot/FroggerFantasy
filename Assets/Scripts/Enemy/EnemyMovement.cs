@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
 using System.Linq;
 
 namespace TeamSpigot
@@ -18,7 +17,7 @@ namespace TeamSpigot
         public int Speed;
         public float SizeOfTiles;
         public LayerMask CollisionLayer;
-        
+
         public Direction direction;
         [HideInInspector]
         public Vector3 TargetPosition;
@@ -52,7 +51,7 @@ namespace TeamSpigot
                 halfSizeOfTiles = SizeOfTiles / 2;
             }
 
-            EnemySprites = AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/Enemy/CarOverworldSpriteSheet.png").OfType<Sprite>().ToArray();
+            EnemySprites = Resources.LoadAll<Sprite>("CarOverworldSpriteSheet");
             GetComponentInChildren<SpriteRenderer>().sprite = EnemySprites[Random.Range(0, 4)];
         }
 

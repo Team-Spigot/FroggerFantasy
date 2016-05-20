@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,6 @@ namespace TeamSpigot
 {
     public class BattleManager : MonoBehaviour
     {
-        bool debugShit;
-
         #region playerTurnStuff
         public bool runAttack;
         public bool playerAttacked;
@@ -73,7 +70,7 @@ namespace TeamSpigot
         public float enmAgls = 0;
         public bool runEnemyAttack = false;
         bool enemyAttacked = false;
-        
+
         public GameObject[] enemies;
         #endregion
 
@@ -94,17 +91,19 @@ namespace TeamSpigot
 
         int WaitTime;
 
+        public int attack;
+
         void Start()
         {
-            SpawnEnemy();
+            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
 
-            debugShit = false;
+            SpawnEnemy();
 
             Member1 = GameObject.Find("Member1");
             Member2 = GameObject.Find("Member2");
             Member3 = GameObject.Find("Member3");
             Member4 = GameObject.Find("Member4");
-            
+
             //Debug.Log("enemy: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
             statSet = false;
@@ -146,6 +145,11 @@ namespace TeamSpigot
             mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
             enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
+            anim1 = Member1.GetComponent<Animator>();
+            anim2 = Member2.GetComponent<Animator>();
+            anim3 = Member3.GetComponent<Animator>();
+            anim4 = Member4.GetComponent<Animator>();
+
             playerTurn = GameObject.Find("Player Turn").GetComponent<TextMesh>();
             playerPointer = GameObject.Find("currentPlayer");
         }
@@ -157,9 +161,10 @@ namespace TeamSpigot
             DeadChangeOrder();
             TurnOrder();
             HandleVisuals();
+            EndBattle();
         }
-        
-        void SpawnEnemy ()
+
+        void SpawnEnemy()
         {
             enemySpawn = UnityEngine.Random.Range(1, 1);
 
@@ -260,21 +265,28 @@ namespace TeamSpigot
 
                 agilities.Clear();
 
-                agilities.Add(mem1Agl);
-                agilities.Add(mem2Agl);
-                agilities.Add(mem3Agl);
-                agilities.Add(mem4Agl);
+                if (!Member1.GetComponent<Member1>().mem1Dead)
+                {
+                    agilities.Add(mem1Agl);
+                }
+                if (!Member2.GetComponent<Member2>().mem2Dead)
+                {
+                    agilities.Add(mem2Agl);
+                }
+                if (!Member3.GetComponent<Member3>().mem3Dead)
+                {
+                    agilities.Add(mem3Agl);
+                }
+                if (!Member4.GetComponent<Member4>().mem4Dead)
+                {
+                    agilities.Add(mem4Agl);
+                }
                 agilities.Add(enmAgls);
 
                 playerHPs.Add(mem1HP);
                 playerHPs.Add(mem2HP);
                 playerHPs.Add(mem3HP);
                 playerHPs.Add(mem4HP);
-
-                anim1 = Member1.GetComponent<Animator>();
-                anim2 = Member2.GetComponent<Animator>();
-                anim3 = Member3.GetComponent<Animator>();
-                anim4 = Member4.GetComponent<Animator>();
 
                 Debugs();
 
@@ -371,10 +383,22 @@ namespace TeamSpigot
                 mem3current = false;
             }
 
-            anim1.SetBool("Mem1Current", mem1current);
-            anim2.SetBool("Mem2Current", mem2current);
-            anim3.SetBool("Mem3Current", mem3current);
-            anim4.SetBool("Mem4Current", mem4current);
+            if (!Member1.GetComponent<Member1>().mem1Dead)
+            {
+                anim1.SetBool("Attack", mem1current);
+            }
+            if (!Member2.GetComponent<Member2>().mem2Dead)
+            {
+                anim2.SetBool("Attack", mem2current);
+            }
+            if (!Member3.GetComponent<Member3>().mem3Dead)
+            {
+                anim3.SetBool("Attack", mem3current);
+            }
+            if (!Member4.GetComponent<Member4>().mem4Dead)
+            {
+                anim4.SetBool("Attack", mem4current);
+            }
             #endregion
 
             if (callAttack)
@@ -388,8 +412,6 @@ namespace TeamSpigot
                 enemyAttacked = false;
             }
         }
-
-        string tempString;
 
         public void Attack()
         {
@@ -418,8 +440,7 @@ namespace TeamSpigot
 
                 if (hitRoll >= 0.3)
                 {
-					runAttack = true;
-					tempString = "Hit! ;3";
+                    runAttack = true;
 
                     if (runAttack)
                     {
@@ -464,7 +485,6 @@ namespace TeamSpigot
                 }
                 if (hitRoll < 0.3)
                 {
-					tempString = "Miss D:";
                     callAttack = false;
                     WaitTime = 0;
                     if (sortOrder < agilities.Count)
@@ -480,8 +500,24 @@ namespace TeamSpigot
             #endregion
         }
 
+        int decay;
         void EnemyAttack()
         {
+            if (WaitTime >= 70)
+            {
+                if (enemies[0].GetComponent<EnemyClass>().poisoned)
+                {
+                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 10;
+                    Debug.Log("poison");
+                }
+
+                if (enemies[0].GetComponent<EnemyClass>().decay)
+                {
+                    enemies[0].GetComponent<EnemyClass>().stats.HP -= 5 * decay;
+                    decay++;
+                    Debug.Log("decay");
+                }
+            }
             #region enemy attacked
             if (WaitTime >= 70)
             {
@@ -490,6 +526,8 @@ namespace TeamSpigot
 
                 if (hitRoll >= 0.3)
                 {
+                    attack = UnityEngine.Random.Range(0, 4);
+
                     if (critRoll >= 0.9)
                     {
                         isCrit = true;
@@ -497,7 +535,63 @@ namespace TeamSpigot
                         enemyAttacked = false;
                         WaitTime = 0;
 
-                        Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
+
+                        if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
+                        {
+                            Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member1.GetComponent<Member1>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member1.GetComponent<Member1>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 1 && !Member2.GetComponent<Member2>().mem2Dead)
+                        {
+                            Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member2.GetComponent<Member2>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member2.GetComponent<Member2>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 2 && !Member3.GetComponent<Member3>().mem3Dead)
+                        {
+                            Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member3.GetComponent<Member3>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member3.GetComponent<Member3>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 3 && !Member4.GetComponent<Member4>().mem4Dead)
+                        {
+                            Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member4.GetComponent<Member4>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member4.GetComponent<Member4>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Enemy Missed!");
+                        }
 
                         if (sortOrder < agilities.Count)
                         {
@@ -515,8 +609,62 @@ namespace TeamSpigot
                         enemyAttacked = false;
                         WaitTime = 0;
 
-                        Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
+                        if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
+                        {
+                            Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
 
+                            if (Member1.GetComponent<Member1>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member1.GetComponent<Member1>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 1 && !Member2.GetComponent<Member2>().mem2Dead)
+                        {
+                            Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member2.GetComponent<Member2>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member2.GetComponent<Member2>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 2 && !Member3.GetComponent<Member3>().mem3Dead)
+                        {
+                            Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member3.GetComponent<Member3>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member3.GetComponent<Member3>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else if (attack == 3 && !Member4.GetComponent<Member4>().mem4Dead)
+                        {
+                            Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
+
+                            if (Member4.GetComponent<Member4>().stats.HP <= 0)
+                            {
+                                EnemyKilledCheck = true;
+                            }
+                            else if (Member4.GetComponent<Member4>().stats.HP > 0)
+                            {
+                                EnemyKilledCheck = false;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Enemy Missed!");
+                        }
                         if (sortOrder < agilities.Count)
                         {
                             sortOrder++;
@@ -530,9 +678,7 @@ namespace TeamSpigot
                 if (hitRoll < 0.3)
                 {
                     enemyAttacked = false;
-                    tempString = "Miss :D";
                     WaitTime = 0;
-
                     if (sortOrder < agilities.Count)
                     {
                         sortOrder++;
@@ -544,14 +690,17 @@ namespace TeamSpigot
                 }
             }
             #endregion
-
         }
 
         void EndBattle()
         {
             if (enemyStats.HP <= 0)
             {
-
+                //FindObjectOfType<Fade>().FadeToLevel(1);
+            }
+            if (Member1.GetComponent<Member1>().mem1Dead && Member2.GetComponent<Member2>().mem2Dead && Member3.GetComponent<Member3>().mem3Dead && Member4.GetComponent<Member4>().mem4Dead)
+            {
+                //FindObjectOfType<Fade>().FadeToLevel(1);
             }
         }
 

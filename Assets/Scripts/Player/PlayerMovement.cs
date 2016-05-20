@@ -23,6 +23,10 @@ namespace TeamSpigot
 
         private Vector2 playerCenter;
 
+        public Vector3 lastPosition;
+
+        public DropOff DropOffClass;
+
         public Vector2 PlayerCenter
         {
             get
@@ -36,6 +40,16 @@ namespace TeamSpigot
         }
 
         public LayerMask TriggerLayer;
+
+        void Awake()
+        {
+            if (FindObjectsOfType(GetType()).Length > 1)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(this);
+        }
 
         void Start()
         {
@@ -145,18 +159,23 @@ namespace TeamSpigot
 
             if (TCheckAllRaycasts("DropOffPoint"))
             {
-                FindObjectOfType<DropOff>().AtDropOff = true;
-                FindObjectOfType<DropOff>().dropOffPoint = TRaycastHitUp.collider.gameObject.GetComponent<DropOffPoint>();
+                DropOffClass.currentDropOffPoint = TRaycastHitUp.collider.gameObject.GetComponent<DropOffPoint>();
             }
             else
             {
-                FindObjectOfType<DropOff>().AtDropOff = false;
+                DropOffClass.currentDropOffPoint = null;
             }
         }
 
         void LateUpdate()
         {
             PlayerCenter = transform.position;
+            lastPosition = transform.position;
+        }
+
+        public void ResetPlayer()
+        {
+            transform.position = lastPosition;
         }
 
         IEnumerator MoveInGrid(float x, float y)

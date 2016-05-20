@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace TeamSpigot
 {
@@ -27,13 +24,13 @@ namespace TeamSpigot
             {
                 UIAnimator.SetBool("Testing", true);
             }
-            
+
             UIAnimator.SetTrigger("Leave");
         }
 
         private void EnterBattle()
-		{
-			UIAnimator = GetComponent<Animator>();
+        {
+            UIAnimator = GetComponent<Animator>();
             UIAnimator.SetTrigger("Enter");
         }
 

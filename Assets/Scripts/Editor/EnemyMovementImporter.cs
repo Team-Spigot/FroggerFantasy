@@ -36,7 +36,7 @@ public class EnemyMovementProcessor : ICustomTiledImporter
                         return;
                 }
             }
-            
+
             tempEnemy.transform.SetParent(gameObject.transform);
             tempEnemy.transform.localPosition = new Vector3(0, -32, 0);
         }

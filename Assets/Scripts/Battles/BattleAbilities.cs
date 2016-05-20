@@ -259,6 +259,73 @@ namespace TeamSpigot
 
         public void PoisonBlade()
         {
+            int roll;
+            if (memberNumb == Member1)
+            {
+                roll = Random.Range(0, (int)Random.Range(0, Member1.GetComponent<Member1>().stats.lck));
+
+                if (roll >= 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 15;
+                    Enemy.GetComponent<EnemyClass>().poisoned = true;
+                }
+                if (roll < 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 10;
+                }
+                Member1.GetComponent<Member1>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
+            if (memberNumb == Member2)
+            {
+                roll = Random.Range(0, (int)Random.Range(0, Member2.GetComponent<Member2>().stats.lck));
+
+                if (roll >= 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 15;
+                    Enemy.GetComponent<EnemyClass>().poisoned = true;
+                }
+                if (roll < 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 10;
+                }
+                Member2.GetComponent<Member2>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
+            if (memberNumb == Member3)
+            {
+                roll = Random.Range(0, (int)Random.Range(0, Member3.GetComponent<Member3>().stats.lck));
+
+                if (roll < 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 15;
+                    Enemy.GetComponent<EnemyClass>().poisoned = true;
+                }
+                if (roll < 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 10;
+                }
+                Member3.GetComponent<Member3>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+
+            }
+            if (memberNumb == Member4)
+            {
+                roll = Random.Range(0, (int)Random.Range(0, Member4.GetComponent<Member4>().stats.lck));
+
+                if (roll >= 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 15;
+                    Enemy.GetComponent<EnemyClass>().poisoned = true;
+                }
+                if (roll >= 6)
+                {
+                    Enemy.GetComponent<EnemyClass>().stats.HP -= 10;
+                }
+                Member4.GetComponent<Member4>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
+
 
             showAbilties = false;
             abilityButts[1].SetActive(false);
@@ -699,18 +766,76 @@ namespace TeamSpigot
 
         public void BadBreath()
         {
+            if (memberNumb == Member1)
+            {
+                Enemy.GetComponent<EnemyClass>().poisoned = true;
+
+                Member1.GetComponent<Member1>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
+            if (memberNumb == Member2)
+            {
+                Enemy.GetComponent<EnemyClass>().poisoned = true;
+
+                Member2.GetComponent<Member2>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
+            if (memberNumb == Member3)
+            {
+                Enemy.GetComponent<EnemyClass>().poisoned = true;
+
+                Member3.GetComponent<Member3>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+
+            }
+            if (memberNumb == Member4)
+            {
+                Enemy.GetComponent<EnemyClass>().poisoned = true;
+
+                Member4.GetComponent<Member4>().stats.MP -= 15;
+                Debug.Log("poison: " + Enemy.GetComponent<EnemyClass>().poisoned);
+            }
             showAbilties = false;
             abilityButts[5].SetActive(false);
         }
 
         public void Decay()
         {
+            if (Enemy.GetComponent<EnemyClass>().poisoned)
+            {
+                Enemy.GetComponent<EnemyClass>().decay = true;
+            }
+
             showAbilties = false;
             abilityButts[5].SetActive(false);
         }
 
         public void Preserve()
         {
+            if (memberNumb == Member1)
+            {
+                Member1.GetComponent<Member1>().stats.HP += (int)Random.Range(Member1.GetComponent<Member1>().stats.skl * Member1.GetComponent<Member1>().stats.fai, (2 * Member1.GetComponent<Member1>().stats.skl) * Member1.GetComponent<Member1>().stats.fai);
+
+                Member1.GetComponent<Member1>().stats.MP -= 15;
+            }
+            if (memberNumb == Member2)
+            {
+                Member2.GetComponent<Member2>().stats.HP += (int)Random.Range(Member2.GetComponent<Member2>().stats.skl * Member2.GetComponent<Member2>().stats.fai, (2 * Member2.GetComponent<Member2>().stats.skl) * Member2.GetComponent<Member2>().stats.fai);
+
+                Member2.GetComponent<Member2>().stats.MP -= 15;
+            }
+            if (memberNumb == Member3)
+            {
+                Member3.GetComponent<Member3>().stats.HP += (int)Random.Range(Member3.GetComponent<Member3>().stats.skl * Member3.GetComponent<Member3>().stats.fai, (2 * Member3.GetComponent<Member3>().stats.skl) * Member3.GetComponent<Member3>().stats.fai);
+
+                Member3.GetComponent<Member3>().stats.MP -= 15;
+            }
+            if (memberNumb == Member4)
+            {
+                Member4.GetComponent<Member4>().stats.HP += (int)Random.Range(Member4.GetComponent<Member4>().stats.skl * Member4.GetComponent<Member4>().stats.fai, (2 * Member4.GetComponent<Member4>().stats.skl) * Member4.GetComponent<Member4>().stats.fai);
+
+                Member4.GetComponent<Member4>().stats.MP -= 15;
+            }
 
             showAbilties = false;
             abilityButts[5].SetActive(false);
@@ -718,6 +843,31 @@ namespace TeamSpigot
 
         public void Bite()
         {
+            if (memberNumb == Member1)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.str, (int)Member1.GetComponent<Member1>().stats.str * 1.5f);
+
+                Member1.GetComponent<Member1>().stats.MP -= 15;
+            }
+            if (memberNumb == Member2)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.str, (int)Member2.GetComponent<Member2>().stats.str * 1.5f);
+
+                Member2.GetComponent<Member2>().stats.MP -= 15;
+            }
+            if (memberNumb == Member3)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.str, (int)Member3.GetComponent<Member3>().stats.str * 1.5f);
+
+                Member3.GetComponent<Member3>().stats.MP -= 15;
+            }
+            if (memberNumb == Member4)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.str, (int)Member4.GetComponent<Member4>().stats.str * 1.5f);
+
+                Member4.GetComponent<Member4>().stats.MP -= 15;
+            }
+
             showAbilties = false;
             abilityButts[5].SetActive(false);
         }
@@ -1023,6 +1173,33 @@ namespace TeamSpigot
 
         public void Shock()
         {
+            if (memberNumb == Member1)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member1.GetComponent<Member1>().stats.ang, (int)Member1.GetComponent<Member1>().stats.ang * 1.5f);
+
+                Member1.GetComponent<Member1>().stats.MP -= 15;
+            }
+            if (memberNumb == Member2)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member2.GetComponent<Member2>().stats.ang, (int)Member2.GetComponent<Member2>().stats.ang * 1.5f);
+
+                Member2.GetComponent<Member2>().stats.MP -= 15;
+            }
+            if (memberNumb == Member3)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member3.GetComponent<Member3>().stats.ang, (int)Member3.GetComponent<Member3>().stats.ang * 1.5f);
+
+                Member3.GetComponent<Member3>().stats.MP -= 15;
+            }
+            if (memberNumb == Member4)
+            {
+                Enemy.GetComponent<EnemyClass>().stats.HP -= (int)Random.Range((int)Member4.GetComponent<Member4>().stats.ang, (int)Member4.GetComponent<Member4>().stats.ang * 1.5f);
+
+                Member4.GetComponent<Member4>().stats.MP -= 15;
+            }
+
+            Enemy.GetComponent<EnemyClass>().paralized = true;
+
             showAbilties = false;
             abilityButts[8].SetActive(false);
         }
