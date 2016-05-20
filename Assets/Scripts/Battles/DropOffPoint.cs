@@ -27,16 +27,23 @@ namespace TeamSpigot
         public bool HasWon;
         public bool BattleStarted;
 
+        private DropOff _do;
+
         public bool IsAtDropOffPoint
         {
             get
             {
-                if (FindObjectOfType<DropOff>().isAtDropOffPoint && FindObjectOfType<DropOff>().currentDropOffPoint == this)
+                if (_do.isAtDropOffPoint && _do.currentDropOffPoint == this)
                 {
                     return true;
                 }
                 return false;
             }
+        }
+
+        void Awake()
+        {
+            _do = DropOff.instance;
         }
 
         void Start()

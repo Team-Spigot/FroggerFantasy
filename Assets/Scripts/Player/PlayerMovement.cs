@@ -6,42 +6,17 @@ namespace TeamSpigot
     [RequireComponent(typeof(Collider2D))]
     public class PlayerMovement : MonoBehaviour
     {
+        private DropOff _do;
+        private EnemyBattleManager _ebm;
+
         public float Speed;
         public float SizeOfTiles;
+
         public LayerMask CollisionLayer;
+        public LayerMask TriggerLayer;
 
-        [HideInInspector]
-        public Vector3 TargetPosition;
-        private bool canMove = true;
-
-        private Animator playerAnimator;
-
-        private float halfSizeOfTiles;
-
-        public bool locked;
-
-        public bool Locked
-        {
-            get
-            {
-                return locked;
-            }
-            set
-            {
-                locked = true;
-            }
-        }
-
-        private RaycastHit2D RaycastHitDown, RaycastHitLeft, RaycastHitUp, RaycastHitRight;
-        private RaycastHit2D TRaycastHitDown, TRaycastHitLeft, TRaycastHitUp, TRaycastHitRight;
-
-        private Vector2 playerCenter;
-
-        public Vector3 lastPosition;
-
-        public DropOff DropOffClass;
-
-        public EnemyBattleManager EnemyBattleManagerClass;
+        public bool Locked;
+        public bool Paused;
 
         public Vector2 PlayerCenter
         {
@@ -55,18 +30,24 @@ namespace TeamSpigot
             }
         }
 
-        public LayerMask TriggerLayer;
+        private Vector3 TargetPosition;
+        private bool canMove = true;
 
-        public bool paused;
+        private Animator playerAnimator;
+
+        private float halfSizeOfTiles;
+
+        private RaycastHit2D RaycastHitDown, RaycastHitLeft, RaycastHitUp, RaycastHitRight;
+        private RaycastHit2D TRaycastHitDown, TRaycastHitLeft, TRaycastHitUp, TRaycastHitRight;
+
+        private Vector2 playerCenter;
+
+        private Vector3 lastPosition;
 
         void Awake()
         {
-            if (FindObjectsOfType(GetType()).Length > 1)
-            {
-                Destroy(gameObject);
-            }
-
-            DontDestroyOnLoad(this);
+            _ebm = EnemyBattleManager.instance;
+            _do = DropOff.instance;
         }
 
         void Start()
@@ -100,7 +81,7 @@ namespace TeamSpigot
 
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
-                if (Input.GetAxis("Vertical") > 0 && canMove && !paused) // Move up
+                if (Input.GetAxis("Vertical") > 0 && canMove && !Paused) // Move up
                 {
                     // Set Animation Moving Up
                     playerAnimator.SetInteger("Direction", 0);
@@ -117,7 +98,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Horizontal") < 0 && canMove && !paused) // Move Left
+                else if (Input.GetAxis("Horizontal") < 0 && canMove && !Paused) // Move Left
                 {
                     // Set Animation Moving Left
                     playerAnimator.SetInteger("Direction", 1);
@@ -134,7 +115,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Vertical") < 0 && canMove && !paused) // Move Down
+                else if (Input.GetAxis("Vertical") < 0 && canMove && !Paused) // Move Down
                 {
                     // Set Animation Moving Down
                     playerAnimator.SetInteger("Direction", 2);
@@ -151,7 +132,7 @@ namespace TeamSpigot
                         playerAnimator.SetBool("Moving", false);
                     }
                 }
-                else if (Input.GetAxis("Horizontal") > 0 && canMove && !paused) // Move Right
+                else if (Input.GetAxis("Horizontal") > 0 && canMove && !Paused) // Move Right
                 {
                     // Set Animation Moving Right
                     playerAnimator.SetInteger("Direction", 3);
@@ -174,20 +155,20 @@ namespace TeamSpigot
             {
                 if (TCheckAllRaycasts("Enemy"))
                 {
-                    EnemyBattleManagerClass.currentEnemy = TRaycastHitUp.collider.gameObject;
+                    _ebm.currentEnemy = TRaycastHitUp.collider.gameObject;
                 }
                 else
                 {
-                    EnemyBattleManagerClass.currentEnemy = null;
+                    _ebm.currentEnemy = null;
                 }
 
                 if (TCheckAllRaycasts("DropOffPoint"))
                 {
-                    DropOffClass.currentDropOffPoint = TRaycastHitUp.collider.gameObject.GetComponent<DropOffPoint>();
+                    _do.currentDropOffPoint = TRaycastHitUp.collider.gameObject.GetComponent<DropOffPoint>();
                 }
                 else
                 {
-                    DropOffClass.currentDropOffPoint = null;
+                    _do.currentDropOffPoint = null;
                 }
             }
         }
@@ -203,15 +184,15 @@ namespace TeamSpigot
 
         public void ResetPlayer()
         {
-            paused = false;
+            Locked = false;
+            Paused = false;
             transform.position = new Vector3(Mathf.Round(lastPosition.x / SizeOfTiles) * SizeOfTiles,
                                             Mathf.Round(lastPosition.y / SizeOfTiles) * SizeOfTiles, 0);
-            locked = false;
         }
 
         IEnumerator MoveInGrid(float x, float y)
         {
-            while ((transform.position.x != x || transform.position.y != y) && !paused)
+            while ((transform.position.x != x || transform.position.y != y) && !Paused)
             {
                 //moving x forward
                 if (transform.position.x < x)

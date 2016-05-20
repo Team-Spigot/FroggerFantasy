@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace TeamSpigot
 {
-    public class DropOff : MonoBehaviour
+    public class DropOff : Singleton<DropOff>
     {
-        public bool[] Member = new bool[4];
-
         public bool TriggeredTansition = false;
+
+        public bool IsBattleType;
 
         public DropOffPoint currentDropOffPoint = null;
 
@@ -25,9 +25,12 @@ namespace TeamSpigot
             }
         }
 
-        public GameObject MainOverworldCamera;
-
         //public List<DropOffPoint> dropOffPoints = new List<DropOffPoint>(4);
+
+        void Awake()
+        {
+            // Do stuff
+        }
 
         // Use this for initialization
         void Start()
@@ -44,9 +47,10 @@ namespace TeamSpigot
                 {
                     FindObjectOfType<PlayerMovement>().Locked = true;
                     FindObjectOfType<BattleTransition>().BeginBattle(false);
-                    FindObjectOfType<PlayerMovement>().paused = true;
+                    FindObjectOfType<PlayerMovement>().Paused = true;
                     currentDropOffPoint.BattleStarted = true;
                     TriggeredTansition = true;
+                    IsBattleType = true;
                 }
             }
             if (isAtDropOffPoint && !currentDropOffPoint.BattleStarted && !currentDropOffPoint.HasWon)
@@ -66,27 +70,27 @@ namespace TeamSpigot
 
         void DropOffWindow(int id)
         {
-            if (!Member[0] && GUI.Button(new Rect(new Vector2(25, 25), new Vector2(200, 50)), PlayerPrefs.GetString("member1")))
+            if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[0] && GUI.Button(new Rect(new Vector2(25, 25), new Vector2(200, 50)), PlayerPrefs.GetString("member1")))
             {
-                Member[0] = true;
+                GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[0] = true;
                 currentDropOffPoint.MemberDroppedOff = 1;
                 currentDropOffPoint.DroppedOff = true;
             }
-            if (!Member[1] && GUI.Button(new Rect(new Vector2(25, 75), new Vector2(200, 50)), PlayerPrefs.GetString("member2")))
+            if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[1] && GUI.Button(new Rect(new Vector2(25, 75), new Vector2(200, 50)), PlayerPrefs.GetString("member2")))
             {
-                Member[1] = true;
+                GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[1] = true;
                 currentDropOffPoint.MemberDroppedOff = 2;
                 currentDropOffPoint.DroppedOff = true;
             }
-            if (!Member[2] && GUI.Button(new Rect(new Vector2(25, 125), new Vector2(200, 50)), PlayerPrefs.GetString("member3")))
+            if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[2] && GUI.Button(new Rect(new Vector2(25, 125), new Vector2(200, 50)), PlayerPrefs.GetString("member3")))
             {
-                Member[2] = true;
+                GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[2] = true;
                 currentDropOffPoint.MemberDroppedOff = 3;
                 currentDropOffPoint.DroppedOff = true;
             }
-            if (!Member[3] && GUI.Button(new Rect(new Vector2(25, 175), new Vector2(200, 50)), PlayerPrefs.GetString("member4")))
+            if (!GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[3] && GUI.Button(new Rect(new Vector2(25, 175), new Vector2(200, 50)), PlayerPrefs.GetString("member4")))
             {
-                Member[3] = true;
+                GameManager.instance.PlayerStatusStruct.DroppedOffPlayers[3] = true;
                 currentDropOffPoint.MemberDroppedOff = 4;
                 currentDropOffPoint.DroppedOff = true;
             }
@@ -96,9 +100,13 @@ namespace TeamSpigot
         {
             currentDropOffPoint.BattleStarted = false;
             currentDropOffPoint.HasWon = hasWon;
-            FindObjectOfType<PlayerMovement>().ResetPlayer();
+            GameManager.instance.ResetPlayer();
+            IsBattleType = false;
+        }
 
-            MainOverworldCamera.SetActive(true);
+        public void TriggerBattle(DropOffPoint dropOffPoint)
+        {
+            currentDropOffPoint = dropOffPoint;
         }
     }
 }

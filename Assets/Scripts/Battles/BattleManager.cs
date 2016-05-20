@@ -69,9 +69,9 @@ namespace TeamSpigot
         public StatStruct enemyStats;
         public float enmAgls = 0;
         public bool runEnemyAttack = false;
-        public bool enemyAttacked = false;
+        bool enemyAttacked = false;
 
-        public GameObject[] enemies;
+        public List<GameObject> enemies;
         #endregion
 
         Animator anim1;
@@ -89,28 +89,75 @@ namespace TeamSpigot
         GameObject playerPointer;
         public GameObject attackButt;
 
+        private GameManager _gm;
+        private DropOff _do;
+        private EnemyBattleManager _ebm;
+
         int WaitTime;
 
         public int attack;
 
+        public bool Member1gone, Member2gone, Member3gone, Member4gone = false;
+
+        void Awake()
+        {
+            _gm = GameManager.instance;
+            _do = DropOff.instance;
+            _ebm = EnemyBattleManager.instance;
+        }
+
         void Start()
         {
-            FindObjectOfType<PlayerMovement>().transform.position = new Vector3(0, 0, 0);
-            if (GameObject.Find("Main Overworld Camera") != null)
-            {
-                GameObject.Find("Main Overworld Camera").SetActive(false);
-            }
-
             SpawnEnemy();
 
-            Member1 = GameObject.Find("Member1");
-            Member2 = GameObject.Find("Member2");
-            Member3 = GameObject.Find("Member3");
-            Member4 = GameObject.Find("Member4");
+            if (_gm.PlayerStatusStruct.InactivePlayers[0] == false)
+            {
+                Member1 = GameObject.Find("Member1");
+                Member1gone = false;
+            }
+            else
+            {
+                Member1 = GameObject.Find("Member1");
+                Member1.SetActive(false);
+                Member1gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[1] == false)
+            {
+                Member2 = GameObject.Find("Member2");
+                Member2gone = false;
+            }
+            else
+            {
+                Member2 = GameObject.Find("Member2");
+                Member2.SetActive(false);
+                Member2gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[2] == false)
+            {
+                Member3 = GameObject.Find("Member3");
+                Member3gone = false;
+            }
+            else
+            {
+                Member3 = GameObject.Find("Member3");
+                Member3.SetActive(false);
+                Member3gone = true;
+            }
+            if (_gm.PlayerStatusStruct.InactivePlayers[3] == false)
+            {
+                Member4 = GameObject.Find("Member4");
+                Member4gone = false;
+            }
+            else
+            {
+                Member4 = GameObject.Find("Member4");
+                Member4.SetActive(false);
+                Member4gone = true;
+            }
 
             //Debug.Log("enemy: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
 
-            statSet = false;
+            SetStats(false);
 
             mem1Stop = false;
             mem2Stop = false;
@@ -120,25 +167,45 @@ namespace TeamSpigot
             EnemyKilledCheck = false;
 
             #region objectSpeeds
-            if (Member1 != null)
+            if (!Member1gone)
             {
                 mem1Agl = Member1.GetComponent<Member1>().stats.agl + 0.04f;
                 mem1HP = Member1.GetComponent<Member1>().stats.HP;
             }
-            if (Member2 != null)
+            else
+            {
+                mem1Agl = -1;
+                mem1HP = -1;
+            }
+            if (!Member2gone)
             {
                 mem2Agl = Member2.GetComponent<Member2>().stats.agl + 0.03f;
                 mem2HP = Member2.GetComponent<Member2>().stats.HP;
             }
-            if (Member3 != null)
+            else
+            {
+                mem2Agl = -1;
+                mem2HP = -1;
+            }
+            if (!Member3gone)
             {
                 mem3Agl = Member3.GetComponent<Member3>().stats.agl + 0.02f;
                 mem3HP = Member3.GetComponent<Member3>().stats.HP;
             }
-            if (Member4 != null)
+            else
+            {
+                mem3Agl = -1;
+                mem3HP = -1;
+            }
+            if (!Member4gone)
             {
                 mem4Agl = Member4.GetComponent<Member4>().stats.agl + 0.01f;
                 mem4HP = Member4.GetComponent<Member4>().stats.HP;
+            }
+            else
+            {
+                mem4Agl = -1;
+                mem4HP = -1;
             }
 
             #endregion //objectSpeeds
@@ -149,10 +216,22 @@ namespace TeamSpigot
             mem4Healths = GameObject.Find("mem4P").GetComponent<TextMesh>();
             enmHealths = GameObject.Find("enemyHP").GetComponent<TextMesh>();
 
-            anim1 = Member1.GetComponent<Animator>();
-            anim2 = Member2.GetComponent<Animator>();
-            anim3 = Member3.GetComponent<Animator>();
-            anim4 = Member4.GetComponent<Animator>();
+            if (!Member1gone)
+            {
+                anim1 = Member1.GetComponent<Animator>();
+            }
+            if (!Member2gone)
+            {
+                anim2 = Member2.GetComponent<Animator>();
+            }
+            if (!Member3gone)
+            {
+                anim3 = Member3.GetComponent<Animator>();
+            }
+            if (!Member4gone)
+            {
+                anim4 = Member4.GetComponent<Animator>();
+            }
 
             playerTurn = GameObject.Find("Player Turn").GetComponent<TextMesh>();
             playerPointer = GameObject.Find("currentPlayer");
@@ -160,12 +239,12 @@ namespace TeamSpigot
 
         void Update()
         {
-            EndBattle();
             Wait();
             DeadCheck();
             DeadChangeOrder();
             TurnOrder();
             HandleVisuals();
+            EndBattle();
         }
 
         void SpawnEnemy()
@@ -174,9 +253,9 @@ namespace TeamSpigot
 
             for (int i = 0; i < enemySpawn; i++)
             {
-                Instantiate(enemy, new Vector3(i * 2.0f - 4, 1, -1), Quaternion.identity);
+                GameObject tempEnemy = (GameObject)Instantiate(enemy, new Vector3(i * 2.0f - 6, 0, 0), Quaternion.identity);
+                enemies.Add(tempEnemy);
             }
-            enemies = GameObject.FindGameObjectsWithTag("ENEMY");
         }
 
         void Wait()
@@ -188,11 +267,11 @@ namespace TeamSpigot
 
             if (WaitTime == 70)
             {
-                attackButt.SetActive(true);
+                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = true;
             }
             if (WaitTime < 70)
             {
-                attackButt.SetActive(false);
+                attackButt.GetComponent<UnityEngine.UI.Button>().interactable = false;
             }
         }
 
@@ -204,42 +283,57 @@ namespace TeamSpigot
                 return (a).CompareTo(b);
             });
 
+            //Debug.Log("1: " + Member1.GetComponent<Member1>().stats.HP + " | 2: " + Member2.GetComponent<Member2>().stats.HP + " | 3: " + Member3.GetComponent<Member3>().stats.HP + " | 4: " + Member4.GetComponent<Member4>().stats.HP);
+
             #region mem1
-            if (Member1.GetComponent<Member1>().mem1Dead && !mem1Stop)
+            if (Member1.GetComponent<Member1>().stats.HP < 0 && !mem1Stop)
             {
-                agilities.Remove(mem1Agl);
                 playerDead = true;
                 mem1Stop = true;
+                _gm.PlayerStatusStruct.DeadPlayers[0] = true;
+                Member1gone = true;
+                SetStats(true);
+                Member1.SetActive(false);
             }
             #endregion
 
             #region mem2
-            if (Member2.GetComponent<Member2>().mem2Dead && !mem2Stop)
+            if (Member2.GetComponent<Member2>().stats.HP < 0 && !mem2Stop)
             {
-                agilities.Remove(mem2Agl);
                 playerDead = true;
                 mem2Stop = true;
+                _gm.PlayerStatusStruct.DeadPlayers[1] = true;
+                Member2gone = true;
+                SetStats(true);
+                Member2.SetActive(false);
             }
             #endregion
 
             #region mem3
-            if (Member3.GetComponent<Member3>().mem3Dead && !mem3Stop)
+            if (Member3.GetComponent<Member3>().stats.HP < 0 && !mem3Stop)
             {
-                agilities.Remove(mem3Agl);
+                SetStats(true);
                 playerDead = true;
                 mem3Stop = true;
+                _gm.PlayerStatusStruct.DeadPlayers[2] = true;
+                Member3gone = true;
+                SetStats(true);
+                Member3.SetActive(false);
             }
             #endregion
 
             #region mem4
-            if (Member4.GetComponent<Member4>().mem4Dead && !mem4Stop)
+            if (Member4.GetComponent<Member4>().stats.HP < 0 && !mem4Stop)
             {
-                agilities.Remove(mem4Agl);
+                SetStats(true);
                 playerDead = true;
                 mem4Stop = true;
+                _gm.PlayerStatusStruct.DeadPlayers[3] = true;
+                Member4gone = true;
+                SetStats(true);
+                Member4.SetActive(false);
             }
             #endregion
-
         }
 
         void DeadChangeOrder()
@@ -260,52 +354,61 @@ namespace TeamSpigot
             }
         }
 
+        void SetStats(bool changeOrder)
+        {
+            //Debug.Log("enemySpeeeeeed: " + enmAgls);
+            //Debug.Log("ActualEnemySpeeeeeeed: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
+
+            agilities.Clear();
+            playerHPs.Clear();
+
+            if (!Member1gone)
+            {
+                agilities.Add(mem1Agl);
+                playerHPs.Add(mem1HP);
+            }
+            if (!Member2gone)
+            {
+                agilities.Add(mem2Agl);
+                playerHPs.Add(mem2HP);
+            }
+            if (!Member3gone)
+            {
+                agilities.Add(mem3Agl);
+                playerHPs.Add(mem3HP);
+            }
+            if (!Member4gone)
+            {
+                agilities.Add(mem4Agl);
+                playerHPs.Add(mem4HP);
+            }
+            agilities.Add(enmAgls);
+
+            Debugs();
+
+            agilities.Sort(delegate (float a, float b)
+            {
+                return (a).CompareTo(b);
+            });
+
+            playerHPs.Sort(delegate (float a, float b)
+            {
+                return (a).CompareTo(b);
+            });
+
+            Debugs();
+
+            if (changeOrder)
+            {
+                ChangeOrder();
+            }
+        }
+
         void TurnOrder()
         {
             if (!statSet)
             {
-                //Debug.Log("enemySpeeeeeed: " + enmAgls);
-                //Debug.Log("ActualEnemySpeeeeeeed: " + enemies[0].GetComponent<EnemyClass>().stats.agl);
-
-                agilities.Clear();
-
-                if (!Member1.GetComponent<Member1>().mem1Dead)
-                {
-                    agilities.Add(mem1Agl);
-                }
-                if (!Member2.GetComponent<Member2>().mem2Dead)
-                {
-                    agilities.Add(mem2Agl);
-                }
-                if (!Member3.GetComponent<Member3>().mem3Dead)
-                {
-                    agilities.Add(mem3Agl);
-                }
-                if (!Member4.GetComponent<Member4>().mem4Dead)
-                {
-                    agilities.Add(mem4Agl);
-                }
-                agilities.Add(enmAgls);
-
-                playerHPs.Add(mem1HP);
-                playerHPs.Add(mem2HP);
-                playerHPs.Add(mem3HP);
-                playerHPs.Add(mem4HP);
-
-                Debugs();
-
-                agilities.Sort(delegate (float a, float b)
-                {
-                    return (a).CompareTo(b);
-                });
-
-                playerHPs.Sort(delegate (float a, float b)
-                {
-                    return (a).CompareTo(b);
-                });
-
-                Debugs();
-
+                SetStats(false);
                 statSet = true;
             }
 
@@ -316,7 +419,7 @@ namespace TeamSpigot
 
 
             #region mem1
-            if (highestAgl == mem1Agl)
+            if (!Member1gone && highestAgl == mem1Agl)
             {
                 currentPlayer = Member1;
                 playerStats = currentPlayer.GetComponent<Member1>().stats;
@@ -324,7 +427,7 @@ namespace TeamSpigot
             #endregion
 
             #region mem2
-            if (highestAgl == mem2Agl)
+            if (!Member2gone && highestAgl == mem2Agl)
             {
                 currentPlayer = Member2;
                 playerStats = currentPlayer.GetComponent<Member2>().stats;
@@ -332,7 +435,7 @@ namespace TeamSpigot
             #endregion
 
             #region mem3
-            if (highestAgl == mem3Agl)
+            if (!Member3gone && highestAgl == mem3Agl)
             {
                 currentPlayer = Member3;
                 playerStats = currentPlayer.GetComponent<Member3>().stats;
@@ -340,7 +443,7 @@ namespace TeamSpigot
             #endregion
 
             #region mem4
-            if (highestAgl == mem4Agl)
+            if (!Member4gone && highestAgl == mem4Agl)
             {
                 currentPlayer = Member4;
                 playerStats = currentPlayer.GetComponent<Member4>().stats;
@@ -358,28 +461,28 @@ namespace TeamSpigot
             #endregion
 
             #region running the players animation
-            if (highestAgl == mem1Agl)
+            if (!Member1gone && highestAgl == mem1Agl)
             {
                 mem1current = true;
                 mem2current = false;
                 mem3current = false;
                 mem4current = false;
             }
-            if (highestAgl == mem2Agl)
+            if (!Member2gone && highestAgl == mem2Agl)
             {
                 mem2current = true;
                 mem1current = false;
                 mem3current = false;
                 mem4current = false;
             }
-            if (highestAgl == mem3Agl)
+            if (!Member3gone && highestAgl == mem3Agl)
             {
                 mem3current = true;
                 mem1current = false;
                 mem2current = false;
                 mem4current = false;
             }
-            if (highestAgl == mem4Agl)
+            if (!Member4gone && highestAgl == mem4Agl)
             {
                 mem4current = true;
                 mem1current = false;
@@ -387,19 +490,19 @@ namespace TeamSpigot
                 mem3current = false;
             }
 
-            if (!Member1.GetComponent<Member1>().mem1Dead)
+            if (!Member1gone)
             {
                 anim1.SetBool("Attack", mem1current);
             }
-            if (!Member2.GetComponent<Member2>().mem2Dead)
+            if (!Member2gone)
             {
                 anim2.SetBool("Attack", mem2current);
             }
-            if (!Member3.GetComponent<Member3>().mem3Dead)
+            if (!Member3gone)
             {
                 anim3.SetBool("Attack", mem3current);
             }
-            if (!Member4.GetComponent<Member4>().mem4Dead)
+            if (!Member4gone)
             {
                 anim4.SetBool("Attack", mem4current);
             }
@@ -428,7 +531,7 @@ namespace TeamSpigot
             {
                 sortOrder++;
             }
-            else if (sortOrder >= agilities.Count)
+            else if (sortOrder >= agilities.Count || sortOrder <= 0)
             {
                 sortOrder = 1;
             }
@@ -457,14 +560,8 @@ namespace TeamSpigot
                             callAttack = false;
                             critRoll = 0;
                             WaitTime = 0;
-                            if (sortOrder < agilities.Count)
-                            {
-                                sortOrder++;
-                            }
-                            else if (sortOrder >= agilities.Count)
-                            {
-                                sortOrder = 1;
-                            }
+
+                            ChangeOrder();
                         }
 
                         if (critRoll >= 0.9)
@@ -476,14 +573,8 @@ namespace TeamSpigot
                             callAttack = false;
                             critRoll = 0;
                             WaitTime = 0;
-                            if (sortOrder < agilities.Count)
-                            {
-                                sortOrder++;
-                            }
-                            else if (sortOrder >= agilities.Count)
-                            {
-                                sortOrder = 1;
-                            }
+
+                            ChangeOrder();
                         }
                     }
                 }
@@ -491,14 +582,8 @@ namespace TeamSpigot
                 {
                     callAttack = false;
                     WaitTime = 0;
-                    if (sortOrder < agilities.Count)
-                    {
-                        sortOrder++;
-                    }
-                    else if (sortOrder >= agilities.Count)
-                    {
-                        sortOrder = 1;
-                    }
+
+                    ChangeOrder();
                 }
             }
             #endregion
@@ -530,26 +615,7 @@ namespace TeamSpigot
 
                 if (hitRoll >= 0.3)
                 {
-                    if (GetComponent<BattleAbilities>().agro1)
-                    {
-                        attack = 0;
-                    }
-                    if (GetComponent<BattleAbilities>().agro2)
-                    {
-                        attack = 1;
-                    }
-                    if (GetComponent<BattleAbilities>().agro3)
-                    {
-                        attack = 2;
-                    }
-                    if (GetComponent<BattleAbilities>().agro4)
-                    {
-                        attack = 3;
-                    }
-                    if (!GetComponent<BattleAbilities>().agro1 && !GetComponent<BattleAbilities>().agro2 && !GetComponent<BattleAbilities>().agro3 && !GetComponent<BattleAbilities>().agro4)
-                    {
-                        attack = UnityEngine.Random.Range(0, 4);
-                    }
+                    attack = UnityEngine.Random.Range(0, 5);
 
                     if (critRoll >= 0.9)
                     {
@@ -558,76 +624,77 @@ namespace TeamSpigot
                         enemyAttacked = false;
                         WaitTime = 0;
 
-                        if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
+                        if (attack == 0)
                         {
-                            Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
+                            if (!Member1gone)
+                            {
+                                Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member1.GetComponent<Member1>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member1.GetComponent<Member1>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member1.GetComponent<Member1>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member1.GetComponent<Member1>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 1 && !Member2.GetComponent<Member2>().mem2Dead)
+                        if (attack == 1)
                         {
-                            Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
+                            if (!Member2gone)
+                            {
+                                Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member2.GetComponent<Member2>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member2.GetComponent<Member2>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member2.GetComponent<Member2>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member2.GetComponent<Member2>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 2 && !Member3.GetComponent<Member3>().mem3Dead)
+                        if (attack == 2)
                         {
-                            Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
+                            if (!Member3gone)
+                            {
+                                Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member3.GetComponent<Member3>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member3.GetComponent<Member3>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member3.GetComponent<Member3>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member3.GetComponent<Member3>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 3 && !Member4.GetComponent<Member4>().mem4Dead)
+                        if (attack == 3)
                         {
-                            Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
+                            if (!Member4gone)
+                            {
+                                Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member4.GetComponent<Member4>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member4.GetComponent<Member4>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member4.GetComponent<Member4>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member4.GetComponent<Member4>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else
+                        
+                        if (attack > 3)
                         {
                             Debug.Log("Enemy Missed!");
                         }
 
-                        if (sortOrder < agilities.Count)
-                        {
-                            sortOrder++;
-                        }
-                        else if (sortOrder >= agilities.Count)
-                        {
-                            sortOrder = 1;
-                        }
-
-                        GetComponent<BattleAbilities>().agro1 = false;
-                        GetComponent<BattleAbilities>().agro2 = false;
-                        GetComponent<BattleAbilities>().agro3 = false;
-                        GetComponent<BattleAbilities>().agro4 = false;
+                        ChangeOrder();
                     }
                     if (critRoll < 0.9)
                     {
@@ -636,90 +703,85 @@ namespace TeamSpigot
                         enemyAttacked = false;
                         WaitTime = 0;
 
-                        if (attack == 0 && !Member1.GetComponent<Member1>().mem1Dead)
+                        if (attack == 0)
                         {
-                            Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
+                            if (!Member1gone)
+                            {
+                                Member1.GetComponent<Member1>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member1.GetComponent<Member1>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member1.GetComponent<Member1>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member1.GetComponent<Member1>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member1.GetComponent<Member1>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 1 && !Member2.GetComponent<Member2>().mem2Dead)
+                        if (attack == 1)
                         {
-                            Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
+                            if (!Member2gone)
+                            {
+                                Member2.GetComponent<Member2>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member2.GetComponent<Member2>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member2.GetComponent<Member2>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member2.GetComponent<Member2>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member2.GetComponent<Member2>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 2 && !Member3.GetComponent<Member3>().mem3Dead)
+                        if (attack == 2)
                         {
-                            Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
+                            if (!Member3gone)
+                            {
+                                Member3.GetComponent<Member3>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member3.GetComponent<Member3>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member3.GetComponent<Member3>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member3.GetComponent<Member3>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member3.GetComponent<Member3>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else if (attack == 3 && !Member4.GetComponent<Member4>().mem4Dead)
+                        if (attack == 3)
                         {
-                            Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
+                            if (!Member4gone)
+                            {
+                                Member4.GetComponent<Member4>().stats.HP -= enemyStats.str * 2;
 
-                            if (Member4.GetComponent<Member4>().stats.HP <= 0)
-                            {
-                                EnemyKilledCheck = true;
-                            }
-                            else if (Member4.GetComponent<Member4>().stats.HP > 0)
-                            {
-                                EnemyKilledCheck = false;
+                                if (Member4.GetComponent<Member4>().stats.HP <= 0)
+                                {
+                                    EnemyKilledCheck = true;
+                                }
+                                else if (Member4.GetComponent<Member4>().stats.HP > 0)
+                                {
+                                    EnemyKilledCheck = false;
+                                }
                             }
                         }
-                        else
+
+                        if (attack > 3)
                         {
                             Debug.Log("Enemy Missed!");
                         }
 
-                        if (sortOrder < agilities.Count)
-                        {
-                            sortOrder++;
-                        }
-                        else if (sortOrder >= agilities.Count)
-                        {
-                            sortOrder = 1;
-                        }
-
-                        GetComponent<BattleAbilities>().agro1 = false;
-                        GetComponent<BattleAbilities>().agro2 = false;
-                        GetComponent<BattleAbilities>().agro3 = false;
-                        GetComponent<BattleAbilities>().agro4 = false;
+                        ChangeOrder();
                     }
                 }
                 if (hitRoll < 0.3)
                 {
                     enemyAttacked = false;
                     WaitTime = 0;
-                    if (sortOrder < agilities.Count)
-                    {
-                        sortOrder++;
-                    }
-                    else if (sortOrder >= agilities.Count)
-                    {
-                        sortOrder = 1;
-                    }
+
+                    ChangeOrder();
                 }
             }
             #endregion
@@ -729,37 +791,27 @@ namespace TeamSpigot
         {
             if (enemies[0].GetComponent<EnemyClass>().stats.HP <= 0)
             {
-                if (FindObjectOfType<EnemyBattleManager>() != null && FindObjectOfType<EnemyBattleManager>().hasTouchedEnemy)
+                if (_ebm.IsBattleType)
                 {
-                    FindObjectOfType<EnemyBattleManager>().EndBattle(true);
+                    _ebm.EndBattle(true);
                     FindObjectOfType<Fade>().FadeToLevel(1);
                 }
-                else if (FindObjectOfType<DropOff>() != null && FindObjectOfType<DropOff>().isAtDropOffPoint)
+                else if (_do.IsBattleType)
                 {
-                    FindObjectOfType<DropOff>().EndBattle(true);
-                    FindObjectOfType<Fade>().FadeToLevel(1);
-                }
-                else
-                {
-                    FindObjectOfType<EnemyBattleManager>().EndBattle(false);
+                    _do.EndBattle(true);
                     FindObjectOfType<Fade>().FadeToLevel(1);
                 }
             }
             if (Member1.GetComponent<Member1>().mem1Dead && Member2.GetComponent<Member2>().mem2Dead && Member3.GetComponent<Member3>().mem3Dead && Member4.GetComponent<Member4>().mem4Dead)
             {
-                if (FindObjectOfType<EnemyBattleManager>() != null && FindObjectOfType<EnemyBattleManager>().hasTouchedEnemy)
+                if (_ebm.IsBattleType)
                 {
-                    FindObjectOfType<EnemyBattleManager>().EndBattle(false);
+                    _ebm.EndBattle(false);
                     FindObjectOfType<Fade>().FadeToLevel(1);
                 }
-                else if (FindObjectOfType<DropOff>() != null && FindObjectOfType<DropOff>().isAtDropOffPoint)
+                else if (_do.IsBattleType)
                 {
-                    FindObjectOfType<DropOff>().EndBattle(false);
-                    FindObjectOfType<Fade>().FadeToLevel(1);
-                }
-                else
-                {
-                    FindObjectOfType<EnemyBattleManager>().EndBattle(false);
+                    _do.EndBattle(false);
                     FindObjectOfType<Fade>().FadeToLevel(1);
                 }
             }
@@ -767,10 +819,38 @@ namespace TeamSpigot
 
         void HandleVisuals()
         {
-            mem1Healths.text = Member1.tag + "\nHP: " + Member1.GetComponent<Member1>().stats.HP + " / " + Member1.GetComponent<Member1>().stats.MaxHP + "\nMP: " + Member1.GetComponent<Member1>().stats.MP + " / " + Member1.GetComponent<Member1>().stats.MaxMP;
-            mem2Healths.text = Member2.tag + "\nHP: " + Member2.GetComponent<Member2>().stats.HP + " / " + Member2.GetComponent<Member2>().stats.MaxHP + "\nMP: " + Member2.GetComponent<Member2>().stats.MP + " / " + Member2.GetComponent<Member2>().stats.MaxMP;
-            mem3Healths.text = Member3.tag + "\nHP: " + Member3.GetComponent<Member3>().stats.HP + " / " + Member3.GetComponent<Member3>().stats.MaxHP + "\nMP: " + Member3.GetComponent<Member3>().stats.MP + " / " + Member3.GetComponent<Member3>().stats.MaxMP;
-            mem4Healths.text = Member4.tag + "\nHP: " + Member4.GetComponent<Member4>().stats.HP + " / " + Member4.GetComponent<Member4>().stats.MaxHP + "\nMP: " + Member4.GetComponent<Member4>().stats.MP + " / " + Member4.GetComponent<Member4>().stats.MaxMP;
+            if (!Member1gone)
+            {
+                mem1Healths.text = Member1.tag + "\nHP: " + Member1.GetComponent<Member1>().stats.HP + " / " + Member1.GetComponent<Member1>().stats.MaxHP + "\nMP: " + Member1.GetComponent<Member1>().stats.MP + " / " + Member1.GetComponent<Member1>().stats.MaxMP;
+            }
+            else
+            {
+                mem1Healths.text = Member1.tag + "\nHP: " + 0 + " / " + Member1.GetComponent<Member1>().stats.MaxHP + "\nMP: " + Member1.GetComponent<Member1>().stats.MP + " / " + Member1.GetComponent<Member1>().stats.MaxMP + "\n[DEAD]";
+            }
+            if (!Member2gone)
+            {
+                mem2Healths.text = Member2.tag + "\nHP: " + Member2.GetComponent<Member2>().stats.HP + " / " + Member2.GetComponent<Member2>().stats.MaxHP + "\nMP: " + Member2.GetComponent<Member2>().stats.MP + " / " + Member2.GetComponent<Member2>().stats.MaxMP;
+            }
+            else
+            {
+                mem2Healths.text = Member2.tag + "\nHP: " + 0 + " / " + Member2.GetComponent<Member2>().stats.MaxHP + "\nMP: " + Member2.GetComponent<Member2>().stats.MP + " / " + Member2.GetComponent<Member2>().stats.MaxMP + "\n[DEAD]";
+            }
+            if (!Member3gone)
+            {
+                mem3Healths.text = Member3.tag + "\nHP: " + Member3.GetComponent<Member3>().stats.HP + " / " + Member3.GetComponent<Member3>().stats.MaxHP + "\nMP: " + Member3.GetComponent<Member3>().stats.MP + " / " + Member3.GetComponent<Member3>().stats.MaxMP;
+            }
+            else
+            {
+                mem3Healths.text = Member3.tag + "\nHP: " + 0 + " / " + Member3.GetComponent<Member3>().stats.MaxHP + "\nMP: " + Member3.GetComponent<Member3>().stats.MP + " / " + Member3.GetComponent<Member3>().stats.MaxMP + "\n[DEAD]";
+            }
+            if (!Member4gone)
+            {
+                mem4Healths.text = Member4.tag + "\nHP: " + Member4.GetComponent<Member4>().stats.HP + " / " + Member4.GetComponent<Member4>().stats.MaxHP + "\nMP: " + Member4.GetComponent<Member4>().stats.MP + " / " + Member4.GetComponent<Member4>().stats.MaxMP;
+            }
+            else
+            {
+                mem4Healths.text = Member4.tag + "\nHP: " + 0 + " / " + Member4.GetComponent<Member4>().stats.MaxHP + "\nMP: " + Member4.GetComponent<Member4>().stats.MP + " / " + Member4.GetComponent<Member4>().stats.MaxMP + "\n[DEAD]";
+            }
             enmHealths.text = enemies[0].tag + "\nHP: " + enemies[0].GetComponent<EnemyClass>().stats.HP + " / " + enemies[0].GetComponent<EnemyClass>().stats.MaxHP;
 
             if (statSet)

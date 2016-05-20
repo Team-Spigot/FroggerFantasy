@@ -14,31 +14,28 @@ public class EnemyMovementProcessor : ICustomTiledImporter
     {
         if (customProperties.ContainsKey("ff:enemy"))
         {
-            GameObject tempEnemy = (GameObject)Object.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefabs/OverworldEnemy.prefab", typeof(GameObject)));
+            EnemyManager em = gameObject.AddComponent<EnemyManager>();
             if (customProperties.ContainsKey("ff:movement"))
             {
                 switch (customProperties["ff:movement"])
                 {
                     case "up":
-                        tempEnemy.GetComponent<EnemyMovement>().direction = EnemyMovement.Direction.up;
+                        em.direction = EnemyMovement.Direction.up;
                         break;
                     case "left":
-                        tempEnemy.GetComponent<EnemyMovement>().direction = EnemyMovement.Direction.left;
+                        em.direction = EnemyMovement.Direction.left;
                         break;
                     case "down":
-                        tempEnemy.GetComponent<EnemyMovement>().direction = EnemyMovement.Direction.down;
+                        em.direction = EnemyMovement.Direction.down;
                         break;
                     case "right":
-                        tempEnemy.GetComponent<EnemyMovement>().direction = EnemyMovement.Direction.right;
+                        em.direction = EnemyMovement.Direction.right;
                         break;
                     default:
                         Debug.LogError("\"ff:movement\" property doesn't contain correct value");
                         return;
                 }
             }
-
-            tempEnemy.transform.SetParent(gameObject.transform);
-            tempEnemy.transform.localPosition = new Vector3(0, -32, 0);
         }
     }
 
