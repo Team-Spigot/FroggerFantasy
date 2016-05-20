@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 
 namespace TeamSpigot
@@ -35,7 +36,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("warMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("warMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ArmoredFighterBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/ArmoredFighterBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "NINJA")
             {
@@ -53,7 +54,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("ninjMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("ninjMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("NinjaBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/NinjaBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "MONK")
             {
@@ -71,7 +72,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("monkMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("monkMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedFighterBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/RedFighterBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "SENTINEL")
             {
@@ -89,7 +90,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("sentMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("sentMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("SentinelBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/SentinelBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "GAMBLER")
             {
@@ -107,7 +108,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("gambMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("gambMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GamblerBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/GamblerBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "UNDEAD")
             {
@@ -125,7 +126,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("UDMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("UDMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("UndeadBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/UndeadBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "WM")
             {
@@ -143,7 +144,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("WMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("WMMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("WhiteMageBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/WhiteMageBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "BM")
             {
@@ -161,7 +162,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("BMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("BMMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("BlackMageBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/BlackMageBunny.png", typeof(Sprite));
             }
             if (mem4.tag == "RM")
             {
@@ -179,7 +180,7 @@ namespace TeamSpigot
                 stats.MaxMP = PlayerPrefs.GetFloat("RMMaxMP");
                 stats.MP = PlayerPrefs.GetFloat("RMMP");
 
-                mem4.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("RedMageBunny");
+                mem4.GetComponent<SpriteRenderer>().sprite = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Sprites/Player/RedMageBunny.png", typeof(Sprite));
             }
             Debug.Log("mem4." + mem4.tag + " \nagl: " + stats.agl);
         }
